@@ -247,6 +247,8 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 
 # Announcements
 
+## The announcement object
+
 # Contacts
 
 # Devices
