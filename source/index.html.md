@@ -45,22 +45,22 @@ All requests to the API need to be accompanied by an Authorization header:
 curl -X POST "https://api.mementopayments.com/v1/tokens" \
   -H "Content-Type: application/json" \
   -d $'{
-    "identity": {
-        "type": "username",
-        "value": "jondough"
-    },
-    "authenticator": "password",
-    "secret": "123456",
-    "device": {
-        "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
-        "make": "iPhone",
-        "model": "iPhone6,2",
-        "os_name": "iOS",
-        "os_version": "8.0",
-        "screen_width": 480,
-        "screen_height": 640,
-        "sdk_version": "17"
-    }
+  "identity": {
+      "type": "username",
+      "value": "jondough"
+  },
+  "authenticator": "password",
+  "secret": "123456",
+  "device": {
+      "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+      "make": "iPhone",
+      "model": "iPhone6,2",
+      "os_name": "iOS",
+      "os_version": "8.0",
+      "screen_width": 480,
+      "screen_height": 640,
+      "sdk_version": "17"
+  }
 }'
 ```
 
@@ -321,25 +321,148 @@ Get a single announcement by UUID.
 
 ## The contact object
 
+> Example Response
+
+```shell
+{
+  "uuid": "d6edcdba-f3f1-4249-96bc-bb977fde27fb",
+  "user_uuid": "fbc521f9-aea8-4da7-840a-1e13ec924b28",
+  "name": "John Dough",
+  "username": "johndough",
+  "country": "UK",
+  "emails": ["john@example.com"],
+  "phones": ["+44 123 4567 8901"],
+  "created_at": "2017-09-04T12:25:52.43349Z",
+  "updated_at": "2017-09-04T12:25:52.43349Z"
+}
+```
+
+A contact can be either a reference to a User or an independent object with a person's name, emails and/or phone numbers.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the announcement. |
+| user_uuid | uuid | The User object representing the contact, if the contact is a registered user. |
+| name | string | The full name of the contact. |
+| username | string | The contact's username, if the contact is a registered user. |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in. |
+| emails | array | A list of the contact's email addresses. |
+| phones | array | A list of the contact's phone numbers. |
+| created_at | time | The time when the contact was created. |
+| updated_at | time | The time when the contact was updated. |
+
 ## Get a list of contacts
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/contacts" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
 
 Get a list of all of the user's contacts.
 
+### HTTP Request
+
+`GET` `/v1/contacts`
+
 ## Get a contact
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/contacts/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
 
 Get a single contact by UUID.
 
+### HTTP Request
+
+`GET` `/v1/contacts/{uuid}`
+
 ## Create a contact
+
+> Example Request (create contact from a user)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/contacts" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "user_uuid": "d6edcdba-f3f1-4249-96bc-bb977fde27fb"
+}'
+```
+
+> Example Request (create contact with a name and phone number)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/contacts" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "name": "Jane Dough",
+  "email": "jane@example.com",
+  "phone": "+44 123 4567 8901"
+}
+```
 
 Create a new contact. A contact can either be created with a user ID or a name and phone number.
 
+### HTTP Request
+
+`POST` `/v1/contacts`
+
+### Create contact from a user
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| user_uuid | uuid | The unique identifier of the user. `required` |
+
+### Create contact with a name and phone number
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| name | string | The full name of the contact. `required` |
+| email | string | The contact's email address. |
+| phone | string | The contact's full international phone number. `required` |
+
 ## Update a contact
+
+> Example Request
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/contacts/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "name": "Johanna Dough"
+}'
+```
 
 Update an existing contact.
 
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| name | string | The full name of the contact. |
+| email | string | The contact's email address. |
+| phone | string | The contact's full international phone number. |
+
+### HTTP Request
+
+`PUT` `/v1/contacts/{uuid}`
+
 ## Delete a contact
 
+> Example Request
+
+```shell
+curl -X DELETE "https://api.mementopayments.com/v1/contacts/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Delete an existing contact.
+
+### HTTP Request
+
+`DELETE` `/v1/contacts/{uuid}`
 
 # Devices
 
