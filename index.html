@@ -268,6 +268,11 @@
           </li>
           <li>
             <a href="#announcements" class="toc-h1 toc-link" data-title="announcements">Announcements</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-announcement-object" class="toc-h2 toc-link" data-title="the-announcement-object">The announcement object</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#contacts" class="toc-h1 toc-link" data-title="contacts">Contacts</a>
@@ -632,7 +637,7 @@
 <td>Show updates after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
-<h1 id='announcements'>Announcements</h1><h1 id='contacts'>Contacts</h1><h1 id='devices'>Devices</h1><h1 id='fees'>Fees</h1><h1 id='images'>Images</h1><h1 id='moments'>Moments</h1><h1 id='money-pools'>Money Pools</h1><h1 id='notifications'>Notifications</h1><h1 id='payment-sources'>Payment Sources</h1><h1 id='payments'>Payments</h1><h1 id='requests'>Requests</h1><h1 id='transactions'>Transactions</h1><h1 id='users'>Users</h1><h1 id='verifications'>Verifications</h1><h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
+<h1 id='announcements'>Announcements</h1><h2 id='the-announcement-object'>The announcement object</h2><h1 id='contacts'>Contacts</h1><h1 id='devices'>Devices</h1><h1 id='fees'>Fees</h1><h1 id='images'>Images</h1><h1 id='moments'>Moments</h1><h1 id='money-pools'>Money Pools</h1><h1 id='notifications'>Notifications</h1><h1 id='payment-sources'>Payment Sources</h1><h1 id='payments'>Payments</h1><h1 id='requests'>Requests</h1><h1 id='transactions'>Transactions</h1><h1 id='users'>Users</h1><h1 id='verifications'>Verifications</h1><h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
 <span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
 <span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
