@@ -568,22 +568,22 @@ Authentication is based on a pair of authentication and session tokens.
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/tokens"</span> <span class="se">\</span>
   -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
   -d <span class="s1">$'{
-    "identity": {
-        "type": "username",
-        "value": "jondough"
-    },
-    "authenticator": "password",
-    "secret": "123456",
-    "device": {
-        "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
-        "make": "iPhone",
-        "model": "iPhone6,2",
-        "os_name": "iOS",
-        "os_version": "8.0",
-        "screen_width": 480,
-        "screen_height": 640,
-        "sdk_version": "17"
-    }
+  "identity": {
+      "type": "username",
+      "value": "jondough"
+  },
+  "authenticator": "password",
+  "secret": "123456",
+  "device": {
+      "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+      "make": "iPhone",
+      "model": "iPhone6,2",
+      "os_name": "iOS",
+      "os_version": "8.0",
+      "screen_width": 480,
+      "screen_height": 640,
+      "sdk_version": "17"
+  }
 }'</span>
 </code></pre>
 <blockquote>
@@ -948,16 +948,206 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a single announcement by UUID.</p>
 <h3 id='http-request-8'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/announcements/{uuid}</code></p>
-<h1 id='contacts'>Contacts</h1><h2 id='the-contact-object'>The contact object</h2><h2 id='get-a-list-of-contacts'>Get a list of contacts</h2>
+<h1 id='contacts'>Contacts</h1><h2 id='the-contact-object'>The contact object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"d6edcdba-f3f1-4249-96bc-bb977fde27fb"</span>,
+  <span class="s2">"user_uuid"</span>: <span class="s2">"fbc521f9-aea8-4da7-840a-1e13ec924b28"</span>,
+  <span class="s2">"name"</span>: <span class="s2">"John Dough"</span>,
+  <span class="s2">"username"</span>: <span class="s2">"johndough"</span>,
+  <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
+  <span class="s2">"emails"</span>: <span class="o">[</span><span class="s2">"john@example.com"</span><span class="o">]</span>,
+  <span class="s2">"phones"</span>: <span class="o">[</span><span class="s2">"+44 123 4567 8901"</span><span class="o">]</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:52.43349Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:52.43349Z"</span>
+<span class="o">}</span>
+</code></pre>
+<p>A contact can be either a reference to a User or an independent object with a person&#39;s name, emails and/or phone numbers.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the announcement.</td>
+</tr>
+<tr>
+<td>user_uuid</td>
+<td>uuid</td>
+<td>The User object representing the contact, if the contact is a registered user.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The full name of the contact.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>The contact&#39;s username, if the contact is a registered user.</td>
+</tr>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in.</td>
+</tr>
+<tr>
+<td>emails</td>
+<td>array</td>
+<td>A list of the contact&#39;s email addresses.</td>
+</tr>
+<tr>
+<td>phones</td>
+<td>array</td>
+<td>A list of the contact&#39;s phone numbers.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the contact was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the contact was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-list-of-contacts'>Get a list of contacts</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/contacts"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a list of all of the user&#39;s contacts.</p>
+<h3 id='http-request-9'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/contacts</code></p>
 <h2 id='get-a-contact'>Get a contact</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/contacts/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a single contact by UUID.</p>
+<h3 id='http-request-10'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/contacts/{uuid}</code></p>
 <h2 id='create-a-contact'>Create a contact</h2>
+<blockquote>
+<p>Example Request (create contact from a user)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/contacts"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "user_uuid": "d6edcdba-f3f1-4249-96bc-bb977fde27fb"
+}'</span>
+</code></pre>
+<blockquote>
+<p>Example Request (create contact with a name and phone number)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/contacts"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "name": "Jane Dough",
+  "email": "jane@example.com",
+  "phone": "+44 123 4567 8901"
+}
+</span></code></pre>
 <p>Create a new contact. A contact can either be created with a user ID or a name and phone number.</p>
+<h3 id='http-request-11'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/contacts</code></p>
+<h3 id='create-contact-from-a-user'>Create contact from a user</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>user_uuid</td>
+<td>uuid</td>
+<td>The unique identifier of the user. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='create-contact-with-a-name-and-phone-number'>Create contact with a name and phone number</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The full name of the contact. <code>required</code></td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>The contact&#39;s email address.</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>The contact&#39;s full international phone number. <code>required</code></td>
+</tr>
+</tbody></table>
 <h2 id='update-a-contact'>Update a contact</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/contacts/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "name": "Johanna Dough"
+}'</span>
+</code></pre>
 <p>Update an existing contact.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>The full name of the contact.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>The contact&#39;s email address.</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>The contact&#39;s full international phone number.</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-12'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/contacts/{uuid}</code></p>
 <h2 id='delete-a-contact'>Delete a contact</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://api.mementopayments.com/v1/contacts/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Delete an existing contact.</p>
+<h3 id='http-request-13'>HTTP Request</h3>
+<p><code>DELETE</code> <code>/v1/contacts/{uuid}</code></p>
 <h1 id='devices'>Devices</h1><h2 id='get-the-current-device'>Get the current device</h2>
 <p>Get the user&#39;s current device.</p>
 <h2 id='update-the-current-device'>Update the current device</h2>
@@ -1080,7 +1270,7 @@ Authentication is based on a pair of authentication and session tokens.
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request-9'>HTTP Request</h3>
+<h3 id='http-request-14'>HTTP Request</h3>
 <p><code>GET http://example.com/api/kittens</code></p>
 <h3 id='query-parameters'>Query Parameters</h3>
 <table><thead>
@@ -1134,7 +1324,7 @@ Remember — a happy kitten is an authenticated kitten!
 <p>This endpoint retrieves a specific kitten.</p>
 
 <aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-15'>HTTP Request</h3>
 <p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
 <h3 id='url-parameters-3'>URL Parameters</h3>
 <table><thead>
@@ -1173,7 +1363,7 @@ Remember — a happy kitten is an authenticated kitten!
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
 <p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-11'>HTTP Request</h3>
+<h3 id='http-request-16'>HTTP Request</h3>
 <p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
 <h3 id='url-parameters-4'>URL Parameters</h3>
 <table><thead>
