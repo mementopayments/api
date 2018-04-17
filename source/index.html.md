@@ -4,8 +4,8 @@ title: API Reference
 language_tabs: # must be one of https://git.io/vQNgJ
   - shell
 
-toc_footers:
-  - <a href='https://www.mementopayments.com'>Memento Payments</a>
+# toc_footers:
+#   - <a href='https://www.mementopayments.com'>Memento Payments</a>
 
 includes:
   - errors
@@ -21,11 +21,13 @@ search: true
 https://api.mementopayments.com
 ```
 
-Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.
+The Memento Payments API is designed around [REST](https://en.wikipedia.org/wiki/Representational_state_transfer).
+Authentication is based on a pair of authentication and session tokens.
+[JSON](http://www.json.org/) is returned by all API responses, including errors.
 
-We have language bindings in Shell, Ruby, and Python! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.
+If you are using the Memento Payments Cloud you need to either provide your project's ID in the header of each request or send requests to your custom host name (CNAME).
 
-This example API documentation page was created with [Slate](https://github.com/lord/slate). Feel free to edit it and use it as a base for your own API's documentation.
+All examples in this reference are based on the Memento Payments Cloud endpoint.
 
 # Authentication
 
@@ -76,7 +78,7 @@ Post identity type + value (e.g. phone number), type of authentication (e.g. "sm
 
 ### HTTP Request
 
-`POST https://api.mementopayments.com/v1/tokens`
+`POST` `/v1/tokens`
 
 ## Get authentication token – Step 2
 
@@ -105,7 +107,7 @@ Post the secret (e.g. verification code) and PIN (depends on the authenticator t
 
 ### HTTP Request
 
-`POST https://api.mementopayments.com/v1/tokens/{uuid}/secret`
+`POST` `/v1/tokens/{uuid}/secret`
 
 ## Get authentication token status
 
@@ -118,7 +120,7 @@ Post the secret (e.g. verification code) and PIN (depends on the authenticator t
 
 ### HTTP Request
 
-`GET https://api.mementopayments.com/v1/tokens/{uuid}`
+`GET` `/v1/tokens/{uuid}`
 
 ## Get session token
 
@@ -144,7 +146,7 @@ Send an authentication token as an Authorization header and receive a session to
 
 ### HTTP Request
 
-`POST https://api.mementopayments.com/v1/sessions`
+`POST` `/v1/sessions`
 
 ### Errors
 
@@ -166,7 +168,7 @@ Verify that a specific session token is valid by sending the token as an Authori
 
 ### HTTP Request
 
-`POST https://api.mementopayments.com/v1/sessions/verify`
+`POST` `/v1/sessions/verify`
 
 # Response Codes & Errors
 
@@ -204,7 +206,7 @@ Filtering, pagination and sorting is done with query string parameters.
 
 ## Example
 
-`GET https://api.mementopayments.com/v1/pools?filter=status:in:[open,closed],created_at:lt:2018-01-01,name:like:john&sort=name:asc`
+`GET` `/v1/pools?filter=status:in:[open,closed],created_at:lt:2018-01-01,name:like:john&sort=name:asc`
 
 # Activity Updates
 
@@ -214,9 +216,9 @@ Filtering, pagination and sorting is done with query string parameters.
 
 ```shell
 {
-    "has_updates": true,
-    "payments_received": 3,
-    "payments_due": 2
+  "has_updates": true,
+  "payments_received": 3,
+  "payments_due": 2
 }
 ```
 
@@ -228,6 +230,8 @@ Filtering, pagination and sorting is done with query string parameters.
 
 ## Get activity updates
 
+Get activity updates that occurred after the time defined by the `since` parameter.
+
 > Example Request
 
 ```shell
@@ -237,7 +241,7 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 
 ### HTTP Request
 
-`GET https://api.mementopayments.com/v1/activity/updates`
+`GET` `/v1/activity/updates`
 
 ### URL Parameters
 
@@ -249,32 +253,307 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 
 ## The announcement object
 
+> Example Response
+
+```shell
+{
+  "id": 1,
+  "type_id": 1,
+  "title": "Updated Terms of Use",
+  "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+  "action_url": "http://www.mementopayments.com/terms",
+  "action_label": "Open Terms of Use",
+  "dismissible": true,
+  "created_at": "2017-09-04T12:26:43.403883Z",
+  "updated_at": "2017-09-04T12:26:43.403883Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the announcement. |
+| type_id | integer | The type of announcement. |
+| title | string | The announcement title. |
+| message | string | The announcement message body. |
+| action_label | string | If an action is optional or required, this is the action button label. |
+| action_url | string | If an action is option or required, this is the URL which the action button opens. |
+| dismissible | boolean | Whether the announcement can be dismissed or not. |
+| created_at | time | The time when the announcement was created. |
+| updated_at | time | The time when the announcement was updated. |
+
+## Get a list of announcements
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/announcements" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Get a list of all announcements that were sent after the time defined by the `since` parameter.
+
+### HTTP Request
+
+`GET` `/v1/announcements`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|since|string|Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
+
+## Get an announcement
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/announcement/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Get a single announcement by UUID.
+
+### HTTP Request
+
+`GET` `/v1/announcements/{uuid}`
+
 # Contacts
+
+## The contact object
+
+## Get a list of contacts
+
+Get a list of all of the user's contacts.
+
+## Get a contact
+
+Get a single contact by UUID.
+
+## Create a contact
+
+Create a new contact. A contact can either be created with a user ID or a name and phone number.
+
+## Update a contact
+
+Update an existing contact.
+
+## Delete a contact
+
+Delete an existing contact.
 
 # Devices
 
+## Get the current device
+
+Get the user's current device.
+
+## Update the current device
+
+Update the user's current device.
+
 # Fees
+
+## Calculate payment fee
+
+Calculate the fee when sending money from one payment source to another.
 
 # Images
 
+## Get an image
+
+## Upload an image
+
 # Moments
+
+## Get a list of moments
+
+Get a list of all moments.
+
+## Get a moment
+
+Get a single moment by UUID.
 
 # Money Pools
 
+## Get a list of money pools
+
+Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the `owner` filter.
+
+## Get a money pool
+
+Get a single money pool by UUID.
+
+## Create a money pool
+
+Create a new money pool.
+
+## Update a money pool
+
+Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.
+
+## Close money pool
+
+Closes a money pool so users cannot contribute anymore. The pool's fulfillment status will become `fulfilled` and its status `closed`.
+
+## Invite users to participate
+
+Adds users as participants marked as `invited`.
+
+## Get money pool participants
+
+Get a list of participants in a money pool.
+
+## Export list of participants
+
+Request a list of participants to be sent to a specific email address.
+
+## Contribute to a money pool
+
+The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.
+
 # Notifications
+
+## The notification object
+
+## Get a list of notifications
+
+Get a list of all notifications.
 
 # Payment Sources
 
+## Get a list of payment sources
+
+Get a list of all payment sources.
+
+## Get a payment source
+
+Get a single payment source by UUID.
+
+## Create a payment source
+
+Create a new payment source.
+
+## Update a payment source
+
+Update an existing payment source.
+
+## Delete a payment source
+
+Delete an existing payment source.
+
+## Verify payment source
+
+Verify a payment source using a specific code, which can, for example, be sent to the user's card statement.
+
 # Payments
+
+## Get a list of payments
+
+Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the `owner` filter.
+
+## Get a payment
+
+Get a single payment by UUID. Transactions are not accessible from this endpoint (see Transactions).
+
+## Create a payment
+
+Create a new payment. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.
+
+## Get a payment receipt
+
+Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.
 
 # Requests
 
+## Get a list of requests
+
+Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the `owner` filter.
+
+## Get a request
+
+Get a single request by UUID.
+
+## Create a request
+
+Create a new request.
+
+## Update a request
+
+Update an existing request. Can only update description and image.
+
+## Delete a request
+
+Delete an existing request. Can only be performed if none of the participants have responded.
+
+## Remind a participant to pay
+
+Send a reminder to a request participant in form of a push notification. Note: There is a limit to how many times a participant can be reminded. Exceeding this limit will return in an error message.
+
+## Settle a participant
+
+Mark a participant as paid.
+
+## Cancel a participant
+
+Cancel the request for a participant.
+
+## Pay a request
+
+Pay an existing request as a participant. Payment source and PIN is required for payments.
+
+## Reject a request
+
+Reject an existing request as a participant.
+
+## Get a payment receipt
+
+Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.
+
+## Get a payment receipt for a participant
+
+Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.
+
 # Transactions
+
+## Get a list of transactions
+
+Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.
+
+## Get a transaction
+
+Get a transaction by UUID.
 
 # Users
 
+## Get the current user
+
+Get the currently logged in user.
+
+## Get a user
+
+Get the public information for a specific user.
+
+## Block a user
+
+Block a specific user.
+
+## Unblock a user
+
+Unblock a specific user.
+
+## Search for users
+
+## Create a user – signup
+
+## Update the current user
+
 # Verifications
 
+## Single step verification
+
+## Two step verification
+
+## Get verification status
 
 # Kittens
 
