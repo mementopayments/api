@@ -733,6 +733,66 @@ Get a single moment by UUID.
 
 ## The money pool object
 
+> Example Response
+
+```shell
+{
+  "uuid": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "status_id": 1,
+  "amount": 60.00,
+  "currency": "EUR",
+  "description": "Money Pool Title",
+  "detailed_description": "Money Pool Description",
+  "is_public": true,
+  "has_unique_recipients": true,
+  "allows_optional_amount": true,
+  "minimum_user_amount": 50.00,
+  "maximum_user_amount": 150.00,
+  "amounts": [
+    { PaymentAmount object }
+  ],
+  "image": {
+    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
+    "full_screen_url": "https://{imagehost}/full/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
+    "thumbnail_url": "https://{imagehost}/thumbnail/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+	},
+  "owner": {
+    User object
+  },
+  "participants": [
+    { PaymentRecipient object }
+  ],
+  "participation": {
+    "count": {
+      "invited": 0,
+      "paid": 2,
+      "pending": 2,
+      "rejected": 1,
+      "total": 5
+    },
+    "first_names": ["Arnar", "Oskar", "Jon"]
+  },
+  "start_at": "0001-01-01T00:00:00Z",
+  "end_at": "0001-01-01T00:00:00Z",
+  "created_at": "2017-09-04T12:26:43.35539Z",
+  "updated_at": "2017-09-04T12:26:43.48788Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the money pool. |
+| status_id | integer | The money pool status. |
+| ... |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| image | Image | An optional money pool image. |
+| participation | Participation | Participation information for the money pool. |
+| created_at | time | The time when the money pool was created. |
+| updated_at | time | The time when the money pool was updated. |
+
 ## Get a list of money pools
 
 Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the `owner` filter.
