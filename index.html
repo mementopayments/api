@@ -1613,7 +1613,104 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a single moment by UUID.</p>
 <h3 id='http-request-18'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/moments/{uuid}</code></p>
-<h1 id='money-pools'>Money Pools</h1><h2 id='the-money-pool-object'>The money pool object</h2><h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
+<h1 id='money-pools'>Money Pools</h1><h2 id='the-money-pool-object'>The money pool object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"c5d8701e-05cf-4b15-52bf-1cf76c3d84f2"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"amount"</span>: 60.00,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"description"</span>: <span class="s2">"Money Pool Title"</span>,
+  <span class="s2">"detailed_description"</span>: <span class="s2">"Money Pool Description"</span>,
+  <span class="s2">"is_public"</span>: <span class="nb">true</span>,
+  <span class="s2">"has_unique_recipients"</span>: <span class="nb">true</span>,
+  <span class="s2">"allows_optional_amount"</span>: <span class="nb">true</span>,
+  <span class="s2">"minimum_user_amount"</span>: 50.00,
+  <span class="s2">"maximum_user_amount"</span>: 150.00,
+  <span class="s2">"amounts"</span>: <span class="o">[</span>
+    <span class="o">{</span> PaymentAmount object <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"image"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+    <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg"</span>,
+    <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg"</span>,
+    <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/thumbnail/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+    <span class="o">}</span>,
+  <span class="s2">"owner"</span>: <span class="o">{</span>
+    User object
+  <span class="o">}</span>,
+  <span class="s2">"participants"</span>: <span class="o">[</span>
+    <span class="o">{</span> PaymentRecipient object <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"participation"</span>: <span class="o">{</span>
+    <span class="s2">"count"</span>: <span class="o">{</span>
+      <span class="s2">"invited"</span>: 0,
+      <span class="s2">"paid"</span>: 2,
+      <span class="s2">"pending"</span>: 2,
+      <span class="s2">"rejected"</span>: 1,
+      <span class="s2">"total"</span>: 5
+    <span class="o">}</span>,
+    <span class="s2">"first_names"</span>: <span class="o">[</span><span class="s2">"Arnar"</span>, <span class="s2">"Oskar"</span>, <span class="s2">"Jon"</span><span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"start_at"</span>: <span class="s2">"0001-01-01T00:00:00Z"</span>,
+  <span class="s2">"end_at"</span>: <span class="s2">"0001-01-01T00:00:00Z"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.35539Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.48788Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the money pool.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The money pool status.</td>
+</tr>
+<tr>
+<td>...</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional money pool image.</td>
+</tr>
+<tr>
+<td>participation</td>
+<td>Participation</td>
+<td>Participation information for the money pool.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the money pool was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the money pool was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
 <p>Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the <code>owner</code> filter.</p>
 <h2 id='get-a-money-pool'>Get a money pool</h2>
 <p>Get a single money pool by UUID.</p>
