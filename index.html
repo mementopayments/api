@@ -308,6 +308,9 @@
             <a href="#devices" class="toc-h1 toc-link" data-title="devices">Devices</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-device-object" class="toc-h2 toc-link" data-title="the-device-object">The device object</a>
+                  </li>
+                  <li>
                     <a href="#get-the-current-device" class="toc-h2 toc-link" data-title="get-the-current-device">Get the current device</a>
                   </li>
                   <li>
@@ -327,6 +330,9 @@
             <a href="#images" class="toc-h1 toc-link" data-title="images">Images</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-image-object" class="toc-h2 toc-link" data-title="the-image-object">The image object</a>
+                  </li>
+                  <li>
                     <a href="#get-an-image" class="toc-h2 toc-link" data-title="get-an-image">Get an image</a>
                   </li>
                   <li>
@@ -338,6 +344,9 @@
             <a href="#moments" class="toc-h1 toc-link" data-title="moments">Moments</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-moment-object" class="toc-h2 toc-link" data-title="the-moment-object">The moment object</a>
+                  </li>
+                  <li>
                     <a href="#get-a-list-of-moments" class="toc-h2 toc-link" data-title="get-a-list-of-moments">Get a list of moments</a>
                   </li>
                   <li>
@@ -348,6 +357,9 @@
           <li>
             <a href="#money-pools" class="toc-h1 toc-link" data-title="money-pools">Money Pools</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-money-pool-object" class="toc-h2 toc-link" data-title="the-money-pool-object">The money pool object</a>
+                  </li>
                   <li>
                     <a href="#get-a-list-of-money-pools" class="toc-h2 toc-link" data-title="get-a-list-of-money-pools">Get a list of money pools</a>
                   </li>
@@ -389,6 +401,14 @@
               </ul>
           </li>
           <li>
+            <a href="#participation" class="toc-h1 toc-link" data-title="participation">Participation</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-participation-object" class="toc-h2 toc-link" data-title="the-participation-object">The participation object</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#payment-sources" class="toc-h1 toc-link" data-title="payment-sources">Payment Sources</a>
               <ul class="toc-list-h2">
                   <li>
@@ -424,7 +444,7 @@
                     <a href="#create-a-payment" class="toc-h2 toc-link" data-title="create-a-payment">Create a payment</a>
                   </li>
                   <li>
-                    <a href="#get-a-payment-receipt" class="toc-h2 toc-link" data-title="get-a-payment-receipt">Get a payment receipt</a>
+                    <a href="#get-a-receipt" class="toc-h2 toc-link" data-title="get-a-receipt">Get a receipt</a>
                   </li>
               </ul>
           </li>
@@ -462,10 +482,10 @@
                     <a href="#reject-a-request" class="toc-h2 toc-link" data-title="reject-a-request">Reject a request</a>
                   </li>
                   <li>
-                    <a href="#get-a-payment-receipt-2" class="toc-h2 toc-link" data-title="get-a-payment-receipt">Get a payment receipt</a>
+                    <a href="#get-a-receipt-2" class="toc-h2 toc-link" data-title="get-a-receipt">Get a receipt</a>
                   </li>
                   <li>
-                    <a href="#get-a-payment-receipt-for-a-participant" class="toc-h2 toc-link" data-title="get-a-payment-receipt-for-a-participant">Get a payment receipt for a participant</a>
+                    <a href="#get-a-receipt-for-a-participant" class="toc-h2 toc-link" data-title="get-a-receipt-for-a-participant">Get a receipt for a participant</a>
                   </li>
               </ul>
           </li>
@@ -1134,17 +1154,466 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Delete an existing contact.</p>
 <h3 id='http-request-13'>HTTP Request</h3>
 <p><code>DELETE</code> <code>/v1/contacts/{uuid}</code></p>
-<h1 id='devices'>Devices</h1><h2 id='get-the-current-device'>Get the current device</h2>
+<h1 id='devices'>Devices</h1><h2 id='the-device-object'>The device object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"582a5abb-1335-4794-4855-11e067b8c55e"</span>,
+  <span class="s2">"make"</span>: <span class="s2">"iPhone"</span>,
+  <span class="s2">"model"</span>: <span class="s2">"iPhone6,2"</span>,
+  <span class="s2">"os_name"</span>: <span class="s2">"iOS"</span>,
+  <span class="s2">"os_version"</span>: <span class="s2">"8.0"</span>,
+  <span class="s2">"screen_width"</span>: 480,
+  <span class="s2">"screen_height"</span>: 640,
+  <span class="s2">"sdk_version"</span>: <span class="s2">"17"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the device.</td>
+</tr>
+<tr>
+<td>make</td>
+<td>string</td>
+<td>The device make.</td>
+</tr>
+<tr>
+<td>model</td>
+<td>string</td>
+<td>The device model.</td>
+</tr>
+<tr>
+<td>os_name</td>
+<td>string</td>
+<td>The name of the OS running on the device.</td>
+</tr>
+<tr>
+<td>os_version</td>
+<td>string</td>
+<td>The version of the OS running on the device.</td>
+</tr>
+<tr>
+<td>sdk_version</td>
+<td>string</td>
+<td>The SDK version of the OS running on the device (Android only).</td>
+</tr>
+<tr>
+<td>screen_width</td>
+<td>integer</td>
+<td>The width of the device&#39;s screen.</td>
+</tr>
+<tr>
+<td>screen_height</td>
+<td>integer</td>
+<td>The height of the device&#39;s screen.</td>
+</tr>
+</tbody></table>
+<h2 id='get-the-current-device'>Get the current device</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/devices/current"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "make": "iPhone",
+    "model": "iPhone6,2",
+    "os_name": "iOS",
+    "os_version": "8.0",
+    "screen_width": 480,
+    "screen_height": 640,
+    "sdk_version": "17",
+    "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
+    "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
+}'</span>
+</code></pre>
 <p>Get the user&#39;s current device.</p>
+<h3 id='http-request-14'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/devices/current</code></p>
 <h2 id='update-the-current-device'>Update the current device</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/devices/current"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
+  "gcm_device_token": "{FIREBASE-CLOUD-MESSAGING-TOKEN}"
+}'</span>
+</code></pre>
 <p>Update the user&#39;s current device.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the device. <code>required</code></td>
+</tr>
+<tr>
+<td>make</td>
+<td>string</td>
+<td>The device make. <code>required</code></td>
+</tr>
+<tr>
+<td>model</td>
+<td>string</td>
+<td>The device model. <code>required</code></td>
+</tr>
+<tr>
+<td>os_name</td>
+<td>string</td>
+<td>The name of the OS running on the device. <code>required</code></td>
+</tr>
+<tr>
+<td>os_version</td>
+<td>string</td>
+<td>The version of the OS running on the device. <code>required</code></td>
+</tr>
+<tr>
+<td>sdk_version</td>
+<td>string</td>
+<td>The SDK version of the OS running on the device (Android only).</td>
+</tr>
+<tr>
+<td>screen_width</td>
+<td>integer</td>
+<td>The width of the device&#39;s screen. <code>required</code></td>
+</tr>
+<tr>
+<td>screen_height</td>
+<td>integer</td>
+<td>The height of the device&#39;s screen. <code>required</code></td>
+</tr>
+<tr>
+<td>apn_device_token</td>
+<td>string</td>
+<td>Token for the Apple Push Notification service.</td>
+</tr>
+<tr>
+<td>gcm_device_token</td>
+<td>string</td>
+<td>Token for the Firebase Cloud Messaging service.</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-15'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/devices/current</code></p>
 <h1 id='fees'>Fees</h1><h2 id='calculate-payment-fee'>Calculate payment fee</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/fees/calculate"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "amount": 10.5,
+  "source": {
+    "payment_source_uuid": "d4e07e85-bb7e-485d-b13a-cd6ee18ff599",
+    "currency": "EUR"
+  },
+  "destination": {
+    "payment_source_uuid": "9f5bbafc-cab6-47f4-8489-c8e007ab4288",
+    "currency": "USD"
+  }
+}'</span>
+</code></pre>
 <p>Calculate the fee when sending money from one payment source to another.</p>
-<h1 id='images'>Images</h1><h2 id='get-an-image'>Get an image</h2><h2 id='upload-an-image'>Upload an image</h2><h1 id='moments'>Moments</h1><h2 id='get-a-list-of-moments'>Get a list of moments</h2>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount being paid. <code>required</code></td>
+</tr>
+<tr>
+<td>source</td>
+<td>FeePaymentSource</td>
+<td>The source from which payment is made and the currency it&#39;s made in. <code>required</code></td>
+</tr>
+<tr>
+<td>destination</td>
+<td>FeePaymentSource</td>
+<td>The destination to which payment is made and the currency it should be received in. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='feepaymentsource'>FeePaymentSource</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>payment_source_uuid</td>
+<td>uuid</td>
+<td>The unique identifier of the payment source handling the payment. <code>required</code></td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='http-request-16'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/fees/calculate</code></p>
+<h1 id='images'>Images</h1><h2 id='the-image-object'>The image object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+  <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+  <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+  <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the image.</td>
+</tr>
+<tr>
+<td>url</td>
+<td>string</td>
+<td>The URL of the UI (cropped) version of the image.</td>
+</tr>
+<tr>
+<td>full_screen_url</td>
+<td>string</td>
+<td>The URL of the full screen version of the image.</td>
+</tr>
+<tr>
+<td>thumbnail_url</td>
+<td>string</td>
+<td>The URL of the thumbnail version of the image.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the image was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the image was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-an-image'>Get an image</h2><h2 id='upload-an-image'>Upload an image</h2><h1 id='moments'>Moments</h1><h2 id='the-moment-object'>The moment object</h2>
+<blockquote>
+<p>Example Reponse</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"ad2636c3-82fe-4c45-af2d-d6324b2e618f"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"type_id"</span>: 1,
+  <span class="s2">"object_uuid"</span>: <span class="s2">"c5d8701e-05cf-4b15-52bf-1cf76c3d84f2"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"Payment request"</span>,
+  <span class="s2">"note"</span>: <span class="s2">"Message from user"</span>,
+  <span class="s2">"amount"</span>: 10.0,
+  <span class="s2">"total_amount"</span>: 20.0,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"image"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+    <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+    <span class="o">}</span>,
+  <span class="s2">"participation"</span>: <span class="o">{</span>
+    <span class="s2">"count"</span>: <span class="o">{</span>
+      <span class="s2">"invited"</span>: 0,
+      <span class="s2">"paid"</span>: 2,
+      <span class="s2">"pending"</span>: 2,
+      <span class="s2">"rejected"</span>: 1,
+      <span class="s2">"total"</span>: 5
+    <span class="o">}</span>,
+    <span class="s2">"first_names"</span>: <span class="o">[</span><span class="s2">"Arnar"</span>, <span class="s2">"Oskar"</span>, <span class="s2">"Jon"</span><span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"is_owner"</span>: <span class="nb">true</span>,
+  <span class="s2">"read_at"</span>: <span class="s2">"2015-09-04T12:26:43.48788Z"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2015-09-04T12:26:43.35539Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2015-09-04T12:26:43.48788Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the moment.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The moment status.</td>
+</tr>
+<tr>
+<td>type_id</td>
+<td>integer</td>
+<td>The moment type.</td>
+</tr>
+<tr>
+<td>object_uuid</td>
+<td>uuid</td>
+<td>The unique identifier of the object which the moment refers to.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>The title of the moment.</td>
+</tr>
+<tr>
+<td>note</td>
+<td>string</td>
+<td>A message accompanying the object which the moment refers to.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount of the moment. This can either be the full amount or partial amount.</td>
+</tr>
+<tr>
+<td>total_amount</td>
+<td>float</td>
+<td>The full amount of the moment.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional moment image or a group photo of the participants.</td>
+</tr>
+<tr>
+<td>participation</td>
+<td>Participation</td>
+<td>Participation information for the moment.</td>
+</tr>
+<tr>
+<td>is_owner</td>
+<td>boolean</td>
+<td>Whether the current user is the owner of (i.e. initiated) the moment.</td>
+</tr>
+<tr>
+<td>read_at</td>
+<td>time</td>
+<td>The time when the moment was opened and read. Nil if unread.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the moment was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the moment was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-list-of-moments'>Get a list of moments</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/moments"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a list of all moments.</p>
+<h3 id='http-request-17'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/moments</code></p>
+<h3 id='url-parameters-3'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-2'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>open</td>
+<td>boolean</td>
+<td>eq</td>
+<td>true, false</td>
+</tr>
+</tbody></table>
 <h2 id='get-a-moment'>Get a moment</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/moments/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a single moment by UUID.</p>
-<h1 id='money-pools'>Money Pools</h1><h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
+<h3 id='http-request-18'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/moments/{uuid}</code></p>
+<h1 id='money-pools'>Money Pools</h1><h2 id='the-money-pool-object'>The money pool object</h2><h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
 <p>Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the <code>owner</code> filter.</p>
 <h2 id='get-a-money-pool'>Get a money pool</h2>
 <p>Get a single money pool by UUID.</p>
@@ -1164,6 +1633,75 @@ Authentication is based on a pair of authentication and session tokens.
 <p>The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.</p>
 <h1 id='notifications'>Notifications</h1><h2 id='the-notification-object'>The notification object</h2><h2 id='get-a-list-of-notifications'>Get a list of notifications</h2>
 <p>Get a list of all notifications.</p>
+<h1 id='participation'>Participation</h1>
+<p>Participation information for a moment, request or money pool.</p>
+<h2 id='the-participation-object'>The participation object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"count"</span>: <span class="o">{</span>
+    <span class="s2">"invited"</span>: 0,
+    <span class="s2">"paid"</span>: 2,
+    <span class="s2">"pending"</span>: 2,
+    <span class="s2">"rejected"</span>: 1,
+    <span class="s2">"total"</span>: 5
+  <span class="o">}</span>,
+  <span class="s2">"first_names"</span>: <span class="o">[</span><span class="s2">"Arnar"</span>, <span class="s2">"Oskar"</span>, <span class="s2">"Jon"</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>count</td>
+<td>ParticipationCount</td>
+<td>Number of participants.</td>
+</tr>
+<tr>
+<td>first_names</td>
+<td>array</td>
+<td>First names of the first 6 participants across all statuses.</td>
+</tr>
+</tbody></table>
+<h3 id='participationcount'>ParticipationCount</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>invited</td>
+<td>integer</td>
+<td>The number of participants who have been invited.</td>
+</tr>
+<tr>
+<td>paid</td>
+<td>integer</td>
+<td>The number of participants who have paid.</td>
+</tr>
+<tr>
+<td>pending</td>
+<td>integer</td>
+<td>The number of participants who have not responded.</td>
+</tr>
+<tr>
+<td>rejected</td>
+<td>integer</td>
+<td>The number of participants who have rejected the payment request.</td>
+</tr>
+<tr>
+<td>total</td>
+<td>integer</td>
+<td>The total number of participants regardless of status.</td>
+</tr>
+</tbody></table>
 <h1 id='payment-sources'>Payment Sources</h1><h2 id='get-a-list-of-payment-sources'>Get a list of payment sources</h2>
 <p>Get a list of all payment sources.</p>
 <h2 id='get-a-payment-source'>Get a payment source</h2>
@@ -1182,7 +1720,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a single payment by UUID. Transactions are not accessible from this endpoint (see Transactions).</p>
 <h2 id='create-a-payment'>Create a payment</h2>
 <p>Create a new payment. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.</p>
-<h2 id='get-a-payment-receipt'>Get a payment receipt</h2>
+<h2 id='get-a-receipt'>Get a receipt</h2>
 <p>Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.</p>
 <h1 id='requests'>Requests</h1><h2 id='get-a-list-of-requests'>Get a list of requests</h2>
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
@@ -1204,9 +1742,9 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Pay an existing request as a participant. Payment source and PIN is required for payments.</p>
 <h2 id='reject-a-request'>Reject a request</h2>
 <p>Reject an existing request as a participant.</p>
-<h2 id='get-a-payment-receipt-2'>Get a payment receipt</h2>
+<h2 id='get-a-receipt-2'>Get a receipt</h2>
 <p>Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.</p>
-<h2 id='get-a-payment-receipt-for-a-participant'>Get a payment receipt for a participant</h2>
+<h2 id='get-a-receipt-for-a-participant'>Get a receipt for a participant</h2>
 <p>Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.</p>
 <h1 id='transactions'>Transactions</h1><h2 id='get-a-list-of-transactions'>Get a list of transactions</h2>
 <p>Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.</p>
