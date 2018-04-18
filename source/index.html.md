@@ -466,21 +466,159 @@ Delete an existing contact.
 
 # Devices
 
+## The device object
+
+> Example Response
+
+```shell
+{
+  "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+  "make": "iPhone",
+  "model": "iPhone6,2",
+  "os_name": "iOS",
+  "os_version": "8.0",
+  "screen_width": 480,
+  "screen_height": 640,
+  "sdk_version": "17"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the device. |
+| make | string | The device make. |
+| model | string | The device model. |
+| os_name | string | The name of the OS running on the device. |
+| os_version | string | The version of the OS running on the device. |
+| sdk_version | string | The SDK version of the OS running on the device (Android only). |
+| screen_width | integer | The width of the device's screen. |
+| screen_height | integer | The height of the device's screen. |
+
 ## Get the current device
+
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/devices/current" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "make": "iPhone",
+    "model": "iPhone6,2",
+    "os_name": "iOS",
+    "os_version": "8.0",
+    "screen_width": 480,
+    "screen_height": 640,
+    "sdk_version": "17",
+    "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
+    "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
+}'
+```
 
 Get the user's current device.
 
+### HTTP Request
+
+`GET` `/v1/devices/current`
+
 ## Update the current device
 
+> Example Request
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/devices/current" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
+  "gcm_device_token": "{FIREBASE-CLOUD-MESSAGING-TOKEN}"
+}'
+```
+
 Update the user's current device.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the device. `required` |
+| make | string | The device make. `required` |
+| model | string | The device model. `required` |
+| os_name | string | The name of the OS running on the device. `required` |
+| os_version | string | The version of the OS running on the device. `required` |
+| sdk_version | string | The SDK version of the OS running on the device (Android only). |
+| screen_width | integer | The width of the device's screen. `required` |
+| screen_height | integer | The height of the device's screen. `required` |
+| apn_device_token | string | Token for the Apple Push Notification service. |
+| gcm_device_token | string | Token for the Firebase Cloud Messaging service. |
+
+### HTTP Request
+
+`PUT` `/v1/devices/current`
 
 # Fees
 
 ## Calculate payment fee
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/fees/calculate" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "amount": 10.5,
+  "source": {
+    "payment_source_uuid": "d4e07e85-bb7e-485d-b13a-cd6ee18ff599",
+    "currency": "EUR"
+  },
+  "destination": {
+    "payment_source_uuid": "9f5bbafc-cab6-47f4-8489-c8e007ab4288",
+    "currency": "USD"
+  }
+}'
+```
+
 Calculate the fee when sending money from one payment source to another.
 
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| amount | float | The amount being paid. `required` |
+| source | FeePaymentSource | The source from which payment is made and the currency it's made in. `required` |
+| destination | FeePaymentSource | The destination to which payment is made and the currency it should be received in. `required` |
+
+### FeePaymentSource
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| payment_source_uuid | uuid | The unique identifier of the payment source handling the payment. `required` |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
+
+### HTTP Request
+
+`POST` `/v1/fees/calculate`
+
 # Images
+
+## The image object
+
+> Example Response
+
+```shell
+{
+  "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+  "url": "https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+  "full_screen_url": "https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+  "thumbnail_url": "https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+  "created_at": "2017-09-04T12:26:43.403883Z",
+  "updated_at": "2017-09-04T12:26:43.403883Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the image. |
+| url | string | The URL of the UI (cropped) version of the image. |
+| full_screen_url | string | The URL of the full screen version of the image. |
+| thumbnail_url | string | The URL of the thumbnail version of the image. |
+| created_at | time | The time when the image was created. |
+| updated_at | time | The time when the image was updated. |
 
 ## Get an image
 
@@ -488,15 +626,112 @@ Calculate the fee when sending money from one payment source to another.
 
 # Moments
 
+## The moment object
+
+> Example Reponse
+
+```shell
+{
+  "uuid": "ad2636c3-82fe-4c45-af2d-d6324b2e618f",
+  "status_id": 1,
+  "type_id": 1,
+  "object_uuid": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "title": "Payment request",
+  "note": "Message from user",
+  "amount": 10.0,
+  "total_amount": 20.0,
+  "currency": "EUR",
+  "image": {
+    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "full_screen_url": "https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "thumbnail_url": "https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+	},
+  "participation": {
+    "count": {
+      "invited": 0,
+      "paid": 2,
+      "pending": 2,
+      "rejected": 1,
+      "total": 5
+    },
+    "first_names": ["Arnar", "Oskar", "Jon"]
+  },
+  "is_owner": true,
+  "read_at": "2015-09-04T12:26:43.48788Z",
+  "created_at": "2015-09-04T12:26:43.35539Z",
+  "updated_at": "2015-09-04T12:26:43.48788Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the moment. |
+| status_id | integer | The moment status. |
+| type_id | integer | The moment type. |
+| object_uuid | uuid | The unique identifier of the object which the moment refers to. |
+| title | string | The title of the moment. |
+| note | string | A message accompanying the object which the moment refers to. |
+| amount | float | The amount of the moment. This can either be the full amount or partial amount. |
+| total_amount | float | The full amount of the moment. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| image | Image | An optional moment image or a group photo of the participants. |
+| participation | Participation | Participation information for the moment. |
+| is_owner | boolean | Whether the current user is the owner of (i.e. initiated) the moment. |
+| read_at | time | The time when the moment was opened and read. Nil if unread. |
+| created_at | time | The time when the moment was created. |
+| updated_at | time | The time when the moment was updated. |
+
 ## Get a list of moments
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/moments" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
 
 Get a list of all moments.
 
+### HTTP Request
+
+`GET` `/v1/moments`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|open|boolean|eq|true, false|
+
 ## Get a moment
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/moments/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
 
 Get a single moment by UUID.
 
+### HTTP Request
+
+`GET` `/v1/moments/{uuid}`
+
 # Money Pools
+
+## The money pool object
 
 ## Get a list of money pools
 
@@ -542,6 +777,42 @@ The user contributes to the money pool by making a payment. Payment source and P
 
 Get a list of all notifications.
 
+# Participation
+
+Participation information for a moment, request or money pool.
+
+## The participation object
+
+> Example Response
+
+```shell
+{
+  "count": {
+    "invited": 0,
+    "paid": 2,
+    "pending": 2,
+    "rejected": 1,
+    "total": 5
+  },
+  "first_names": ["Arnar", "Oskar", "Jon"]
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| count | ParticipationCount | Number of participants. |
+| first_names | array | First names of the first 6 participants across all statuses. |
+
+### ParticipationCount
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| invited | integer | The number of participants who have been invited. |
+| paid | integer | The number of participants who have paid. |
+| pending | integer | The number of participants who have not responded. |
+| rejected | integer | The number of participants who have rejected the payment request. |
+| total | integer | The total number of participants regardless of status. |
+
 # Payment Sources
 
 ## Get a list of payment sources
@@ -582,7 +853,7 @@ Get a single payment by UUID. Transactions are not accessible from this endpoint
 
 Create a new payment. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.
 
-## Get a payment receipt
+## Get a receipt
 
 Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.
 
@@ -628,11 +899,11 @@ Pay an existing request as a participant. Payment source and PIN is required for
 
 Reject an existing request as a participant.
 
-## Get a payment receipt
+## Get a receipt
 
 Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.
 
-## Get a payment receipt for a participant
+## Get a receipt for a participant
 
 Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.
 
