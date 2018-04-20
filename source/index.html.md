@@ -749,7 +749,7 @@ Get a single moment by UUID.
   "minimum_user_amount": 50.00,
   "maximum_user_amount": 150.00,
   "amounts": [
-    { PaymentAmount object }
+    { TODO: PaymentAmount object }
   ],
   "image": {
     "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
@@ -759,11 +759,9 @@ Get a single moment by UUID.
     "created_at": "2017-09-04T12:26:43.403883Z",
     "updated_at": "2017-09-04T12:26:43.403883Z"
 	},
-  "owner": {
-    User object
-  },
+  "owner": { TODO: User object },
   "participants": [
-    { PaymentRecipient object }
+    { TODO:PaymentRecipient object }
   ],
   "participation": {
     "count": {
@@ -786,7 +784,7 @@ Get a single moment by UUID.
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the money pool. |
 | status_id | integer | The money pool status. |
-| ... |
+| TODO: ... |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | image | Image | An optional money pool image. |
 | participation | Participation | Participation information for the money pool. |
@@ -795,15 +793,91 @@ Get a single moment by UUID.
 
 ## Get a list of money pools
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/pools" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the `owner` filter.
+
+### HTTP Request
+
+`GET` `/v1/pools`
 
 ## Get a money pool
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/pools/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Get a single money pool by UUID.
+
+### HTTP Request
+
+`GET` `/v1/pools/{uuid}`
 
 ## Create a money pool
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/contacts" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "Money Pool #1",
+  "detailed_description": "This is a more detailed, multiple line decription.",
+  "hashtag": "moneypool1",
+  "amounts": [
+    {
+      title: "Payment title",
+      amount: 10.0
+    }
+  ],
+  "currency": "EUR",
+  "invites": [
+    "556b6fc6-e8dd-4bfa-89e0-9fbd286c96c3",
+    "1d27d1c8-5e58-4d6e-87f7-b6890672294e"
+  ],
+  "image": { TODO: Image object },
+  "is_public": true,
+  "only_owner_sees_recipients": true,
+  "has_unique_recipients": true,
+  "allows_optional_amount": true,
+  "minimum_user_amount": 50.0,
+  "maximum_user_amount": 150.0,
+  "start_at": "2017-12-20 16:00:00",
+  "end_at": "2017-12-28 23:00:00"
+}
+```
+
 Create a new money pool.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The money pool title. `required` |
+| detailed_description | string | Any description for the money pool. |
+| hashtag | string | An optional hashtag for the money pool. |
+| amounts | array | A list of payment options (PaymentAmount). |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
+| invites | array | A list of users that will be invited to participate in the money pool. |
+| image | Image | An optional image object. This can also be performed after creating the money pool. |
+| is_public | boolean | Whether everyone can open the money pool or invited users only. Default: `false`. |
+| only_owner_sees_participants | boolean | Whether the owner is the only one who can see the list of participants. Default: `false`. |
+| has_unique_recipients | boolean | Whether users can only contribute once to the money pool. Default: `false` |
+| allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. Default: `false` |
+| minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
+| maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
+| start_at | time | The time at which the money pool will become available. |
+| end_at | time | The time at which the money pool will become unavailable. |
+
+### HTTP Request
+
+`POST` `/v1/pools`
 
 ## Update a money pool
 
