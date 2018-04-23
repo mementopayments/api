@@ -1028,7 +1028,7 @@ The user contributes to the money pool by making a payment. Payment source and P
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
-| payment_source_uuid | uuid | The unique identifier of the payment source which will be withdrawn from. `required`|
+| payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 ### HTTP Request
@@ -1039,9 +1039,69 @@ The user contributes to the money pool by making a payment. Payment source and P
 
 ## The notification object
 
+```shell
+{
+  "uuid": "68b206f0-ccea-45df-535f-ed16a97e5530",
+  "actor_uuid": "92e7370f-8ea0-4b84-b412-776c4129a7c7",
+  "actor": "Arnar",
+  "notification_type": "payment",
+  "notification_key": "request",
+  "object_uuid": "74301781-a1eb-41a6-763c-70f235a636b2",
+  "object_data_number": 20.00,
+  "object_data_string": "",
+  "description": "Arnar accepted your friend request",
+  "image": {
+    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
+    "full_screen_url": "https://{imagehost}/full/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
+    "thumbnail_url": "https://{imagehost}/thumbnail/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+  },
+  "created_at": "2015-02-17T23:45:06.872651Z",
+  "updated_at": "2015-02-17T23:45:06.872651Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the notification. |
+| actor_uuid | uuid | The UUID of the acting user. |
+| actor | string | The name of the acting user. |
+| notification_type | string | The notification type. Can be either `payment`, `pool`, `request`. |
+| notification_key | string | An optional key which explains the action of the notification type, such as `invited` if the user is invited to a money pool. |
+| object_uuid | uuid | The unique identifier for the object of the specified notification type. |
+| object_data_number | float | An optional number related to the notification's object, such as amount for a payment. |
+| object_data_string | string | An optional message related to the notifications's object. |
+| description | string | The notification message body. |
+| image | Image | An optional notification image. |
+| created_at | time | The time when the notification was created. |
+| updated_at | time | The time when the notification was updated. |
+
 ## Get a list of notifications
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/notifications" \
+  -H "Content-Type: application/json" 
+```
+
 Get a list of all notifications.
+
+### HTTP Request
+
+`GET` `/v1/notifications`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+|since|string|Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
 
 # Participation
 
