@@ -88,8 +88,8 @@ Post identity type + value (e.g. phone number), type of authentication (e.g. "sm
 curl -X POST "https://api.mementopayments.com/v1/tokens" \
   -H "Content-Type: application/json" \
   -d $'{
-    "secret": "111111",
-    "pin": "1234"
+  "secret": "111111",
+  "pin": "1234"
 }
 ```
 
@@ -97,9 +97,9 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 
 ```shell
 {
-    "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-    "status_id": 2, // approved
-    "token": "wxKj3JV6ET1dXVou77675tMqC..."
+  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status_id": 2, // approved
+  "token": "wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
 
@@ -502,16 +502,16 @@ Delete an existing contact.
 curl -X POST "https://api.mementopayments.com/v1/devices/current" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
-    "make": "iPhone",
-    "model": "iPhone6,2",
-    "os_name": "iOS",
-    "os_version": "8.0",
-    "screen_width": 480,
-    "screen_height": 640,
-    "sdk_version": "17",
-    "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
-    "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
+  "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+  "make": "iPhone",
+  "model": "iPhone6,2",
+  "os_name": "iOS",
+  "os_version": "8.0",
+  "screen_width": 480,
+  "screen_height": 640,
+  "sdk_version": "17",
+  "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
+  "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
 }'
 ```
 
@@ -761,7 +761,7 @@ Get a single moment by UUID.
 	},
   "owner": { TODO: User object },
   "participants": [
-    { TODO:PaymentRecipient object }
+    { TODO: Participant object }
   ],
   "participation": {
     "count": {
@@ -881,27 +881,159 @@ Create a new money pool.
 
 ## Update a money pool
 
+> Example Request
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/pools/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "New Title"
+}'
+```
+
 Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.
+
+TODO: Object
+
+### HTTP Request
+
+`PUT` `/v1/pools/{uuid}`
 
 ## Close money pool
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/close" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Closes a money pool so users cannot contribute anymore. The pool's fulfillment status will become `fulfilled` and its status `closed`.
+
+### HTTP Request
+
+`POST` `/v1/pools/close`
 
 ## Invite users to participate
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/invite" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'[
+  {
+    "user_uuid": "d31fabcb-dbd8-4a32-824f-23d2dad5a5cc"
+  },
+  {
+    "user_uuid": "5e2c96cd-9701-46e9-b9d2-b4fa4e786f1a"
+  }
+]'
+```
+
 Adds users as participants marked as `invited`.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| user_uuid | uuid | The unique identifier of the user being invited. `required` |
+
+### HTTP Request
+
+`POST` `/v1/pools/{uuid}/invite`
 
 ## Get money pool participants
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/pools/{uuid}/participants" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+> Example Response
+
+```shell
+[
+  { TODO: Participant object }
+]
+```
+
 Get a list of participants in a money pool.
+
+### HTTP Request
+
+`GET` `/v1/pools/{uuid}/participants`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|status|string|eq, in|invited, requested, paid, rejected, all `default: all`|
 
 ## Export list of participants
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/export" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "email": "johndough@example.com",
+  "format": "excel"
+}'
+```
+
 Request a list of participants to be sent to a specific email address.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| email | string | The email which the exported file should be sent to. `required` |
+| format | string | The file format of the exported list. Options: `csv`, `excel`. Default: `csv` |
+
+### HTTP Request
+
+`POST` `/v1/pools/{uuid}/participants/export`
 
 ## Contribute to a money pool
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/pay" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "amount": 50.0,
+  "payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "pin": "1234"
+}'
+```
+
+> Example Response
+
+```shell
+{ TODO: Participant object }
+```
+
 The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| amount | float | The amount being paid. `required` |
+| payment_source_uuid | uuid | The unique identifier of the payment source which will be withdrawn from. `required`|
+| pin | string | The current user's PIN. `required` |
+
+### HTTP Request
+
+`POST` `/v1/pools/{uuid}/pay`
 
 # Notifications
 
