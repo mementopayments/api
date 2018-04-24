@@ -1103,6 +1103,10 @@ Get a list of all notifications.
 |filter|string|Filter the results.|
 |since|string|Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
 
+### Filtering
+
+TODO: Filtering
+
 # Participation
 
 Participation information for a moment, request or money pool.
@@ -1143,15 +1147,120 @@ Participation information for a moment, request or money pool.
 
 ## Get a list of payment sources
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payment_sources" \
+  -H "Content-Type: application/json" 
+```
+
 Get a list of all payment sources.
+
+### HTTP Request
+
+`GET` `/v1/payment_sources`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|owner|boolean|eq|true, false|
+|status|string|eq, in|pending, enabled, disabled, rejected, all `default: all`|
+|type|string|eq, in|bank_account, card, virtual, all `default: all`|
 
 ## Get a payment source
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+  -H "Content-Type: application/json" 
+```
+
 Get a single payment source by UUID.
+
+### HTTP Request
+
+`GET` `/v1/payment_sources/{uuid}`
 
 ## Create a payment source
 
+> Example Request (with BankAccount as type)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/payment_sources" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Bank Account",
+  "type": "bank_account",
+  "gateway": "bank_of_london",
+  "bank_account": {
+    "country": "UK",
+    "swift": "AAABBCCDDD",
+    "iban": "GB98MIDL07009312345678",
+    "account_number": "",
+    "nin": ""
+  },
+}
+```
+
+> Example Request (with Card as type)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/payment_sources" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Default Card",
+  "type": "card",
+  "gateway": "valitor",
+  "card": {
+    "expiration_month": 11,
+    "expiration_year": 2017,
+    "token": "9724017303484431"
+  }
+}
+```
+
 Create a new payment source.
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The title of the payment source, only visible to the user. `required` |
+| type | string | The type of payment source, can be `bank_account` or `card`. `required` |
+| gateway | string | The name of the gateway being used for the payment source type. `required` |
+| bank_account | BankAccount | If the type is `bank_account` this object is required. |
+| card | Card | If the type is `card` this object is required. |
+
+### BankAccount
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank is located in. `required` |
+| swift | string | The SWIFT code of the bank. `required` |
+| iban | string | The IBAN code of the bank account. This is required if `account_number` is empty. |
+| account_number | string | The account number of the bank account, in a format which the bank gateway understands. This is required if `iban` is empty. |
+| nin | string | The National Identification Number of the bank account owner. This may be required by the bank gateway. |
+
+### Card
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| expiration_month | integer | Two digit number representing the card's expiration month. `required` |
+| expiration_year | integer | Four digit number representing the card's expiration year. `required` |
+| token | string | The tokenized cardholder data used by the card processor gateway. `required` |
+
+### HTTP Request
+
+`POST` `/v1/payment_sources`
 
 ## Update a payment source
 
