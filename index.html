@@ -611,17 +611,17 @@ Authentication is based on a pair of authentication and session tokens.
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/tokens"</span> <span class="se">\</span>
   -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
   -d <span class="s1">$'{
-    "secret": "111111",
-    "pin": "1234"
+  "secret": "111111",
+  "pin": "1234"
 }
 </span></code></pre>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
-    <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
-    <span class="s2">"status_id"</span>: 2, // approved
-    <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
+  <span class="s2">"status_id"</span>: 2, // approved
+  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
 <span class="o">}</span>
 </code></pre>
 <p>Post the secret (e.g. verification code) and PIN (depends on the authenticator type).</p>
@@ -1224,16 +1224,16 @@ Authentication is based on a pair of authentication and session tokens.
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/devices/current"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
-    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
-    "make": "iPhone",
-    "model": "iPhone6,2",
-    "os_name": "iOS",
-    "os_version": "8.0",
-    "screen_width": 480,
-    "screen_height": 640,
-    "sdk_version": "17",
-    "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
-    "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
+  "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+  "make": "iPhone",
+  "model": "iPhone6,2",
+  "os_name": "iOS",
+  "os_version": "8.0",
+  "screen_width": 480,
+  "screen_height": 640,
+  "sdk_version": "17",
+  "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
+  "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
 }'</span>
 </code></pre>
 <p>Get the user&#39;s current device.</p>
@@ -1630,7 +1630,7 @@ Authentication is based on a pair of authentication and session tokens.
   <span class="s2">"minimum_user_amount"</span>: 50.00,
   <span class="s2">"maximum_user_amount"</span>: 150.00,
   <span class="s2">"amounts"</span>: <span class="o">[</span>
-    <span class="o">{</span> PaymentAmount object <span class="o">}</span>
+    <span class="o">{</span> TODO: PaymentAmount object <span class="o">}</span>
   <span class="o">]</span>,
   <span class="s2">"image"</span>: <span class="o">{</span>
     <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
@@ -1640,11 +1640,9 @@ Authentication is based on a pair of authentication and session tokens.
     <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
     <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
     <span class="o">}</span>,
-  <span class="s2">"owner"</span>: <span class="o">{</span>
-    User object
-  <span class="o">}</span>,
+  <span class="s2">"owner"</span>: <span class="o">{</span> TODO: User object <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
-    <span class="o">{</span> PaymentRecipient object <span class="o">}</span>
+    <span class="o">{</span> TODO: Participant object <span class="o">}</span>
   <span class="o">]</span>,
   <span class="s2">"participation"</span>: <span class="o">{</span>
     <span class="s2">"count"</span>: <span class="o">{</span>
@@ -1680,7 +1678,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>The money pool status.</td>
 </tr>
 <tr>
-<td>...</td>
+<td>TODO: ...</td>
 <td></td>
 <td></td>
 </tr>
@@ -1711,25 +1709,474 @@ Authentication is based on a pair of authentication and session tokens.
 </tr>
 </tbody></table>
 <h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/pools"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the <code>owner</code> filter.</p>
+<h3 id='http-request-19'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/pools</code></p>
 <h2 id='get-a-money-pool'>Get a money pool</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a single money pool by UUID.</p>
+<h3 id='http-request-20'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/pools/{uuid}</code></p>
 <h2 id='create-a-money-pool'>Create a money pool</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/contacts"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "Money Pool #1",
+  "detailed_description": "This is a more detailed, multiple line decription.",
+  "hashtag": "moneypool1",
+  "amounts": [
+    {
+      title: "Payment title",
+      amount: 10.0
+    }
+  ],
+  "currency": "EUR",
+  "invites": [
+    "556b6fc6-e8dd-4bfa-89e0-9fbd286c96c3",
+    "1d27d1c8-5e58-4d6e-87f7-b6890672294e"
+  ],
+  "image": { TODO: Image object },
+  "is_public": true,
+  "only_owner_sees_recipients": true,
+  "has_unique_recipients": true,
+  "allows_optional_amount": true,
+  "minimum_user_amount": 50.0,
+  "maximum_user_amount": 150.0,
+  "start_at": "2017-12-20 16:00:00",
+  "end_at": "2017-12-28 23:00:00"
+}
+</span></code></pre>
 <p>Create a new money pool.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The money pool title. <code>required</code></td>
+</tr>
+<tr>
+<td>detailed_description</td>
+<td>string</td>
+<td>Any description for the money pool.</td>
+</tr>
+<tr>
+<td>hashtag</td>
+<td>string</td>
+<td>An optional hashtag for the money pool.</td>
+</tr>
+<tr>
+<td>amounts</td>
+<td>array</td>
+<td>A list of payment options (PaymentAmount).</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency. <code>required</code></td>
+</tr>
+<tr>
+<td>invites</td>
+<td>array</td>
+<td>A list of users that will be invited to participate in the money pool.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional image object. This can also be performed after creating the money pool.</td>
+</tr>
+<tr>
+<td>is_public</td>
+<td>boolean</td>
+<td>Whether everyone can open the money pool or invited users only. Default: <code>false</code>.</td>
+</tr>
+<tr>
+<td>only_owner_sees_participants</td>
+<td>boolean</td>
+<td>Whether the owner is the only one who can see the list of participants. Default: <code>false</code>.</td>
+</tr>
+<tr>
+<td>has_unique_recipients</td>
+<td>boolean</td>
+<td>Whether users can only contribute once to the money pool. Default: <code>false</code></td>
+</tr>
+<tr>
+<td>allows_optional_amount</td>
+<td>boolean</td>
+<td>Whether users can pay an optional amount of their choice. Default: <code>false</code></td>
+</tr>
+<tr>
+<td>minimum_user_amount</td>
+<td>float</td>
+<td>The lowest amount of a single contribution made to the money pool.</td>
+</tr>
+<tr>
+<td>maximum_user_amount</td>
+<td>float</td>
+<td>The highest amount of a single contribution made to the money pool.</td>
+</tr>
+<tr>
+<td>start_at</td>
+<td>time</td>
+<td>The time at which the money pool will become available.</td>
+</tr>
+<tr>
+<td>end_at</td>
+<td>time</td>
+<td>The time at which the money pool will become unavailable.</td>
+</tr>
+</tbody></table>
+<h3 id='http-request-21'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools</code></p>
 <h2 id='update-a-money-pool'>Update a money pool</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "New Title"
+}'</span>
+</code></pre>
 <p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.</p>
+
+<p>TODO: Object</p>
+<h3 id='http-request-22'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/pools/{uuid}</code></p>
 <h2 id='close-money-pool'>Close money pool</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}/close"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Closes a money pool so users cannot contribute anymore. The pool&#39;s fulfillment status will become <code>fulfilled</code> and its status <code>closed</code>.</p>
+<h3 id='http-request-23'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/close</code></p>
 <h2 id='invite-users-to-participate'>Invite users to participate</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}/invite"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'[
+  {
+    "user_uuid": "d31fabcb-dbd8-4a32-824f-23d2dad5a5cc"
+  },
+  {
+    "user_uuid": "5e2c96cd-9701-46e9-b9d2-b4fa4e786f1a"
+  }
+]'</span>
+</code></pre>
 <p>Adds users as participants marked as <code>invited</code>.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>user_uuid</td>
+<td>uuid</td>
+<td>The unique identifier of the user being invited. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='http-request-24'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/invite</code></p>
 <h2 id='get-money-pool-participants'>Get money pool participants</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}/participants"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">[</span>
+  <span class="o">{</span> TODO: Participant object <span class="o">}</span>
+<span class="o">]</span>
+</code></pre>
 <p>Get a list of participants in a money pool.</p>
+<h3 id='http-request-25'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/pools/{uuid}/participants</code></p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-3'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>eq, in</td>
+<td>invited, requested, paid, rejected, all <code>default: all</code></td>
+</tr>
+</tbody></table>
 <h2 id='export-list-of-participants'>Export list of participants</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}/export"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "email": "johndough@example.com",
+  "format": "excel"
+}'</span>
+</code></pre>
 <p>Request a list of participants to be sent to a specific email address.</p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>The email which the exported file should be sent to. <code>required</code></td>
+</tr>
+<tr>
+<td>format</td>
+<td>string</td>
+<td>The file format of the exported list. Options: <code>csv</code>, <code>excel</code>. Default: <code>csv</code></td>
+</tr>
+</tbody></table>
+<h3 id='http-request-26'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/participants/export</code></p>
 <h2 id='contribute-to-a-money-pool'>Contribute to a money pool</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{uuid}/pay"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "amount": 50.0,
+  "payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "pin": "1234"
+}'</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span> TODO: Participant object <span class="o">}</span>
+</code></pre>
 <p>The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.</p>
-<h1 id='notifications'>Notifications</h1><h2 id='the-notification-object'>The notification object</h2><h2 id='get-a-list-of-notifications'>Get a list of notifications</h2>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount being paid. <code>required</code></td>
+</tr>
+<tr>
+<td>payment_source_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source which will be withdrawn from. <code>required</code></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string</td>
+<td>The current user&#39;s PIN. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='http-request-27'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/pay</code></p>
+<h1 id='notifications'>Notifications</h1><h2 id='the-notification-object'>The notification object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"68b206f0-ccea-45df-535f-ed16a97e5530"</span>,
+  <span class="s2">"actor_uuid"</span>: <span class="s2">"92e7370f-8ea0-4b84-b412-776c4129a7c7"</span>,
+  <span class="s2">"actor"</span>: <span class="s2">"Arnar"</span>,
+  <span class="s2">"notification_type"</span>: <span class="s2">"payment"</span>,
+  <span class="s2">"notification_key"</span>: <span class="s2">"request"</span>,
+  <span class="s2">"object_uuid"</span>: <span class="s2">"74301781-a1eb-41a6-763c-70f235a636b2"</span>,
+  <span class="s2">"object_data_number"</span>: 20.00,
+  <span class="s2">"object_data_string"</span>: <span class="s2">""</span>,
+  <span class="s2">"description"</span>: <span class="s2">"Arnar accepted your friend request"</span>,
+  <span class="s2">"image"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+    <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg"</span>,
+    <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg"</span>,
+    <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/thumbnail/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+  <span class="o">}</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2015-02-17T23:45:06.872651Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2015-02-17T23:45:06.872651Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the notification.</td>
+</tr>
+<tr>
+<td>actor_uuid</td>
+<td>uuid</td>
+<td>The UUID of the acting user.</td>
+</tr>
+<tr>
+<td>actor</td>
+<td>string</td>
+<td>The name of the acting user.</td>
+</tr>
+<tr>
+<td>notification_type</td>
+<td>string</td>
+<td>The notification type. Can be either <code>payment</code>, <code>pool</code>, <code>request</code>.</td>
+</tr>
+<tr>
+<td>notification_key</td>
+<td>string</td>
+<td>An optional key which explains the action of the notification type, such as <code>invited</code> if the user is invited to a money pool.</td>
+</tr>
+<tr>
+<td>object_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the object of the specified notification type.</td>
+</tr>
+<tr>
+<td>object_data_number</td>
+<td>float</td>
+<td>An optional number related to the notification&#39;s object, such as amount for a payment.</td>
+</tr>
+<tr>
+<td>object_data_string</td>
+<td>string</td>
+<td>An optional message related to the notifications&#39;s object.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The notification message body.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional notification image.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the notification was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the notification was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-list-of-notifications'>Get a list of notifications</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/notifications"</span> <span class="se">\</span>
+  -H <span class="s2">"Content-Type: application/json"</span> 
+</code></pre>
 <p>Get a list of all notifications.</p>
+<h3 id='http-request-28'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/notifications</code></p>
+<h3 id='url-parameters-5'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+<tr>
+<td>since</td>
+<td>string</td>
+<td>Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
+</tr>
+</tbody></table>
 <h1 id='participation'>Participation</h1>
 <p>Participation information for a moment, request or money pool.</p>
 <h2 id='the-participation-object'>The participation object</h2>
