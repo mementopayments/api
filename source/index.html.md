@@ -439,15 +439,15 @@ curl -X PUT "https://api.mementopayments.com/v1/contacts/{uuid}" \
 
 Update an existing contact.
 
+### HTTP Request
+
+`PUT` `/v1/contacts/{uuid}`
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | name | string | The full name of the contact. |
 | email | string | The contact's email address. |
 | phone | string | The contact's full international phone number. |
-
-### HTTP Request
-
-`PUT` `/v1/contacts/{uuid}`
 
 ## Delete a contact
 
@@ -536,6 +536,10 @@ curl -X PUT "https://api.mementopayments.com/v1/devices/current" \
 
 Update the user's current device.
 
+### HTTP Request
+
+`PUT` `/v1/devices/current`
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the device. `required` |
@@ -548,10 +552,6 @@ Update the user's current device.
 | screen_height | integer | The height of the device's screen. `required` |
 | apn_device_token | string | Token for the Apple Push Notification service. |
 | gcm_device_token | string | Token for the Firebase Cloud Messaging service. |
-
-### HTTP Request
-
-`PUT` `/v1/devices/current`
 
 # Fees
 
@@ -577,6 +577,10 @@ curl -X POST "https://api.mementopayments.com/v1/fees/calculate" \
 
 Calculate the fee when sending money from one payment source to another.
 
+### HTTP Request
+
+`POST` `/v1/fees/calculate`
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
@@ -589,10 +593,6 @@ Calculate the fee when sending money from one payment source to another.
 | --------- | ---- | ----------- |
 | payment_source_uuid | uuid | The unique identifier of the payment source handling the payment. `required` |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
-
-### HTTP Request
-
-`POST` `/v1/fees/calculate`
 
 # Images
 
@@ -857,6 +857,10 @@ curl -X POST "https://api.mementopayments.com/v1/contacts" \
 
 Create a new money pool.
 
+### HTTP Request
+
+`POST` `/v1/pools`
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | description | string | The money pool title. `required` |
@@ -875,10 +879,6 @@ Create a new money pool.
 | start_at | time | The time at which the money pool will become available. |
 | end_at | time | The time at which the money pool will become unavailable. |
 
-### HTTP Request
-
-`POST` `/v1/pools`
-
 ## Update a money pool
 
 > Example Request
@@ -893,11 +893,11 @@ curl -X PUT "https://api.mementopayments.com/v1/pools/{uuid}" \
 
 Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.
 
-TODO: Object
-
 ### HTTP Request
 
 `PUT` `/v1/pools/{uuid}`
+
+TODO: Object
 
 ## Close money pool
 
@@ -933,13 +933,13 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/invite" \
 
 Adds users as participants marked as `invited`.
 
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| user_uuid | uuid | The unique identifier of the user being invited. `required` |
-
 ### HTTP Request
 
 `POST` `/v1/pools/{uuid}/invite`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| user_uuid | uuid | The unique identifier of the user being invited. `required` |
 
 ## Get money pool participants
 
@@ -994,14 +994,14 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/export" \
 
 Request a list of participants to be sent to a specific email address.
 
+### HTTP Request
+
+`POST` `/v1/pools/{uuid}/participants/export`
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | email | string | The email which the exported file should be sent to. `required` |
 | format | string | The file format of the exported list. Options: `csv`, `excel`. Default: `csv` |
-
-### HTTP Request
-
-`POST` `/v1/pools/{uuid}/participants/export`
 
 ## Contribute to a money pool
 
@@ -1025,15 +1025,15 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/pay" \
 
 The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.
 
+### HTTP Request
+
+`POST` `/v1/pools/{uuid}/pay`
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
 | payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
-
-### HTTP Request
-
-`POST` `/v1/pools/{uuid}/pay`
 
 # Notifications
 
@@ -1224,13 +1224,17 @@ curl -X POST "https://api.mementopayments.com/v1/payment_sources" \
   "gateway": "valitor",
   "card": {
     "expiration_month": 11,
-    "expiration_year": 2017,
+    "expiration_year": 2020,
     "token": "9724017303484431"
   }
 }
 ```
 
 Create a new payment source.
+
+### HTTP Request
+
+`POST` `/v1/payment_sources`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -1258,21 +1262,85 @@ Create a new payment source.
 | expiration_year | integer | Four digit number representing the card's expiration year. `required` |
 | token | string | The tokenized cardholder data used by the card processor gateway. `required` |
 
-### HTTP Request
-
-`POST` `/v1/payment_sources`
-
 ## Update a payment source
 
-Update an existing payment source.
+> Example Request (with BankAccount as type)
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Updated Bank Account"
+}
+```
+
+> Example Request (with Card as type)
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Updated Card",
+  "card": {
+    "expiration_month": 11,
+    "expiration_year": 2025
+  }
+}
+```
+
+Update an existing payment source. If the source is a bank account, only its description can be updated. If the source is a card, its description and expiration date can be updated.
+
+### HTTP Request
+
+`PUT` `/v1/payment_sources/{uuid}`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The title of the payment source, only visible to the user. `required` |
+
+### Card
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| expiration_month | integer | Two digit number representing the card's expiration month. `required` |
+| expiration_year | integer | Four digit number representing the card's expiration year. `required` |
 
 ## Delete a payment source
 
+> Example Request
+
+```shell
+curl -X DELETE "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Delete an existing payment source.
+
+### HTTP Request
+
+`DELETE` `/v1/payment_sources/{uuid}`
 
 ## Verify payment source
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/payment_sources/{uuid}/verify" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "code": "abc123"
+}
+```
+
 Verify a payment source using a specific code, which can, for example, be sent to the user's card statement.
+
+### HTTP Request
+
+`POST` `/v1/payment_sources/{uuid}/verify`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| code | string | The verification code. `required` |
 
 # Payments
 
