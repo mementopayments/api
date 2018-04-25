@@ -826,7 +826,7 @@ Get a single money pool by UUID.
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/contacts" \
+curl -X POST "https://api.mementopayments.com/v1/pools" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "Money Pool #1",
@@ -1346,19 +1346,166 @@ Verify a payment source using a specific code, which can, for example, be sent t
 
 ## Get a list of payments
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payments" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the `owner` filter.
+
+### HTTP Request
+
+`GET` `/v1/payments`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|owner|boolean|eq|true, false|
+|status|string|eq, in|open, closed, all `default: all`|
 
 ## Get a payment
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payments/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Get a single payment by UUID. Transactions are not accessible from this endpoint (see Transactions).
+
+### HTTP Request
+
+`GET` `/v1/payments/{uuid}`
 
 ## Create a payment
 
-Create a new payment. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.
+> Example Request (send money to another user)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/payments" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "currency": "EUR",
+  "description": "This is a payment description",
+  "recipient": {
+    "amount": 20.0,
+    "user_uuid": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "payment_source_uuid": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "pin": "1234"
+}
+```
+
+> Example Request (send money by phone number)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/payments" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "currency": "EUR",
+  "description": "This is a payment description",
+  "recipient": {
+    "amount": 20.0,
+    "phone": "+44 111 2222 3333",
+    "name": "John Dough"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "payment_source_uuid": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "pin": "1234"
+}
+```
+
+Create a new payment and send money. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.
+
+### HTTP Request
+
+`POST` `/v1/payments`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| amount | float | The amount being paid. `required` |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
+| description | string | The payment message. |
+| recipient | Participant | The recipient of the funds. `required` |
+| image | Image | An optional payment image. |
+| payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| pin | string | The current user's PIN. `required` |
 
 ## Get a receipt
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payments/{uuid}/receipt" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+> Example Response
+
+```shell
+{
+  "description": "This is a payment description",
+  "reference_code": "00002MC",
+  "time": "2017-05-23T12:41:15.813817Z",
+  "payer": {
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "title": "John Dough (@johndough)",
+    "details": null
+  },
+  "recipient": {
+    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "title": "Merchant Name",
+    "details": [
+      "Memento ehf. (700114-0580)",
+      "Bolholti 4, 105 Reykjavík"
+    ]
+  },
+  "payment_method": {
+    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "title": "Credit Card",
+    "details": [
+      "MasterCard 1111",
+      "Transaction #71574 - AuthCode #18902877"
+    ]
+  },
+  "amounts": {
+    "total": "€20.50",
+    "paid": "€20.00",
+    "cost": "€0.50",
+    "currency": "EUR"
+  }
+}
+```
+
 Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.
+
+### HTTP Request
+
+`GET` `/v1/payments/{uuid}/receipt`
+
+# Receipt
+
+## The receipt object
+
+TODO: Receipt object
 
 # Requests
 
