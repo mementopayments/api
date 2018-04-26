@@ -449,8 +449,19 @@
               </ul>
           </li>
           <li>
+            <a href="#receipt" class="toc-h1 toc-link" data-title="receipt">Receipt</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-receipt-object" class="toc-h2 toc-link" data-title="the-receipt-object">The receipt object</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#requests" class="toc-h1 toc-link" data-title="requests">Requests</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-request-object" class="toc-h2 toc-link" data-title="the-request-object">The request object</a>
+                  </li>
                   <li>
                     <a href="#get-a-list-of-requests" class="toc-h2 toc-link" data-title="get-a-list-of-requests">Get a list of requests</a>
                   </li>
@@ -492,6 +503,12 @@
           <li>
             <a href="#transactions" class="toc-h1 toc-link" data-title="transactions">Transactions</a>
               <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-transaction-object" class="toc-h2 toc-link" data-title="the-transaction-object">The transaction object</a>
+                  </li>
+                  <li>
+                    <a href="#the-gateway-response-object" class="toc-h2 toc-link" data-title="the-gateway-response-object">The gateway response object</a>
+                  </li>
                   <li>
                     <a href="#get-a-list-of-transactions" class="toc-h2 toc-link" data-title="get-a-list-of-transactions">Get a list of transactions</a>
                   </li>
@@ -1118,6 +1135,8 @@ Authentication is based on a pair of authentication and session tokens.
 }'</span>
 </code></pre>
 <p>Update an existing contact.</p>
+<h3 id='http-request-12'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/contacts/{uuid}</code></p>
 
 <table><thead>
 <tr>
@@ -1142,8 +1161,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>The contact&#39;s full international phone number.</td>
 </tr>
 </tbody></table>
-<h3 id='http-request-12'>HTTP Request</h3>
-<p><code>PUT</code> <code>/v1/contacts/{uuid}</code></p>
 <h2 id='delete-a-contact'>Delete a contact</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1251,6 +1268,8 @@ Authentication is based on a pair of authentication and session tokens.
 }'</span>
 </code></pre>
 <p>Update the user&#39;s current device.</p>
+<h3 id='http-request-15'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/devices/current</code></p>
 
 <table><thead>
 <tr>
@@ -1310,8 +1329,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Token for the Firebase Cloud Messaging service.</td>
 </tr>
 </tbody></table>
-<h3 id='http-request-15'>HTTP Request</h3>
-<p><code>PUT</code> <code>/v1/devices/current</code></p>
 <h1 id='fees'>Fees</h1><h2 id='calculate-payment-fee'>Calculate payment fee</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1331,6 +1348,8 @@ Authentication is based on a pair of authentication and session tokens.
 }'</span>
 </code></pre>
 <p>Calculate the fee when sending money from one payment source to another.</p>
+<h3 id='http-request-16'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/fees/calculate</code></p>
 
 <table><thead>
 <tr>
@@ -1374,8 +1393,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency. <code>required</code></td>
 </tr>
 </tbody></table>
-<h3 id='http-request-16'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/fees/calculate</code></p>
 <h1 id='images'>Images</h1><h2 id='the-image-object'>The image object</h2>
 <blockquote>
 <p>Example Response</p>
@@ -1732,7 +1749,7 @@ Authentication is based on a pair of authentication and session tokens.
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/contacts"</span> <span class="se">\</span>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
   "description": "Money Pool #1",
@@ -1761,6 +1778,8 @@ Authentication is based on a pair of authentication and session tokens.
 }
 </span></code></pre>
 <p>Create a new money pool.</p>
+<h3 id='http-request-21'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools</code></p>
 
 <table><thead>
 <tr>
@@ -1845,8 +1864,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>The time at which the money pool will become unavailable.</td>
 </tr>
 </tbody></table>
-<h3 id='http-request-21'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/pools</code></p>
 <h2 id='update-a-money-pool'>Update a money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1858,10 +1875,10 @@ Authentication is based on a pair of authentication and session tokens.
 }'</span>
 </code></pre>
 <p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.</p>
-
-<p>TODO: Object</p>
 <h3 id='http-request-22'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/pools/{uuid}</code></p>
+
+<p>TODO: Object</p>
 <h2 id='close-money-pool'>Close money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1888,6 +1905,8 @@ Authentication is based on a pair of authentication and session tokens.
 ]'</span>
 </code></pre>
 <p>Adds users as participants marked as <code>invited</code>.</p>
+<h3 id='http-request-24'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/invite</code></p>
 
 <table><thead>
 <tr>
@@ -1902,8 +1921,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>The unique identifier of the user being invited. <code>required</code></td>
 </tr>
 </tbody></table>
-<h3 id='http-request-24'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/pools/{uuid}/invite</code></p>
 <h2 id='get-money-pool-participants'>Get money pool participants</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1978,6 +1995,8 @@ Authentication is based on a pair of authentication and session tokens.
 }'</span>
 </code></pre>
 <p>Request a list of participants to be sent to a specific email address.</p>
+<h3 id='http-request-26'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/participants/export</code></p>
 
 <table><thead>
 <tr>
@@ -1997,8 +2016,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>The file format of the exported list. Options: <code>csv</code>, <code>excel</code>. Default: <code>csv</code></td>
 </tr>
 </tbody></table>
-<h3 id='http-request-26'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/pools/{uuid}/participants/export</code></p>
 <h2 id='contribute-to-a-money-pool'>Contribute to a money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -2017,6 +2034,8 @@ Authentication is based on a pair of authentication and session tokens.
 <pre class="highlight shell tab-shell"><code><span class="o">{</span> TODO: Participant object <span class="o">}</span>
 </code></pre>
 <p>The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.</p>
+<h3 id='http-request-27'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/pay</code></p>
 
 <table><thead>
 <tr>
@@ -2041,8 +2060,6 @@ Authentication is based on a pair of authentication and session tokens.
 <td>The current user&#39;s PIN. <code>required</code></td>
 </tr>
 </tbody></table>
-<h3 id='http-request-27'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/pools/{uuid}/pay</code></p>
 <h1 id='notifications'>Notifications</h1><h2 id='the-notification-object'>The notification object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"68b206f0-ccea-45df-535f-ed16a97e5530"</span>,
   <span class="s2">"actor_uuid"</span>: <span class="s2">"92e7370f-8ea0-4b84-b412-776c4129a7c7"</span>,
@@ -2177,6 +2194,8 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
+<h3 id='filtering-4'>Filtering</h3>
+<p>TODO: Filtering</p>
 <h1 id='participation'>Participation</h1>
 <p>Participation information for a moment, request or money pool.</p>
 <h2 id='the-participation-object'>The participation object</h2>
@@ -2247,53 +2266,1236 @@ Authentication is based on a pair of authentication and session tokens.
 </tr>
 </tbody></table>
 <h1 id='payment-sources'>Payment Sources</h1><h2 id='get-a-list-of-payment-sources'>Get a list of payment sources</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payment_sources"</span> <span class="se">\</span>
+  -H <span class="s2">"Content-Type: application/json"</span> 
+</code></pre>
 <p>Get a list of all payment sources.</p>
+<h3 id='http-request-29'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payment_sources</code></p>
+<h3 id='url-parameters-6'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-5'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>owner</td>
+<td>boolean</td>
+<td>eq</td>
+<td>true, false</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>eq, in</td>
+<td>pending, enabled, disabled, rejected, all <code>default: all</code></td>
+</tr>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>eq, in</td>
+<td>bank_account, card, virtual, all <code>default: all</code></td>
+</tr>
+</tbody></table>
 <h2 id='get-a-payment-source'>Get a payment source</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Content-Type: application/json"</span> 
+</code></pre>
 <p>Get a single payment source by UUID.</p>
+<h3 id='http-request-30'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payment_sources/{uuid}</code></p>
 <h2 id='create-a-payment-source'>Create a payment source</h2>
+<blockquote>
+<p>Example Request (with BankAccount as type)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/payment_sources"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "My Bank Account",
+  "type": "bank_account",
+  "gateway": "bank_of_london",
+  "bank_account": {
+    "country": "UK",
+    "swift": "AAABBCCDDD",
+    "iban": "GB98MIDL07009312345678",
+    "account_number": "",
+    "nin": ""
+  },
+}
+</span></code></pre>
+<blockquote>
+<p>Example Request (with Card as type)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/payment_sources"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "My Default Card",
+  "type": "card",
+  "gateway": "valitor",
+  "card": {
+    "expiration_month": 11,
+    "expiration_year": 2020,
+    "token": "9724017303484431"
+  }
+}
+</span></code></pre>
 <p>Create a new payment source.</p>
+<h3 id='http-request-31'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/payment_sources</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The title of the payment source, only visible to the user. <code>required</code></td>
+</tr>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>The type of payment source, can be <code>bank_account</code> or <code>card</code>. <code>required</code></td>
+</tr>
+<tr>
+<td>gateway</td>
+<td>string</td>
+<td>The name of the gateway being used for the payment source type. <code>required</code></td>
+</tr>
+<tr>
+<td>bank_account</td>
+<td>BankAccount</td>
+<td>If the type is <code>bank_account</code> this object is required.</td>
+</tr>
+<tr>
+<td>card</td>
+<td>Card</td>
+<td>If the type is <code>card</code> this object is required.</td>
+</tr>
+</tbody></table>
+<h3 id='bankaccount'>BankAccount</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>Two letter ISO 3166-1 alpha-2 country code representing the country the bank is located in. <code>required</code></td>
+</tr>
+<tr>
+<td>swift</td>
+<td>string</td>
+<td>The SWIFT code of the bank. <code>required</code></td>
+</tr>
+<tr>
+<td>iban</td>
+<td>string</td>
+<td>The IBAN code of the bank account. This is required if <code>account_number</code> is empty.</td>
+</tr>
+<tr>
+<td>account_number</td>
+<td>string</td>
+<td>The account number of the bank account, in a format which the bank gateway understands. This is required if <code>iban</code> is empty.</td>
+</tr>
+<tr>
+<td>nin</td>
+<td>string</td>
+<td>The National Identification Number of the bank account owner. This may be required by the bank gateway.</td>
+</tr>
+</tbody></table>
+<h3 id='card'>Card</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expiration_month</td>
+<td>integer</td>
+<td>Two digit number representing the card&#39;s expiration month. <code>required</code></td>
+</tr>
+<tr>
+<td>expiration_year</td>
+<td>integer</td>
+<td>Four digit number representing the card&#39;s expiration year. <code>required</code></td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>The tokenized cardholder data used by the card processor gateway. <code>required</code></td>
+</tr>
+</tbody></table>
 <h2 id='update-a-payment-source'>Update a payment source</h2>
-<p>Update an existing payment source.</p>
+<blockquote>
+<p>Example Request (with BankAccount as type)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "My Updated Bank Account"
+}
+</span></code></pre>
+<blockquote>
+<p>Example Request (with Card as type)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "My Updated Card",
+  "card": {
+    "expiration_month": 11,
+    "expiration_year": 2025
+  }
+}
+</span></code></pre>
+<p>Update an existing payment source. If the source is a bank account, only its description can be updated. If the source is a card, its description and expiration date can be updated.</p>
+<h3 id='http-request-32'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/payment_sources/{uuid}</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The title of the payment source, only visible to the user. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='card-2'>Card</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>expiration_month</td>
+<td>integer</td>
+<td>Two digit number representing the card&#39;s expiration month. <code>required</code></td>
+</tr>
+<tr>
+<td>expiration_year</td>
+<td>integer</td>
+<td>Four digit number representing the card&#39;s expiration year. <code>required</code></td>
+</tr>
+</tbody></table>
 <h2 id='delete-a-payment-source'>Delete a payment source</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Delete an existing payment source.</p>
+<h3 id='http-request-33'>HTTP Request</h3>
+<p><code>DELETE</code> <code>/v1/payment_sources/{uuid}</code></p>
 <h2 id='verify-payment-source'>Verify payment source</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}/verify"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "code": "abc123"
+}
+</span></code></pre>
 <p>Verify a payment source using a specific code, which can, for example, be sent to the user&#39;s card statement.</p>
+<h3 id='http-request-34'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/payment_sources/{uuid}/verify</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code</td>
+<td>string</td>
+<td>The verification code. <code>required</code></td>
+</tr>
+</tbody></table>
 <h1 id='payments'>Payments</h1><h2 id='get-a-list-of-payments'>Get a list of payments</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payments"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
+<h3 id='http-request-35'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payments</code></p>
+<h3 id='url-parameters-7'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-6'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>owner</td>
+<td>boolean</td>
+<td>eq</td>
+<td>true, false</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>eq, in</td>
+<td>open, closed, all <code>default: all</code></td>
+</tr>
+</tbody></table>
 <h2 id='get-a-payment'>Get a payment</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payments/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a single payment by UUID. Transactions are not accessible from this endpoint (see Transactions).</p>
+<h3 id='http-request-36'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payments/{uuid}</code></p>
 <h2 id='create-a-payment'>Create a payment</h2>
-<p>Create a new payment. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.</p>
+<blockquote>
+<p>Example Request (send money to another user)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/payments"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "currency": "EUR",
+  "description": "This is a payment description",
+  "recipient": {
+    "amount": 20.0,
+    "user_uuid": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "payment_source_uuid": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "pin": "1234"
+}
+</span></code></pre>
+<blockquote>
+<p>Example Request (send money by phone number)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/payments"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "currency": "EUR",
+  "description": "This is a payment description",
+  "recipient": {
+    "amount": 20.0,
+    "phone": "+44 111 2222 3333",
+    "name": "John Dough"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "payment_source_uuid": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "pin": "1234"
+}
+</span></code></pre>
+<p>Create a new payment and send money. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.</p>
+<h3 id='http-request-37'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/payments</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount being paid. <code>required</code></td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency. <code>required</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The payment message.</td>
+</tr>
+<tr>
+<td>recipient</td>
+<td>Participant</td>
+<td>The recipient of the funds. <code>required</code></td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional payment image.</td>
+</tr>
+<tr>
+<td>payment_source_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source which will be withdrawn from. <code>required</code></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string</td>
+<td>The current user&#39;s PIN. <code>required</code></td>
+</tr>
+</tbody></table>
 <h2 id='get-a-receipt'>Get a receipt</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payments/{uuid}/receipt"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"description"</span>: <span class="s2">"This is a payment description"</span>,
+  <span class="s2">"reference_code"</span>: <span class="s2">"00002MC"</span>,
+  <span class="s2">"time"</span>: <span class="s2">"2017-05-23T12:41:15.813817Z"</span>,
+  <span class="s2">"payer"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"John Dough (@johndough)"</span>,
+    <span class="s2">"details"</span>: null
+  <span class="o">}</span>,
+  <span class="s2">"recipient"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"90bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Merchant Name"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"Memento ehf. (700114-0580)"</span>,
+      <span class="s2">"Bolholti 4, 105 Reykjavík"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"payment_method"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"79d94752-f94a-46ab-8793-7f6434025cf7"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Credit Card"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"MasterCard 1111"</span>,
+      <span class="s2">"Transaction #71574 - AuthCode #18902877"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"amounts"</span>: <span class="o">{</span>
+    <span class="s2">"total"</span>: <span class="s2">"€20.50"</span>,
+    <span class="s2">"paid"</span>: <span class="s2">"€20.00"</span>,
+    <span class="s2">"cost"</span>: <span class="s2">"€0.50"</span>,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
 <p>Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.</p>
-<h1 id='requests'>Requests</h1><h2 id='get-a-list-of-requests'>Get a list of requests</h2>
+<h3 id='http-request-38'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payments/{uuid}/receipt</code></p>
+<h1 id='receipt'>Receipt</h1><h2 id='the-receipt-object'>The receipt object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"description"</span>: <span class="s2">"This is a payment description"</span>,
+  <span class="s2">"reference_code"</span>: <span class="s2">"00002MC"</span>,
+  <span class="s2">"time"</span>: <span class="s2">"2017-05-23T12:41:15.813817Z"</span>,
+  <span class="s2">"payer"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"John Dough (@johndough)"</span>,
+    <span class="s2">"details"</span>: null
+  <span class="o">}</span>,
+  <span class="s2">"recipient"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"90bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Merchant Name"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"Memento ehf. (700114-0580)"</span>,
+      <span class="s2">"Bolholti 4, 105 Reykjavík"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"payment_method"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"79d94752-f94a-46ab-8793-7f6434025cf7"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Credit Card"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"MasterCard 1111"</span>,
+      <span class="s2">"Transaction #71574 - AuthCode #18902877"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"amounts"</span>: <span class="o">{</span>
+    <span class="s2">"total"</span>: <span class="s2">"€20.50"</span>,
+    <span class="s2">"paid"</span>: <span class="s2">"€20.00"</span>,
+    <span class="s2">"cost"</span>: <span class="s2">"€0.50"</span>,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+<p>TODO: Receipt object</p>
+<h1 id='requests'>Requests</h1><h2 id='the-request-object'>The request object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"c5d8701e-05cf-4b15-52bf-1cf76c3d84f2"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"fulfillment_status_id"</span>: 2,
+  <span class="s2">"amount"</span>: 20.00,
+  <span class="s2">"amount_paid"</span>: 10.00,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"description"</span>: <span class="s2">"Payment request"</span>,
+  <span class="s2">"image"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+    <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/thumbnail/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+    <span class="o">}</span>,
+  <span class="s2">"owner"</span>: <span class="o">{</span>
+    TODO: User object
+  <span class="o">}</span>,
+  <span class="s2">"participants"</span>: <span class="o">[</span>
+    <span class="o">{</span> TODO: PaymentRecipient object <span class="o">}</span>
+  <span class="o">]</span>,
+  <span class="s2">"participation"</span>: <span class="o">{</span>
+    <span class="s2">"count"</span>: <span class="o">{</span>
+      <span class="s2">"invited"</span>: 0,
+      <span class="s2">"paid"</span>: 2,
+      <span class="s2">"pending"</span>: 2,
+      <span class="s2">"rejected"</span>: 1,
+      <span class="s2">"total"</span>: 5
+    <span class="o">}</span>,
+  <span class="o">}</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.35539Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.48788Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the moment.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The request status. TODO: Lýsa statusum</td>
+</tr>
+<tr>
+<td>fulfillment_status_id</td>
+<td>integer</td>
+<td>The request fulfillment status. TODO: Lýsa statusum</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The total amount of the request.</td>
+</tr>
+<tr>
+<td>amount_paid</td>
+<td>float</td>
+<td>The amount that has already been paid.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The title of the request, visible to the owner and participants.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional request image or a group photo of the participants.</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Owner</td>
+<td>The User which created the request.</td>
+</tr>
+<tr>
+<td>participants</td>
+<td>array</td>
+<td>A list of all participants in the request</td>
+</tr>
+<tr>
+<td>participation</td>
+<td>Participation</td>
+<td>Participation information for the request.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the request was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the request was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-list-of-requests'>Get a list of requests</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/requests"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
+<h3 id='http-request-39'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/reqests</code></p>
+<h3 id='url-parameters-8'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-7'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>owner</td>
+<td>boolean</td>
+<td>eq</td>
+<td>true, false</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>eq, in</td>
+<td>open, closed, all <code>default: all</code></td>
+</tr>
+</tbody></table>
 <h2 id='get-a-request'>Get a request</h2>
 <p>Get a single request by UUID.</p>
 <h2 id='create-a-request'>Create a request</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/requests"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "amount": 20.0,
+  "currency": "EUR",
+  "description": "Payment request",
+  "participants": [
+    {
+      "user_uuid": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a",
+      "amount": 10.0
+    },
+    {
+      "phone": "+44 111 2222 3333",
+      "name": "John Dough",
+      "amount": 10.0
+    }
+  ],
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  }
+}'</span>
+</code></pre>
 <p>Create a new request.</p>
+<h3 id='http-request-40'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/requests</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount being paid. <code>required</code></td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency. <code>required</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The title of the request, visible to the owner and participants.</td>
+</tr>
+<tr>
+<td>participants</td>
+<td>array</td>
+<td>A list of participants in the request. <code>required</code></td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional request image.</td>
+</tr>
+</tbody></table>
 <h2 id='update-a-request'>Update a request</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "description": "My Updated Bank Account"
+}
+</span></code></pre>
 <p>Update an existing request. Can only update description and image.</p>
+<h3 id='http-request-41'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/requests/{uuid}</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The title of the request, visible to the owner and participants.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional request image.</td>
+</tr>
+</tbody></table>
 <h2 id='delete-a-request'>Delete a request</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X DELETE <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Delete an existing request. Can only be performed if none of the participants have responded.</p>
+<h3 id='http-request-42'>HTTP Request</h3>
+<p><code>DELETE</code> <code>/v1/requests/{uuid}</code></p>
 <h2 id='remind-a-participant-to-pay'>Remind a participant to pay</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/remind"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
 <p>Send a reminder to a request participant in form of a push notification. Note: There is a limit to how many times a participant can be reminded. Exceeding this limit will return in an error message.</p>
+<h3 id='http-request-43'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/requests/{uuid}/participants/{uuid}/remind</code></p>
 <h2 id='settle-a-participant'>Settle a participant</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/settle"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
 <p>Mark a participant as paid.</p>
+<h3 id='http-request-44'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/requests/{uuid}/participants/{uuid}/remind</code></p>
 <h2 id='cancel-a-participant'>Cancel a participant</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/cancel"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
 <p>Cancel the request for a participant.</p>
+<h3 id='http-request-45'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/requests/{uuid}/participants/{uuid}/cancel</code></p>
 <h2 id='pay-a-request'>Pay a request</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/pay"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "pin": "1234"
+}'</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span> TODO: Participant object <span class="o">}</span>
+</code></pre>
 <p>Pay an existing request as a participant. Payment source and PIN is required for payments.</p>
+<h3 id='http-request-46'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/pools/{uuid}/pay</code></p>
+
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>payment_source_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source which will be withdrawn from. <code>required</code></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string</td>
+<td>The current user&#39;s PIN. <code>required</code></td>
+</tr>
+</tbody></table>
+<h3 id='http-request-47'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/requests/{uuid}/pay</code></p>
 <h2 id='reject-a-request'>Reject a request</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/reject"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
 <p>Reject an existing request as a participant.</p>
+<h3 id='http-request-48'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/requests/{uuid}/reject</code></p>
 <h2 id='get-a-receipt-2'>Get a receipt</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/receipt"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"description"</span>: <span class="s2">"This is a payment description"</span>,
+  <span class="s2">"reference_code"</span>: <span class="s2">"00002MC"</span>,
+  <span class="s2">"time"</span>: <span class="s2">"2017-05-23T12:41:15.813817Z"</span>,
+  <span class="s2">"payer"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"John Dough (@johndough)"</span>,
+    <span class="s2">"details"</span>: null
+  <span class="o">}</span>,
+  <span class="s2">"recipient"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"90bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Merchant Name"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"Memento ehf. (700114-0580)"</span>,
+      <span class="s2">"Bolholti 4, 105 Reykjavík"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"payment_method"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"79d94752-f94a-46ab-8793-7f6434025cf7"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Credit Card"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"MasterCard 1111"</span>,
+      <span class="s2">"Transaction #71574 - AuthCode #18902877"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"amounts"</span>: <span class="o">{</span>
+    <span class="s2">"total"</span>: <span class="s2">"€20.50"</span>,
+    <span class="s2">"paid"</span>: <span class="s2">"€20.00"</span>,
+    <span class="s2">"cost"</span>: <span class="s2">"€0.50"</span>,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
 <p>Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.</p>
+<h3 id='http-request-49'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/requests/{uuid}/receipt</code></p>
 <h2 id='get-a-receipt-for-a-participant'>Get a receipt for a participant</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/receipt"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"description"</span>: <span class="s2">"This is a payment description"</span>,
+  <span class="s2">"reference_code"</span>: <span class="s2">"00002MC"</span>,
+  <span class="s2">"time"</span>: <span class="s2">"2017-05-23T12:41:15.813817Z"</span>,
+  <span class="s2">"payer"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"John Dough (@johndough)"</span>,
+    <span class="s2">"details"</span>: null
+  <span class="o">}</span>,
+  <span class="s2">"recipient"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"90bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Merchant Name"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"Memento ehf. (700114-0580)"</span>,
+      <span class="s2">"Bolholti 4, 105 Reykjavík"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"payment_method"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"79d94752-f94a-46ab-8793-7f6434025cf7"</span>,
+    <span class="s2">"title"</span>: <span class="s2">"Credit Card"</span>,
+    <span class="s2">"details"</span>: <span class="o">[</span>
+      <span class="s2">"MasterCard 1111"</span>,
+      <span class="s2">"Transaction #71574 - AuthCode #18902877"</span>
+    <span class="o">]</span>
+  <span class="o">}</span>,
+  <span class="s2">"amounts"</span>: <span class="o">{</span>
+    <span class="s2">"total"</span>: <span class="s2">"€20.50"</span>,
+    <span class="s2">"paid"</span>: <span class="s2">"€20.00"</span>,
+    <span class="s2">"cost"</span>: <span class="s2">"€0.50"</span>,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
 <p>Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.</p>
-<h1 id='transactions'>Transactions</h1><h2 id='get-a-list-of-transactions'>Get a list of transactions</h2>
+<h3 id='http-request-50'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/requests/{uuid}/participants/{uuid}/receipt</code></p>
+<h1 id='transactions'>Transactions</h1><h2 id='the-transaction-object'>The transaction object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+  <span class="s2">"out_user_uuid"</span>: <span class="s2">"dd72ebb8-db1f-4442-b203-095ac9ded974"</span>,
+  <span class="s2">"in_user_uuid"</span>: <span class="s2">"1c478b12-288a-4ea0-831d-1e36639300da"</span>,
+  <span class="s2">"out_payment_source_uuid"</span>: <span class="s2">"d4097613-3b63-4dbb-befe-2211b9dc821a"</span>,
+  <span class="s2">"in_payment_source_uuid"</span>: <span class="s2">"b1f6a7de-7a8b-4c3f-a908-a02e16f8e529"</span>,
+  <span class="s2">"payment_uuid"</span>: <span class="s2">"745ad357-c7dc-478d-a46b-a97ebd9de4c7"</span>,
+  <span class="s2">"status_id"</span>: 2,
+  <span class="s2">"amount"</span>: 50.0,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"tracking_code"</span>: <span class="s2">"DEF456"</span>,
+  <span class="s2">"error"</span>: <span class="nb">false</span>,
+  <span class="s2">"gateway_response"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"79d90419-dc82-4093-6afc-65f8b206fea0"</span>,
+    <span class="s2">"amount"</span>: 50.0,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+    <span class="s2">"authorization_code"</span>: <span class="s2">"1234"</span>,
+    <span class="s2">"reference_code"</span>: <span class="s2">"ABC123"</span>,
+    <span class="s2">"tracking_code"</span>: <span class="s2">"DEF456"</span>,
+    <span class="s2">"processor_datetime"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>
+  <span class="o">}</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-04T12:25:48.827724Z"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the moment.</td>
+</tr>
+<tr>
+<td>out_user_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the user who made the transaction.</td>
+</tr>
+<tr>
+<td>in_user_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the user who received the transaction.</td>
+</tr>
+<tr>
+<td>out_payment_source_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source which was withdrawn from.</td>
+</tr>
+<tr>
+<td>in_payment_source_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source which was deposited to.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The transactions status. TODO: Lýsa statusum</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The transaction amount.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>tracking_code</td>
+<td>string</td>
+<td>An optional tracking number which can be used as a reference for other systems.</td>
+</tr>
+<tr>
+<td>error</td>
+<td>boolean</td>
+<td>Whether the transaction resulted in an error.</td>
+</tr>
+<tr>
+<td>gateway_response</td>
+<td>GatewayResponse</td>
+<td>If the transaction was processed by the gateway, this is the response object.</td>
+</tr>
+<tr>
+<td>expires_at</td>
+<td>time</td>
+<td>The time when the transaction expires, if set.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the transaction was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the transaction was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='the-gateway-response-object'>The gateway response object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"79d90419-dc82-4093-6afc-65f8b206fea0"</span>,
+  <span class="s2">"amount"</span>: 50.0,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"authorization_code"</span>: <span class="s2">"1234"</span>,
+  <span class="s2">"reference_code"</span>: <span class="s2">"ABC123"</span>,
+  <span class="s2">"tracking_code"</span>: <span class="s2">"DEF456"</span>,
+  <span class="s2">"processor_datetime"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the gateway response.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount that was processed.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>authorization_code</td>
+<td>string</td>
+<td>An optional authorization code received from the gateway.</td>
+</tr>
+<tr>
+<td>reference_code</td>
+<td>string</td>
+<td>An optional reference code received from the gateway.</td>
+</tr>
+<tr>
+<td>tracking_code</td>
+<td>string</td>
+<td>An optional tracking number received from the gateway.</td>
+</tr>
+<tr>
+<td>processor_datetime</td>
+<td>time</td>
+<td>The time when the gateway processed the transaction.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the transaction was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the transaction was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='get-a-list-of-transactions'>Get a list of transactions</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/transactions"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.</p>
+<h3 id='http-request-51'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/transactions</code></p>
+<h3 id='url-parameters-9'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-8'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>payment_source_uuid</td>
+<td>uuid</td>
+<td>eq, in</td>
+<td>Payment source UUID(s).</td>
+</tr>
+</tbody></table>
 <h2 id='get-a-transaction'>Get a transaction</h2>
-<p>Get a transaction by UUID.</p>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/transactions/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<p>Get a single transaction by UUID.</p>
+<h3 id='http-request-52'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/transactions/{uuid}</code></p>
 <h1 id='users'>Users</h1><h2 id='get-the-current-user'>Get the current user</h2>
 <p>Get the currently logged in user.</p>
 <h2 id='get-a-user'>Get a user</h2>
