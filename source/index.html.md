@@ -1505,13 +1505,130 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 
 ## The receipt object
 
+```shell
+{
+  "description": "This is a payment description",
+  "reference_code": "00002MC",
+  "time": "2017-05-23T12:41:15.813817Z",
+  "payer": {
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "title": "John Dough (@johndough)",
+    "details": null
+  },
+  "recipient": {
+    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "title": "Merchant Name",
+    "details": [
+      "Memento ehf. (700114-0580)",
+      "Bolholti 4, 105 Reykjavík"
+    ]
+  },
+  "payment_method": {
+    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "title": "Credit Card",
+    "details": [
+      "MasterCard 1111",
+      "Transaction #71574 - AuthCode #18902877"
+    ]
+  },
+  "amounts": {
+    "total": "€20.50",
+    "paid": "€20.00",
+    "cost": "€0.50",
+    "currency": "EUR"
+  }
+}
+```
+
 TODO: Receipt object
 
 # Requests
 
+## The request object
+
+```shell
+{
+  "uuid": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "status_id": 1,
+  "fulfillment_status_id": 2,
+  "amount": 20.00,
+  "amount_paid": 10.00,
+  "currency": "EUR",
+  "description": "Payment request",
+  "image": {
+    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "full_screen_url": "https://{imagehost}/full/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "thumbnail_url": "https://{imagehost}/thumbnail/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+	},
+  "owner": {
+    TODO: User object
+  },
+  "participants": [
+    { TODO: PaymentRecipient object }
+  ],
+  "participation": {
+    "count": {
+      "invited": 0,
+      "paid": 2,
+      "pending": 2,
+      "rejected": 1,
+      "total": 5
+    },
+  },
+  "created_at": "2017-09-04T12:26:43.35539Z",
+  "updated_at": "2017-09-04T12:26:43.48788Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the moment. |
+| status_id | integer | The request status. TODO: Lýsa statusum |
+| fulfillment_status_id | integer | The request fulfillment status. TODO: Lýsa statusum |
+| amount | float | The total amount of the request. |
+| amount_paid | float | The amount that has already been paid. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| description | string | The title of the request, visible to the owner and participants. |
+| image | Image | An optional request image or a group photo of the participants. |
+| owner | Owner | The User which created the request. |
+| participants | array | A list of all participants in the request |
+| participation | Participation | Participation information for the request. |
+| created_at | time | The time when the request was created. |
+| updated_at | time | The time when the request was updated. |
+
 ## Get a list of requests
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/requests" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the `owner` filter.
+
+### HTTP Request
+
+`GET` `/v1/reqests`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|owner|boolean|eq|true, false|
+|status|string|eq, in|open, closed, all `default: all`|
 
 ## Get a request
 
@@ -1519,53 +1636,411 @@ Get a single request by UUID.
 
 ## Create a request
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/requests" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "amount": 20.0,
+  "currency": "EUR",
+  "description": "Payment request",
+  "participants": [
+    {
+      "user_uuid": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a",
+      "amount": 10.0
+    },
+    {
+      "phone": "+44 111 2222 3333",
+      "name": "John Dough",
+      "amount": 10.0
+    }
+  ],
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  }
+}'
+```
+
 Create a new request.
+
+### HTTP Request
+
+`POST` `/v1/requests`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| amount | float | The amount being paid. `required` |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
+| description | string | The title of the request, visible to the owner and participants. |
+| participants | array | A list of participants in the request. `required` |
+| image | Image | An optional request image. |
 
 ## Update a request
 
+> Example Request
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/requests/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Updated Bank Account"
+}
+```
+
 Update an existing request. Can only update description and image.
+
+### HTTP Request
+
+`PUT` `/v1/requests/{uuid}`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The title of the request, visible to the owner and participants. |
+| image | Image | An optional request image. |
 
 ## Delete a request
 
+> Example Request
+
+```shell
+curl -X DELETE "https://api.mementopayments.com/v1/requests/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Delete an existing request. Can only be performed if none of the participants have responded.
+
+### HTTP Request
+
+`DELETE` `/v1/requests/{uuid}`
 
 ## Remind a participant to pay
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/remind" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
 Send a reminder to a request participant in form of a push notification. Note: There is a limit to how many times a participant can be reminded. Exceeding this limit will return in an error message.
+
+### HTTP Request
+
+`POST` `/v1/requests/{uuid}/participants/{uuid}/remind`
 
 ## Settle a participant
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/settle" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
 Mark a participant as paid.
+
+### HTTP Request
+
+`POST` `/v1/requests/{uuid}/participants/{uuid}/remind`
 
 ## Cancel a participant
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/cancel" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
 Cancel the request for a participant.
+
+### HTTP Request
+
+`POST` `/v1/requests/{uuid}/participants/{uuid}/cancel`
 
 ## Pay a request
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/pay" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "pin": "1234"
+}'
+```
+
+> Example Response
+
+```shell
+{ TODO: Participant object }
+```
+
 Pay an existing request as a participant. Payment source and PIN is required for payments.
+
+### HTTP Request
+
+`POST` `/v1/pools/{uuid}/pay`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| pin | string | The current user's PIN. `required` |
+
+### HTTP Request
+
+`POST` `/v1/requests/{uuid}/pay`
 
 ## Reject a request
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/reject" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
 Reject an existing request as a participant.
+
+### HTTP Request
+
+`POST` `/v1/requests/{uuid}/reject`
 
 ## Get a receipt
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/requests/{uuid}/receipt" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
+> Example Response
+
+```shell
+{
+  "description": "This is a payment description",
+  "reference_code": "00002MC",
+  "time": "2017-05-23T12:41:15.813817Z",
+  "payer": {
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "title": "John Dough (@johndough)",
+    "details": null
+  },
+  "recipient": {
+    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "title": "Merchant Name",
+    "details": [
+      "Memento ehf. (700114-0580)",
+      "Bolholti 4, 105 Reykjavík"
+    ]
+  },
+  "payment_method": {
+    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "title": "Credit Card",
+    "details": [
+      "MasterCard 1111",
+      "Transaction #71574 - AuthCode #18902877"
+    ]
+  },
+  "amounts": {
+    "total": "€20.50",
+    "paid": "€20.00",
+    "cost": "€0.50",
+    "currency": "EUR"
+  }
+}
+```
+
 Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.
+
+### HTTP Request
+
+`GET` `/v1/requests/{uuid}/receipt`
 
 ## Get a receipt for a participant
 
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/receipt" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
+> Example Response
+
+```shell
+{
+  "description": "This is a payment description",
+  "reference_code": "00002MC",
+  "time": "2017-05-23T12:41:15.813817Z",
+  "payer": {
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "title": "John Dough (@johndough)",
+    "details": null
+  },
+  "recipient": {
+    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "title": "Merchant Name",
+    "details": [
+      "Memento ehf. (700114-0580)",
+      "Bolholti 4, 105 Reykjavík"
+    ]
+  },
+  "payment_method": {
+    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "title": "Credit Card",
+    "details": [
+      "MasterCard 1111",
+      "Transaction #71574 - AuthCode #18902877"
+    ]
+  },
+  "amounts": {
+    "total": "€20.50",
+    "paid": "€20.00",
+    "cost": "€0.50",
+    "currency": "EUR"
+  }
+}
+```
+
 Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.
+
+### HTTP Request
+
+`GET` `/v1/requests/{uuid}/participants/{uuid}/receipt`
 
 # Transactions
 
+## The transaction object
+
+```shell
+{
+  "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "out_user_uuid": "dd72ebb8-db1f-4442-b203-095ac9ded974",
+  "in_user_uuid": "1c478b12-288a-4ea0-831d-1e36639300da",
+  "out_payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "in_payment_source_uuid": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
+  "payment_uuid": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
+  "status_id": 2,
+  "amount": 50.0,
+  "currency": "EUR",
+  "tracking_code": "DEF456",
+  "error": false,
+  "gateway_response": {
+    "uuid": "79d90419-dc82-4093-6afc-65f8b206fea0",
+    "amount": 50.0,
+    "currency": "EUR",
+    "authorization_code": "1234",
+    "reference_code": "ABC123",
+    "tracking_code": "DEF456",
+    "processor_datetime": "2017-09-04T12:25:53.35114Z",
+    "created_at": "2017-09-04T12:25:53.35114Z",
+    "updated_at": "2017-09-04T12:25:53.35114Z"
+  },
+  "expires_at": "2017-10-04T12:25:48.827724Z",
+  "created_at": "2017-09-04T12:25:48.827724Z",
+  "updated_at": "2017-09-04T12:25:48.827724Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the moment. |
+| out_user_uuid | uuid | The unique identifier for the user who made the transaction. |
+| in_user_uuid | uuid | The unique identifier for the user who received the transaction. |
+| out_payment_source_uuid | uuid | The unique identifier for the payment source which was withdrawn from. |
+| in_payment_source_uuid | uuid | The unique identifier for the payment source which was deposited to. |
+| status_id | integer | The transactions status. TODO: Lýsa statusum |
+| amount | float | The transaction amount. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| tracking_code | string | An optional tracking number which can be used as a reference for other systems. |
+| error | boolean | Whether the transaction resulted in an error. |
+| gateway_response | GatewayResponse | If the transaction was processed by the gateway, this is the response object. |
+| expires_at | time | The time when the transaction expires, if set. |
+| created_at | time | The time when the transaction was created. |
+| updated_at | time | The time when the transaction was updated. |
+
+## The gateway response object
+
+```shell
+{
+  "uuid": "79d90419-dc82-4093-6afc-65f8b206fea0",
+  "amount": 50.0,
+  "currency": "EUR",
+  "authorization_code": "1234",
+  "reference_code": "ABC123",
+  "tracking_code": "DEF456",
+  "processor_datetime": "2017-09-04T12:25:53.35114Z",
+  "created_at": "2017-09-04T12:25:53.35114Z",
+  "updated_at": "2017-09-04T12:25:53.35114Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the gateway response. |
+| amount | float | The amount that was processed. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| authorization_code | string | An optional authorization code received from the gateway. |
+| reference_code | string | An optional reference code received from the gateway. |
+| tracking_code | string | An optional tracking number received from the gateway. |
+| processor_datetime | time | The time when the gateway processed the transaction. |
+| created_at | time | The time when the transaction was created. |
+| updated_at | time | The time when the transaction was updated. |
+
 ## Get a list of transactions
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/transactions" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
 
 Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.
 
+### HTTP Request
+
+`GET` `/v1/transactions`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|payment\_source_uuid|uuid|eq, in|Payment source UUID(s).|
+
 ## Get a transaction
 
-Get a transaction by UUID.
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/transactions/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Get a single transaction by UUID.
+
+### HTTP Request
+
+`GET` `/v1/transactions/{uuid}`
 
 # Users
 
