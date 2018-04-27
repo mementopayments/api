@@ -521,6 +521,15 @@
             <a href="#users" class="toc-h1 toc-link" data-title="users">Users</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-user-object" class="toc-h2 toc-link" data-title="the-user-object">The user object</a>
+                  </li>
+                  <li>
+                    <a href="#the-current-user-object" class="toc-h2 toc-link" data-title="the-current-user-object">The current user object</a>
+                  </li>
+                  <li>
+                    <a href="#the-relationship-object" class="toc-h2 toc-link" data-title="the-relationship-object">The relationship object</a>
+                  </li>
+                  <li>
                     <a href="#get-the-current-user" class="toc-h2 toc-link" data-title="get-the-current-user">Get the current user</a>
                   </li>
                   <li>
@@ -1497,7 +1506,7 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>status_id</td>
 <td>integer</td>
-<td>The moment status.</td>
+<td>The moment status.<br><code>1 = open</code><br><code>2 = closed</code></td>
 </tr>
 <tr>
 <td>type_id</td>
@@ -1692,7 +1701,7 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>status_id</td>
 <td>integer</td>
-<td>The money pool status.</td>
+<td>The money pool status.<br><code>1 = open</code><br><code>2 = closed</code></td>
 </tr>
 <tr>
 <td>TODO: ...</td>
@@ -2856,12 +2865,12 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>status_id</td>
 <td>integer</td>
-<td>The request status. TODO: Lýsa statusum</td>
+<td>The request status.<br><code>1 = open</code><br><code>2 = closed</code></td>
 </tr>
 <tr>
 <td>fulfillment_status_id</td>
 <td>integer</td>
-<td>The request fulfillment status. TODO: Lýsa statusum</td>
+<td>The request fulfillment status.<br><code>1 = unfulfilled</code><br><code>2 = partial</code><br><code>3 = fulfilled</code></td>
 </tr>
 <tr>
 <td>amount</td>
@@ -3323,7 +3332,7 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>status_id</td>
 <td>integer</td>
-<td>The transactions status. TODO: Lýsa statusum</td>
+<td>The transactions status.<br><code>1 = active</code><br><code>2 = approved</code><br><code>3 = rejected</code><br><code>4 = cancelled</code><br><code>5 = failed</code></td>
 </tr>
 <tr>
 <td>amount</td>
@@ -3496,15 +3505,430 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a single transaction by UUID.</p>
 <h3 id='http-request-52'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions/{uuid}</code></p>
-<h1 id='users'>Users</h1><h2 id='get-the-current-user'>Get the current user</h2>
-<p>Get the currently logged in user.</p>
+<h1 id='users'>Users</h1><h2 id='the-user-object'>The user object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+  <span class="s2">"first_name"</span>: <span class="s2">"John"</span>,
+  <span class="s2">"last_name"</span>: <span class="s2">"Dough"</span>,
+  <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+  <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+  <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
+  <span class="s2">"timezone"</span>: <span class="s2">"Europe/London"</span>,
+  <span class="s2">"timezone_utc_offset"</span>: 0,
+  <span class="s2">"verified"</span>: <span class="nb">true</span>,
+  <span class="s2">"official"</span>: <span class="nb">true</span>,
+  <span class="s2">"image"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+    <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+  <span class="o">}</span>,
+  <span class="s2">"relationship"</span>: <span class="o">{</span>
+    <span class="s2">"status_id"</span>: 1,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the user.</td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>The first name of the user.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>The last name of the user.</td>
+</tr>
+<tr>
+<td>full_name</td>
+<td>string</td>
+<td>The full name of the user.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>The username of the user.</td>
+</tr>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>Two letter ISO 3166-1 alpha-2 country code representing the country the user is located in.</td>
+</tr>
+<tr>
+<td>timezone</td>
+<td>string</td>
+<td>The name of timezone where the user is located.</td>
+</tr>
+<tr>
+<td>timezone_utc_offset</td>
+<td>integer</td>
+<td>The hours to or from UTC of the timezone where the user is located.</td>
+</tr>
+<tr>
+<td>verified</td>
+<td>boolean</td>
+<td>Whether the user has a verified account.</td>
+</tr>
+<tr>
+<td>official</td>
+<td>boolean</td>
+<td>Whether the user&#39;s account has been marked as an official one.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional user image.</td>
+</tr>
+<tr>
+<td>relationship</td>
+<td>Relationship</td>
+<td>The relationship between the user and the current user.</td>
+</tr>
+</tbody></table>
+<h2 id='the-current-user-object'>The current user object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"first_name"</span>: <span class="s2">"John"</span>,
+  <span class="s2">"last_name"</span>: <span class="s2">"Dough"</span>,
+  <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+  <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+  <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
+  <span class="s2">"timezone"</span>: <span class="s2">"Europe/London"</span>,
+  <span class="s2">"timezone_utc_offset"</span>: 0,
+  <span class="s2">"locale"</span>: <span class="s2">"en-UK"</span>,
+  <span class="s2">"verified"</span>: <span class="nb">true</span>,
+  <span class="s2">"official"</span>: <span class="nb">true</span>,
+  <span class="s2">"email"</span>: <span class="s2">"info@mementopayments.com"</span>,
+  <span class="s2">"date_of_birth"</span>: <span class="s2">"1985-09-04T12:25:48.288511Z"</span>,
+  <span class="s2">"phone"</span>: <span class="s2">"+44 123 1234 1234"</span>,
+  <span class="s2">"token"</span>: <span class="s2">"jLIeXTajtW1j4bfC2opJI..."</span>,
+  <span class="s2">"image"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+    <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+  <span class="o">}</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the user.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The status of the user.<br><code>1 = pending</code><br><code>2 = active</code><br><code>3 = locked</code><br><code>4 = rejected</code></td>
+</tr>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>The first name of the user.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>The last name of the user.</td>
+</tr>
+<tr>
+<td>full_name</td>
+<td>string</td>
+<td>The full name of the user.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>The username of the user.</td>
+</tr>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>Two letter ISO 3166-1 alpha-2 country code representing the country the user is located in.</td>
+</tr>
+<tr>
+<td>timezone</td>
+<td>string</td>
+<td>The name of timezone where the user is located.</td>
+</tr>
+<tr>
+<td>timezone_utc_offset</td>
+<td>integer</td>
+<td>The hours to or from UTC of the timezone where the user is located.</td>
+</tr>
+<tr>
+<td>locale</td>
+<td>string</td>
+<td>The preferred locale selected by the user.</td>
+</tr>
+<tr>
+<td>verified</td>
+<td>boolean</td>
+<td>Whether the user has a verified account.</td>
+</tr>
+<tr>
+<td>official</td>
+<td>boolean</td>
+<td>Whether the user&#39;s account has been marked as an official one.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>An optional email address for the user.</td>
+</tr>
+<tr>
+<td>date_of_birth</td>
+<td>time</td>
+<td>An optional date of birth timestamp for the user.</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>The user&#39;s phone number.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>The authentication token of the user. Only sent after creating the user at signup.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional user image.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the user was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the user was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='the-relationship-object'>The relationship object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The status of the relationship.<br><code>1 = active</code><br><code>2 = blocked</code></td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the relationship was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the relationship was updated.</td>
+</tr>
+</tbody></table>
+
+<!--
+### Statuses
+
+| ID | Definition |
+| -- | ---------- |
+| 1  | active |
+| 2  | blocked |
+-->
+<h2 id='get-the-current-user'>Get the current user</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/users/current"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<p>Get the currently logged in user. Returns a CurrentUser object.</p>
+<h3 id='http-request-53'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/users/current</code></p>
 <h2 id='get-a-user'>Get a user</h2>
-<p>Get the public information for a specific user.</p>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/users/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<p>Get the public information for a specific user. Returns a User object.</p>
+
+<aside class="notice">
+If the current has a relationship to this user, the User object will embed a Relationship object.
+</aside>
+<h3 id='http-request-54'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/users/{uuid}</code></p>
 <h2 id='block-a-user'>Block a user</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/users/{uuid}/block"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Block a specific user.</p>
+<h3 id='http-request-55'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/users/{uuid}/block</code></p>
 <h2 id='unblock-a-user'>Unblock a user</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/users/{uuid}/unblock"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
 <p>Unblock a specific user.</p>
-<h2 id='search-for-users'>Search for users</h2><h2 id='create-a-user-signup'>Create a user – signup</h2><h2 id='update-the-current-user'>Update the current user</h2><h1 id='verifications'>Verifications</h1><h2 id='single-step-verification'>Single step verification</h2><h2 id='two-step-verification'>Two step verification</h2><h2 id='get-verification-status'>Get verification status</h2><h1 id='errors'>Errors</h1>
+<h3 id='http-request-56'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/users/{uuid}/unblock</code></p>
+<h2 id='search-for-users'>Search for users</h2>
+<p>TODO: Search</p>
+<h2 id='create-a-user-signup'>Create a user – signup</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/users"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "first_name": "John",
+  "last_name": "Dough",
+  "username": "johndough",
+  "email": "john@example.com",
+  "phone": "+44 123 1234 1234",
+  "pin": "1234",
+  "device": {
+    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "make": "iPhone",
+    "model": "iPhone6,2",
+    "os_name": "iOS",
+    "os_version": "8.0",
+    "screen_width": 480,
+    "screen_height": 640,
+    "sdk_version": "17"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  }
+}'</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>The first name of the user. <code>required</code></td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>The last name of the user. <code>required</code></td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>The unique username of the user. <code>required</code></td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>The name of the OS running on the device.</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>The version of the OS running on the device. <code>required</code></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string</td>
+<td>The user&#39;s PIN. <code>required</code></td>
+</tr>
+<tr>
+<td>device</td>
+<td>Device</td>
+<td>The user device information. <code>required</code></td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>The height of the device&#39;s screen.</td>
+</tr>
+</tbody></table>
+
+<p>Create a new user.</p>
+<h3 id='http-request-57'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/users</code></p>
+<h2 id='update-the-current-user'>Update the current user</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/users"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "first_name": "John",
+  "last_name": "Dough",
+  "username": "johndough",
+  "email": "john@example.com",
+  "phone": "+44 123 1234 1234",
+  "pin": "1234",
+  "device": {
+    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "make": "iPhone",
+    "model": "iPhone6,2",
+    "os_name": "iOS",
+    "os_version": "8.0",
+    "screen_width": 480,
+    "screen_height": 640,
+    "sdk_version": "17"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  }
+}'</span>
+</code></pre>
+<p>TODO: Which attributes?</p>
+
+<p>Update the current user.</p>
+<h3 id='http-request-58'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/users/{uuid}</code></p>
+<h1 id='verifications'>Verifications</h1><h2 id='single-step-verification'>Single step verification</h2><h2 id='two-step-verification'>Two step verification</h2><h2 id='get-verification-status'>Get verification status</h2><h1 id='errors'>Errors</h1>
 <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
