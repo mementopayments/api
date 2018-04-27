@@ -669,7 +669,7 @@ Calculate the fee when sending money from one payment source to another.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the moment. |
-| status_id | integer | The moment status. |
+| status_id | integer | The moment status.<br>`1 = open`<br>`2 = closed`|
 | type_id | integer | The moment type. |
 | object_uuid | uuid | The unique identifier of the object which the moment refers to. |
 | title | string | The title of the moment. |
@@ -783,7 +783,7 @@ Get a single moment by UUID.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the money pool. |
-| status_id | integer | The money pool status. |
+| status_id | integer | The money pool status.<br>`1 = open`<br>`2 = closed` |
 | TODO: ... |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | image | Image | An optional money pool image. |
@@ -1586,8 +1586,8 @@ TODO: Receipt object
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the moment. |
-| status_id | integer | The request status. TODO: Lýsa statusum |
-| fulfillment_status_id | integer | The request fulfillment status. TODO: Lýsa statusum |
+| status_id | integer | The request status.<br>`1 = open`<br>`2 = closed` |
+| fulfillment_status_id | integer | The request fulfillment status.<br>`1 = unfulfilled`<br>`2 = partial`<br>`3 = fulfilled` |
 | amount | float | The total amount of the request. |
 | amount_paid | float | The amount that has already been paid. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
@@ -1959,7 +1959,7 @@ Get a payment receipt for a specific participant in the request. The participant
 | in_user_uuid | uuid | The unique identifier for the user who received the transaction. |
 | out_payment_source_uuid | uuid | The unique identifier for the payment source which was withdrawn from. |
 | in_payment_source_uuid | uuid | The unique identifier for the payment source which was deposited to. |
-| status_id | integer | The transactions status. TODO: Lýsa statusum |
+| status_id | integer | The transactions status.<br>`1 = active`<br>`2 = approved`<br>`3 = rejected`<br>`4 = cancelled`<br>`5 = failed` |
 | amount | float | The transaction amount. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | tracking_code | string | An optional tracking number which can be used as a reference for other systems. |
@@ -2044,27 +2044,283 @@ Get a single transaction by UUID.
 
 # Users
 
+## The user object
+
+```shell
+{
+  "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "first_name": "John",
+  "last_name": "Dough",
+  "full_name": "John Dough",
+  "username": "jondough",
+  "country": "UK",
+  "timezone": "Europe/London",
+  "timezone_utc_offset": 0,
+  "verified": true,
+  "official": true,
+  "image": {
+    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+  },
+  "relationship": {
+    "status_id": 1,
+    "created_at": "2017-04-19T14:35:09.308904Z",
+    "updated_at": "2017-04-19T14:35:09.308904Z"
+  }
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the user. |
+| first_name | string | The first name of the user. |
+| last_name | string | The last name of the user. |
+| full_name | string | The full name of the user. |
+| username | string | The username of the user. |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the user is located in. |
+| timezone | string | The name of timezone where the user is located. |
+| timezone_utc_offset | integer | The hours to or from UTC of the timezone where the user is located. |
+| verified | boolean | Whether the user has a verified account. |
+| official | boolean | Whether the user's account has been marked as an official one. |
+| image | Image | An optional user image. |
+| relationship| Relationship | The relationship between the user and the current user. |
+
+## The current user object
+
+```shell
+{
+  "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "status_id": 1,
+  "first_name": "John",
+  "last_name": "Dough",
+  "full_name": "John Dough",
+  "username": "jondough",
+  "country": "UK",
+  "timezone": "Europe/London",
+  "timezone_utc_offset": 0,
+  "locale": "en-UK",
+  "verified": true,
+  "official": true,
+  "email": "info@mementopayments.com",
+  "date_of_birth": "1985-09-04T12:25:48.288511Z",
+  "phone": "+44 123 1234 1234",
+  "token": "jLIeXTajtW1j4bfC2opJI...",
+  "image": {
+    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+  },
+  "created_at": "2017-09-04T12:25:48.827724Z",
+  "updated_at": "2017-09-04T12:25:48.827724Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the user. |
+| status_id | integer | The status of the user.<br>`1 = pending`<br>`2 = active`<br>`3 = locked`<br>`4 = rejected` |
+| first_name | string | The first name of the user. |
+| last_name | string | The last name of the user. |
+| full_name | string | The full name of the user. |
+| username | string | The username of the user. |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the user is located in. |
+| timezone | string | The name of timezone where the user is located. |
+| timezone_utc_offset | integer | The hours to or from UTC of the timezone where the user is located. |
+| locale | string | The preferred locale selected by the user. |
+| verified | boolean | Whether the user has a verified account. |
+| official | boolean | Whether the user's account has been marked as an official one. |
+| email | string | An optional email address for the user. |
+| date_of_birth | time | An optional date of birth timestamp for the user. |
+| phone | string | The user's phone number. |
+| token | string | The authentication token of the user. Only sent after creating the user at signup. |
+| image | Image | An optional user image. |
+| created_at | time | The time when the user was created. |
+| updated_at | time | The time when the user was updated. |
+
+## The relationship object
+
+```shell
+{
+  "status_id": 1,
+  "created_at": "2017-04-19T14:35:09.308904Z",
+  "updated_at": "2017-04-19T14:35:09.308904Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| status_id | integer | The status of the relationship.<br>`1 = active`<br>`2 = blocked` |
+| created_at | time | The time when the relationship was created. |
+| updated_at | time | The time when the relationship was updated. |
+
+<!--
+### Statuses
+
+| ID | Definition |
+| -- | ---------- |
+| 1  | active |
+| 2  | blocked |
+-->
+
 ## Get the current user
 
-Get the currently logged in user.
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/users/current" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Get the currently logged in user. Returns a CurrentUser object.
+
+### HTTP Request
+
+`GET` `/v1/users/current`
 
 ## Get a user
 
-Get the public information for a specific user.
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/users/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Get the public information for a specific user. Returns a User object.
+
+<aside class="notice">
+If the current has a relationship to this user, the User object will embed a Relationship object.
+</aside>
+
+### HTTP Request
+
+`GET` `/v1/users/{uuid}`
 
 ## Block a user
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/users/{uuid}/block" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Block a specific user.
+
+### HTTP Request
+
+`POST` `/v1/users/{uuid}/block`
 
 ## Unblock a user
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/users/{uuid}/unblock" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
 Unblock a specific user.
+
+### HTTP Request
+
+`POST` `/v1/users/{uuid}/unblock`
 
 ## Search for users
 
+TODO: Search
+
 ## Create a user – signup
 
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/users" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "first_name": "John",
+  "last_name": "Dough",
+  "username": "johndough",
+  "email": "john@example.com",
+  "phone": "+44 123 1234 1234",
+  "pin": "1234",
+  "device": {
+    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "make": "iPhone",
+    "model": "iPhone6,2",
+    "os_name": "iOS",
+    "os_version": "8.0",
+    "screen_width": 480,
+    "screen_height": 640,
+    "sdk_version": "17"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  }
+}'
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| first_name | string | The first name of the user. `required` |
+| last_name | string | The last name of the user. `required` |
+| username | string | The unique username of the user. `required` |
+| email | string | The name of the OS running on the device. |
+| phone | string | The version of the OS running on the device. `required` |
+| pin | string | The user's PIN. `required` |
+| device | Device | The user device information. `required` |
+| image | Image | The height of the device's screen. |
+
+Create a new user.
+
+### HTTP Request
+
+`POST` `/v1/users`
+
 ## Update the current user
+
+> Example Request
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/users" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "first_name": "John",
+  "last_name": "Dough",
+  "username": "johndough",
+  "email": "john@example.com",
+  "phone": "+44 123 1234 1234",
+  "pin": "1234",
+  "device": {
+    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "make": "iPhone",
+    "model": "iPhone6,2",
+    "os_name": "iOS",
+    "os_version": "8.0",
+    "screen_width": 480,
+    "screen_height": 640,
+    "sdk_version": "17"
+  },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  }
+}'
+```
+
+TODO: Which attributes?
+
+Update the current user.
+
+### HTTP Request
+
+`PUT` `/v1/users/{uuid}`
 
 # Verifications
 
