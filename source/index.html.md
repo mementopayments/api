@@ -37,6 +37,38 @@ All requests to the API need to be accompanied by an Authorization header:
 
 `Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC...`
 
+## The authentication object
+
+```shell
+{
+  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status_id": 2,
+  "token": "wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the authentication. |
+| status_id | integer | The status of the auhentication. TODO: Lýsa status |
+| token | string | The authentication token. |
+
+## The session object
+
+```shell
+{
+  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status_id": 2,
+  "token": "wxKj3JV6ET1dXVou77675tMqC..."
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the authentication. |
+| status_id | integer | The status of the auhentication. TODO: Lýsa status |
+| token | string | The authentication token. |
+
 ## Get authentication token
 
 > Example Request
@@ -68,11 +100,19 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 
 ```shell
 {
-    "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-    "status_id": 1, // pending
-    "token": "wxKj3JV6ET1dXVou77675tMqC..."
+  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status_id": 1,
+  "token": "wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| identity.type | string | The name of the identity. Can be `phone` or `username`. `required` |
+| identity.value | string | The value which to look up the user by, e.g. a username. `required` |
+| authenticator | string | The name of the authenticator. Can be `password`, `sms` or a custom authenticator. `required` |
+| secret | string | The secret required for the authenticator. `required` |
+| device | Device | The user device information. `required` |
 
 Post identity type + value (e.g. phone number), type of authentication (e.g. "sms") and device. The response will include a UUID and status for lookup.
 
@@ -90,7 +130,7 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
   -d $'{
   "secret": "111111",
   "pin": "1234"
-}
+}'
 ```
 
 > Example Response
@@ -98,10 +138,15 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 ```shell
 {
   "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status_id": 2, // approved
+  "status_id": 1,
   "token": "wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| secret | string | The secret required to authenticate. `required` |
+| pin | string | The PIN for the user wanting to authenticate. `required` |
 
 Post the secret (e.g. verification code) and PIN (depends on the authenticator type).
 
@@ -111,10 +156,11 @@ Post the secret (e.g. verification code) and PIN (depends on the authenticator t
 
 ## Get authentication token status
 
+> Example Request
+
 ```shell
-{
-    "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-    "status_id": 2, // approved
+curl "https://api.mementopayments.com/v1/tokens/{uuid}" \
+  -H "Content-Type: application/json"
 }
 ```
 
@@ -164,11 +210,17 @@ curl -X POST "https://api.mementopayments.com/v1/sessions/verify" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Verify that a specific session token is valid by sending the token as an Authorization header.
+Verify that a specific session token is valid by sending the token as an Authorization header. Returns 200 OK if the session token is valid.
 
 ### HTTP Request
 
 `POST` `/v1/sessions/verify`
+
+### Errors
+
+|HTTP Status|Explanation|
+|-----------|-----------|
+|401 Unauthorized|The Session Token was not found or has expired.|
 
 # Response Codes & Errors
 
