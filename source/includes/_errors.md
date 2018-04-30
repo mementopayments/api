@@ -1,6 +1,6 @@
 # Errors
 
-<aside class="notice">
+<!-- <aside class="notice">
 This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
 </aside>
 
@@ -19,4 +19,11 @@ Error Code | Meaning
 418 | I'm a teapot.
 429 | Too Many Requests -- You're requesting too many kittens! Slow down!
 500 | Internal Server Error -- We had a problem with our server. Try again later.
-503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later.
+503 | Service Unavailable -- We're temporarily offline for maintenance. Please try again later. -->
+
+|Code|Definition|Returns|Remarks|
+|----|----------|-------|-------|
+|400 |Bad Request|Error|General error within the API.|
+|401 |Unauthorized|Empty body||
+|404 |Not Found|Empty body|Wrong URL or current user does not own specific object being manipulated.|
+|422 |Unprocessable Entity|ValidationError|Validation errors, missing parameters or incorrect data.|

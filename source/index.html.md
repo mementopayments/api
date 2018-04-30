@@ -7,8 +7,8 @@ language_tabs: # must be one of https://git.io/vQNgJ
 # toc_footers:
 #   - <a href='https://www.mementopayments.com'>Memento Payments</a>
 
-includes:
-  - errors
+# includes:
+#   - errors
 
 search: true
 ---
@@ -181,6 +181,47 @@ Verify that a specific session token is valid by sending the token as an Authori
 |404 |Not Found|Empty body.|Wrong URL or current user does not own specific object being manipulated.|
 |422 |Unprocessable Entity|A ValidationError object.|Validation errors, missing parameters or incorrect data.|
 
+TODO: List error codes
+TODO: List validation error codes
+
+## The error object
+
+```shell
+{
+  "errors": [
+    {
+      "code": "unknown_exception",
+      "message": "An unknown exception occurred."
+    }
+  ]
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| code | string | The error code. |
+| message | string | The translated error message. |
+
+## The validation error object
+
+```shell
+{
+  "errors": [
+    {
+      "field": "username",
+      "code": "already_taken",
+      "message": "Username has already been taken"
+    }
+  ]
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| field | string | The name of the field that has an error. |
+| code | string | The validation error code describing which validation failed. |
+| message | string | The translated error message. |
+
 # Filtering
 
 Filtering, pagination and sorting is done with query string parameters.
@@ -272,7 +313,7 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the announcement. |
-| type_id | integer | The type of announcement. |
+| type_id | integer | The type of announcement.<br>`1 = general`|
 | title | string | The announcement title. |
 | message | string | The announcement message body. |
 | action_label | string | If an action is optional or required, this is the action button label. |
@@ -301,6 +342,10 @@ Get a list of all announcements that were sent after the time defined by the `si
 |Name|Type|Description|
 |----|----|-----------|
 |since|string|Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
+
+### Filtering
+
+TODO: Filtering
 
 ## Get an announcement
 
@@ -670,7 +715,7 @@ Calculate the fee when sending money from one payment source to another.
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the moment. |
 | status_id | integer | The moment status.<br>`1 = open`<br>`2 = closed`|
-| type_id | integer | The moment type. |
+| type_id | integer | The moment type. <br>`1 = payment`<br>`2 = request`<br>`3 = pool`|
 | object_uuid | uuid | The unique identifier of the object which the moment refers to. |
 | title | string | The title of the moment. |
 | note | string | A message accompanying the object which the moment refers to. |
@@ -749,7 +794,11 @@ Get a single moment by UUID.
   "minimum_user_amount": 50.00,
   "maximum_user_amount": 150.00,
   "amounts": [
-    { TODO: PaymentAmount object }
+    {
+      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "title": "Option A",
+      "amount": 50.00
+    }
   ],
   "image": {
     "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
@@ -759,7 +808,31 @@ Get a single moment by UUID.
     "created_at": "2017-09-04T12:26:43.403883Z",
     "updated_at": "2017-09-04T12:26:43.403883Z"
 	},
-  "owner": { TODO: User object },
+  "owner": {
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "first_name": "John",
+    "last_name": "Dough",
+    "full_name": "John Dough",
+    "username": "jondough",
+    "country": "UK",
+    "timezone": "Europe/London",
+    "timezone_utc_offset": 0,
+    "verified": true,
+    "official": true,
+    "image": {
+      "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "created_at": "2017-09-04T12:26:43.403883Z",
+      "updated_at": "2017-09-04T12:26:43.403883Z"
+    },
+    "relationship": {
+      "status_id": 1,
+      "created_at": "2017-04-19T14:35:09.308904Z",
+      "updated_at": "2017-04-19T14:35:09.308904Z"
+    }
+  },
   "participants": [
     { TODO: Participant object }
   ],
@@ -806,6 +879,14 @@ Get a list of all pools created by the user and pools available to the user but 
 
 `GET` `/v1/pools`
 
+### URL Parameters
+
+TODO: Parameters
+
+### Filtering
+
+TODO: Filtering
+
 ## Get a money pool
 
 > Example Request
@@ -843,7 +924,9 @@ curl -X POST "https://api.mementopayments.com/v1/pools" \
     "556b6fc6-e8dd-4bfa-89e0-9fbd286c96c3",
     "1d27d1c8-5e58-4d6e-87f7-b6890672294e"
   ],
-  "image": { TODO: Image object },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
   "is_public": true,
   "only_owner_sees_recipients": true,
   "has_unique_recipients": true,
@@ -866,7 +949,7 @@ Create a new money pool.
 | description | string | The money pool title. `required` |
 | detailed_description | string | Any description for the money pool. |
 | hashtag | string | An optional hashtag for the money pool. |
-| amounts | array | A list of payment options (PaymentAmount). |
+| amounts | array | A list of payment options. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
 | invites | array | A list of users that will be invited to participate in the money pool. |
 | image | Image | An optional image object. This can also be performed after creating the money pool. |
@@ -1564,7 +1647,29 @@ TODO: Receipt object
     "updated_at": "2017-09-04T12:26:43.403883Z"
 	},
   "owner": {
-    TODO: User object
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "first_name": "John",
+    "last_name": "Dough",
+    "full_name": "John Dough",
+    "username": "jondough",
+    "country": "UK",
+    "timezone": "Europe/London",
+    "timezone_utc_offset": 0,
+    "verified": true,
+    "official": true,
+    "image": {
+      "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "created_at": "2017-09-04T12:26:43.403883Z",
+      "updated_at": "2017-09-04T12:26:43.403883Z"
+    },
+    "relationship": {
+      "status_id": 1,
+      "created_at": "2017-04-19T14:35:09.308904Z",
+      "updated_at": "2017-04-19T14:35:09.308904Z"
+    }
   },
   "participants": [
     { TODO: PaymentRecipient object }
@@ -2324,8 +2429,116 @@ Update the current user.
 
 # Verifications
 
-## Single step verification
+## The verification object
 
-## Two step verification
+```shell
+{
+  "uuid": "f346ced3-f80c-45d9-a9f5-a2b0288cb126",
+  "type_id": 1,
+  "status_id": 1,
+  "attempts": 1,
+  "error_code": "",
+  "error_message": "",
+  "expires_at": "2017-04-19T14:35:09.308904Z"
+}
+```
 
-## Get verification status
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the announcement. |
+| type_id | integer | The type of verification.<br>`1 = sms`<br>`2 = driver's license`<br>`3 = passport` |
+| status_id | integer | The status of verification.<br>`1 = pending`<br>`2 = approved`<br>`3 = rejected`<br>`4 = cancelled`<br>`5 = failed` |
+| attempts | integer | The number of verification attemps. Initial value is 1. The maximum number of attempts depends on the verification type and processor. |
+| error_code | string | The error code, in case of an error. The value depends on the verification type and processor. | 
+| error_message | string | The error message, in case of an error. The value depends on the verification type and processor. | 
+| dismissible | boolean | Whether the announcement can be dismissed or not. |
+| expires_at | time | The time when the verification expires. |
+
+## Single-step verification
+
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/verifications" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "type": "passport",
+  "data": "01234567890123456789",
+  "event": "user_kyc"
+}'
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| type | string | The type of verification. Can be `driver's license` or `passport`. `required` |
+| data | string | The data which the verification process needs for processing, e.g. passport ID. `required` |
+| event | string | The name of the verification event, which describes the purpose of the verification. This value can be passed along to custom or 3rd party processors. `required` |
+
+Single step verification is when the user provides data of a specific type, such as passport or driver's liences information, and the provider processes it afterwards.
+
+### HTTP Request
+
+`PUT` `/v1/verifications`
+
+## Two-step verification – Step 1: Request data
+
+> Example Request (request verification code)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/verifications" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "type": "sms",
+  "recipient": "+44 123 1234 1234",
+  "event": "add_new_device"
+}'
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| type | string | The type of verification. Can be `call`, `email` or `sms`. `required` |
+| recipient | string | The recipient of the verification code, e.g. phone number. `required` |
+| event | string | The name of the verification event, which describes the purpose of the verification. This value can be passed along to custom or 3rd party processors. `required` |
+
+Two-step verification is used when the user initiates the verification process and then provides the required data. For example, request an SMS code for a specific phone number and then provide the code which was sent via SMS.
+
+### HTTP Request
+
+`POST` `/v1/verifications`
+
+## Two-step verification – Step 2: Provide data
+
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/verifications/{uuid}/data" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "data": "123456"
+}'
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| data | string | The data which the verification process needs for processing, e.g. code sent by SMS. `required` |
+
+Provide the request code in a two-step verification process.
+
+### HTTP Request
+
+`POST` `/v1/verifications/{uuid}/data`
+
+## Get a verification object
+
+> Example Request
+
+```shell
+curl -X GET "https://api.mementopayments.com/v1/verifications/{uuid}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Get a single verification object by UUID.
+
+### HTTP Request
+
+`GET` `/v1/verifications/{uuid}`
