@@ -244,6 +244,14 @@
           </li>
           <li>
             <a href="#response-codes-amp-errors" class="toc-h1 toc-link" data-title="response-codes-amp-errors">Response Codes &amp; Errors</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#the-error-object" class="toc-h2 toc-link" data-title="the-error-object">The error object</a>
+                  </li>
+                  <li>
+                    <a href="#the-validation-error-object" class="toc-h2 toc-link" data-title="the-validation-error-object">The validation error object</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#filtering" class="toc-h1 toc-link" data-title="filtering">Filtering</a>
@@ -556,18 +564,21 @@
             <a href="#verifications" class="toc-h1 toc-link" data-title="verifications">Verifications</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#single-step-verification" class="toc-h2 toc-link" data-title="single-step-verification">Single step verification</a>
+                    <a href="#the-verification-object" class="toc-h2 toc-link" data-title="the-verification-object">The verification object</a>
                   </li>
                   <li>
-                    <a href="#two-step-verification" class="toc-h2 toc-link" data-title="two-step-verification">Two step verification</a>
+                    <a href="#single-step-verification" class="toc-h2 toc-link" data-title="single-step-verification">Single-step verification</a>
                   </li>
                   <li>
-                    <a href="#get-verification-status" class="toc-h2 toc-link" data-title="get-verification-status">Get verification status</a>
+                    <a href="#two-step-verification-step-1-request-data" class="toc-h2 toc-link" data-title="two-step-verification-step-1-request-data">Two-step verification – Step 1: Request data</a>
+                  </li>
+                  <li>
+                    <a href="#two-step-verification-step-2-provide-data" class="toc-h2 toc-link" data-title="two-step-verification-step-2-provide-data">Two-step verification – Step 2: Provide data</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-verification-object" class="toc-h2 toc-link" data-title="get-a-verification-object">Get a verification object</a>
                   </li>
               </ul>
-          </li>
-          <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="errors">Errors</a>
           </li>
       </div>
     </div>
@@ -751,6 +762,69 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Validation errors, missing parameters or incorrect data.</td>
 </tr>
 </tbody></table>
+
+<p>TODO: List error codes
+TODO: List validation error codes</p>
+<h2 id='the-error-object'>The error object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"errors"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"code"</span>: <span class="s2">"unknown_exception"</span>,
+      <span class="s2">"message"</span>: <span class="s2">"An unknown exception occurred."</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>code</td>
+<td>string</td>
+<td>The error code.</td>
+</tr>
+<tr>
+<td>message</td>
+<td>string</td>
+<td>The translated error message.</td>
+</tr>
+</tbody></table>
+<h2 id='the-validation-error-object'>The validation error object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"errors"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"field"</span>: <span class="s2">"username"</span>,
+      <span class="s2">"code"</span>: <span class="s2">"already_taken"</span>,
+      <span class="s2">"message"</span>: <span class="s2">"Username has already been taken"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>field</td>
+<td>string</td>
+<td>The name of the field that has an error.</td>
+</tr>
+<tr>
+<td>code</td>
+<td>string</td>
+<td>The validation error code describing which validation failed.</td>
+</tr>
+<tr>
+<td>message</td>
+<td>string</td>
+<td>The translated error message.</td>
+</tr>
+</tbody></table>
 <h1 id='filtering'>Filtering</h1>
 <p>Filtering, pagination and sorting is done with query string parameters.</p>
 
@@ -908,7 +982,7 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>type_id</td>
 <td>integer</td>
-<td>The type of announcement.</td>
+<td>The type of announcement.<br><code>1 = general</code></td>
 </tr>
 <tr>
 <td>title</td>
@@ -970,6 +1044,8 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
+<h3 id='filtering-2'>Filtering</h3>
+<p>TODO: Filtering</p>
 <h2 id='get-an-announcement'>Get an announcement</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1511,7 +1587,7 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>type_id</td>
 <td>integer</td>
-<td>The moment type.</td>
+<td>The moment type. <br><code>1 = payment</code><br><code>2 = request</code><br><code>3 = pool</code></td>
 </tr>
 <tr>
 <td>object_uuid</td>
@@ -1613,7 +1689,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-2'>Filtering</h3>
+<h3 id='filtering-3'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -1656,7 +1732,11 @@ Authentication is based on a pair of authentication and session tokens.
   <span class="s2">"minimum_user_amount"</span>: 50.00,
   <span class="s2">"maximum_user_amount"</span>: 150.00,
   <span class="s2">"amounts"</span>: <span class="o">[</span>
-    <span class="o">{</span> TODO: PaymentAmount object <span class="o">}</span>
+    <span class="o">{</span>
+      <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+      <span class="s2">"title"</span>: <span class="s2">"Option A"</span>,
+      <span class="s2">"amount"</span>: 50.00
+    <span class="o">}</span>
   <span class="o">]</span>,
   <span class="s2">"image"</span>: <span class="o">{</span>
     <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
@@ -1666,7 +1746,31 @@ Authentication is based on a pair of authentication and session tokens.
     <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
     <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
     <span class="o">}</span>,
-  <span class="s2">"owner"</span>: <span class="o">{</span> TODO: User object <span class="o">}</span>,
+  <span class="s2">"owner"</span>: <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"first_name"</span>: <span class="s2">"John"</span>,
+    <span class="s2">"last_name"</span>: <span class="s2">"Dough"</span>,
+    <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+    <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+    <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
+    <span class="s2">"timezone"</span>: <span class="s2">"Europe/London"</span>,
+    <span class="s2">"timezone_utc_offset"</span>: 0,
+    <span class="s2">"verified"</span>: <span class="nb">true</span>,
+    <span class="s2">"official"</span>: <span class="nb">true</span>,
+    <span class="s2">"image"</span>: <span class="o">{</span>
+      <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+      <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+      <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+      <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+    <span class="o">}</span>,
+    <span class="s2">"relationship"</span>: <span class="o">{</span>
+      <span class="s2">"status_id"</span>: 1,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+    <span class="o">}</span>
+  <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
     <span class="o">{</span> TODO: Participant object <span class="o">}</span>
   <span class="o">]</span>,
@@ -1744,6 +1848,10 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the <code>owner</code> filter.</p>
 <h3 id='http-request-19'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/pools</code></p>
+<h3 id='url-parameters-4'>URL Parameters</h3>
+<p>TODO: Parameters</p>
+<h3 id='filtering-4'>Filtering</h3>
+<p>TODO: Filtering</p>
 <h2 id='get-a-money-pool'>Get a money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1775,7 +1883,9 @@ Authentication is based on a pair of authentication and session tokens.
     "556b6fc6-e8dd-4bfa-89e0-9fbd286c96c3",
     "1d27d1c8-5e58-4d6e-87f7-b6890672294e"
   ],
-  "image": { TODO: Image object },
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
   "is_public": true,
   "only_owner_sees_recipients": true,
   "has_unique_recipients": true,
@@ -1815,7 +1925,7 @@ Authentication is based on a pair of authentication and session tokens.
 <tr>
 <td>amounts</td>
 <td>array</td>
-<td>A list of payment options (PaymentAmount).</td>
+<td>A list of payment options.</td>
 </tr>
 <tr>
 <td>currency</td>
@@ -1947,7 +2057,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of participants in a money pool.</p>
 <h3 id='http-request-25'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/pools/{uuid}/participants</code></p>
-<h3 id='url-parameters-4'>URL Parameters</h3>
+<h3 id='url-parameters-5'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1976,7 +2086,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-3'>Filtering</h3>
+<h3 id='filtering-5'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2169,7 +2279,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of all notifications.</p>
 <h3 id='http-request-28'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/notifications</code></p>
-<h3 id='url-parameters-5'>URL Parameters</h3>
+<h3 id='url-parameters-6'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2203,7 +2313,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-4'>Filtering</h3>
+<h3 id='filtering-6'>Filtering</h3>
 <p>TODO: Filtering</p>
 <h1 id='participation'>Participation</h1>
 <p>Participation information for a moment, request or money pool.</p>
@@ -2284,7 +2394,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of all payment sources.</p>
 <h3 id='http-request-29'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payment_sources</code></p>
-<h3 id='url-parameters-6'>URL Parameters</h3>
+<h3 id='url-parameters-7'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2313,7 +2423,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-5'>Filtering</h3>
+<h3 id='filtering-7'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2587,7 +2697,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
 <h3 id='http-request-35'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments</code></p>
-<h3 id='url-parameters-7'>URL Parameters</h3>
+<h3 id='url-parameters-8'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2616,7 +2726,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-6'>Filtering</h3>
+<h3 id='filtering-8'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2832,7 +2942,29 @@ Authentication is based on a pair of authentication and session tokens.
     <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
     <span class="o">}</span>,
   <span class="s2">"owner"</span>: <span class="o">{</span>
-    TODO: User object
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"first_name"</span>: <span class="s2">"John"</span>,
+    <span class="s2">"last_name"</span>: <span class="s2">"Dough"</span>,
+    <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+    <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+    <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
+    <span class="s2">"timezone"</span>: <span class="s2">"Europe/London"</span>,
+    <span class="s2">"timezone_utc_offset"</span>: 0,
+    <span class="s2">"verified"</span>: <span class="nb">true</span>,
+    <span class="s2">"official"</span>: <span class="nb">true</span>,
+    <span class="s2">"image"</span>: <span class="o">{</span>
+      <span class="s2">"uuid"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
+      <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+      <span class="s2">"full_screen_url"</span>: <span class="s2">"https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+      <span class="s2">"thumbnail_url"</span>: <span class="s2">"https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
+    <span class="o">}</span>,
+    <span class="s2">"relationship"</span>: <span class="o">{</span>
+      <span class="s2">"status_id"</span>: 1,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+    <span class="o">}</span>
   <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
     <span class="o">{</span> TODO: PaymentRecipient object <span class="o">}</span>
@@ -2933,7 +3065,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
 <h3 id='http-request-39'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/reqests</code></p>
-<h3 id='url-parameters-8'>URL Parameters</h3>
+<h3 id='url-parameters-9'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2962,7 +3094,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-7'>Filtering</h3>
+<h3 id='filtering-9'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3450,7 +3582,7 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.</p>
 <h3 id='http-request-51'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions</code></p>
-<h3 id='url-parameters-9'>URL Parameters</h3>
+<h3 id='url-parameters-10'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3479,7 +3611,7 @@ Authentication is based on a pair of authentication and session tokens.
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-8'>Filtering</h3>
+<h3 id='filtering-10'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3928,64 +4060,179 @@ If the current has a relationship to this user, the User object will embed a Rel
 <p>Update the current user.</p>
 <h3 id='http-request-58'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/users/{uuid}</code></p>
-<h1 id='verifications'>Verifications</h1><h2 id='single-step-verification'>Single step verification</h2><h2 id='two-step-verification'>Two step verification</h2><h2 id='get-verification-status'>Get verification status</h2><h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
+<h1 id='verifications'>Verifications</h1><h2 id='the-verification-object'>The verification object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"f346ced3-f80c-45d9-a9f5-a2b0288cb126"</span>,
+  <span class="s2">"type_id"</span>: 1,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"attempts"</span>: 1,
+  <span class="s2">"error_code"</span>: <span class="s2">""</span>,
+  <span class="s2">"error_message"</span>: <span class="s2">""</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+<span class="o">}</span>
+</code></pre>
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the announcement.</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
+<td>type_id</td>
+<td>integer</td>
+<td>The type of verification.<br><code>1 = sms</code><br><code>2 = driver&#39;s license</code><br><code>3 = passport</code></td>
 </tr>
 <tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
+<td>status_id</td>
+<td>integer</td>
+<td>The status of verification.<br><code>1 = pending</code><br><code>2 = approved</code><br><code>3 = rejected</code><br><code>4 = cancelled</code><br><code>5 = failed</code></td>
 </tr>
 <tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
+<td>attempts</td>
+<td>integer</td>
+<td>The number of verification attemps. Initial value is 1. The maximum number of attempts depends on the verification type and processor.</td>
 </tr>
 <tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
+<td>error_code</td>
+<td>string</td>
+<td>The error code, in case of an error. The value depends on the verification type and processor.</td>
 </tr>
 <tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
+<td>error_message</td>
+<td>string</td>
+<td>The error message, in case of an error. The value depends on the verification type and processor.</td>
 </tr>
 <tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
+<td>dismissible</td>
+<td>boolean</td>
+<td>Whether the announcement can be dismissed or not.</td>
 </tr>
 <tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>expires_at</td>
+<td>time</td>
+<td>The time when the verification expires.</td>
 </tr>
 </tbody></table>
+<h2 id='single-step-verification'>Single-step verification</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/verifications"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "type": "passport",
+  "data": "01234567890123456789",
+  "event": "user_kyc"
+}'</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>The type of verification. Can be <code>driver&#39;s license</code> or <code>passport</code>. <code>required</code></td>
+</tr>
+<tr>
+<td>data</td>
+<td>string</td>
+<td>The data which the verification process needs for processing, e.g. passport ID. <code>required</code></td>
+</tr>
+<tr>
+<td>event</td>
+<td>string</td>
+<td>The name of the verification event, which describes the purpose of the verification. This value can be passed along to custom or 3rd party processors. <code>required</code></td>
+</tr>
+</tbody></table>
+
+<p>Single step verification is when the user provides data of a specific type, such as passport or driver&#39;s liences information, and the provider processes it afterwards.</p>
+<h3 id='http-request-59'>HTTP Request</h3>
+<p><code>PUT</code> <code>/v1/verifications</code></p>
+<h2 id='two-step-verification-step-1-request-data'>Two-step verification – Step 1: Request data</h2>
+<blockquote>
+<p>Example Request (request verification code)</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/verifications"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "type": "sms",
+  "recipient": "+44 123 1234 1234",
+  "event": "add_new_device"
+}'</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>type</td>
+<td>string</td>
+<td>The type of verification. Can be <code>call</code>, <code>email</code> or <code>sms</code>. <code>required</code></td>
+</tr>
+<tr>
+<td>recipient</td>
+<td>string</td>
+<td>The recipient of the verification code, e.g. phone number. <code>required</code></td>
+</tr>
+<tr>
+<td>event</td>
+<td>string</td>
+<td>The name of the verification event, which describes the purpose of the verification. This value can be passed along to custom or 3rd party processors. <code>required</code></td>
+</tr>
+</tbody></table>
+
+<p>Two-step verification is used when the user initiates the verification process and then provides the required data. For example, request an SMS code for a specific phone number and then provide the code which was sent via SMS.</p>
+<h3 id='http-request-60'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/verifications</code></p>
+<h2 id='two-step-verification-step-2-provide-data'>Two-step verification – Step 2: Provide data</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/verifications/{uuid}/data"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
+  -d <span class="s1">$'{
+  "data": "123456"
+}'</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>data</td>
+<td>string</td>
+<td>The data which the verification process needs for processing, e.g. code sent by SMS. <code>required</code></td>
+</tr>
+</tbody></table>
+
+<p>Provide the request code in a two-step verification process.</p>
+<h3 id='http-request-61'>HTTP Request</h3>
+<p><code>POST</code> <code>/v1/verifications/{uuid}/data</code></p>
+<h2 id='get-a-verification-object'>Get a verification object</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl -X GET <span class="s2">"https://api.mementopayments.com/v1/verifications/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<p>Get a single verification object by UUID.</p>
+<h3 id='http-request-62'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/verifications/{uuid}</code></p>
 
       </div>
       <div class="dark-box">
