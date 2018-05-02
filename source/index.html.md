@@ -1380,6 +1380,27 @@ Participation information for a moment, request or money pool.
 
 # Payment Sources
 
+## The payment source object
+
+> Example Response
+
+```shell
+{
+  "description": "My Bank Account",
+  "type": "bank_account",
+  "gateway": "bank_of_london",
+  "bank_account": {
+    "country": "UK",
+    "swift": "AAABBCCDDD",
+    "iban": "GB98MIDL07009312345678",
+    "account_number": "",
+    "nin": ""
+  }
+}
+```
+
+<!-- TODO: Describe object -->
+
 ## Get a list of payment sources
 
 > Example Request
@@ -1426,6 +1447,42 @@ Get a single payment source by UUID.
 ### HTTP Request
 
 `GET` `/v1/payment_sources/{uuid}`
+
+## Get a payment source balance
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payment_sources/{uuid}/balance" \
+  -H "Content-Type: application/json" 
+```
+
+Get the balance for a payment source.
+
+### HTTP Request
+
+`GET` `/v1/payment_sources/{uuid}/balance`
+
+<!-- TODO: Example response -->
+
+## Get payment source transactions
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/payment_sources/{uuid}/transactions" \
+  -H "Content-Type: application/json" 
+```
+
+Get a list of transactions for a payment source.
+
+### HTTP Request
+
+`GET` `/v1/payment_sources/{uuid}/transactions`
+
+<!-- TODO: URL Parameters -->
+<!-- TODO: Filtering -->
+<!-- TODO: Example response -->
 
 ## Create a payment source
 
