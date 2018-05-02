@@ -931,18 +931,28 @@ Get a single moment by UUID.
 }
 ```
 
-<!--
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the money pool. |
 | status_id | integer | The money pool status.<br>`1 = open`<br>`2 = closed` |
-| TODO: ... |
+| amount | float | The total amount collected. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| description | string | The money pool title. |
+| detailed_description | string | The money pool description. |
+| is_public | boolean | Whether the money pool is publicly available. |
+| has_unique_recipients | boolean | Whether users can only contribute once to the money pool. |
+| allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. |
+| minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
+| maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
+| amounts | array | A list of available payment options. |
 | image | Image | An optional money pool image. |
+| owner | Owner | The user which created the money pool. |
+| participants | array | A list of the participants. Only the 6 most recent will be provided here. For a more detailed list of participants, see [Get money pool partipants](#get-a-list-of-money-pools). |
 | participation | Participation | Participation information for the money pool. |
+| start_at | time | The time at which the money pool became or will become available. |
+| end_at | time | The time at which the money pool became or will become unavailable. |
 | created_at | time | The time when the money pool was created. |
 | updated_at | time | The time when the money pool was updated. |
--->
 
 ## Get a list of money pools
 
