@@ -429,10 +429,19 @@
             <a href="#payment-sources" class="toc-h1 toc-link" data-title="payment-sources">Payment Sources</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-payment-source-object" class="toc-h2 toc-link" data-title="the-payment-source-object">The payment source object</a>
+                  </li>
+                  <li>
                     <a href="#get-a-list-of-payment-sources" class="toc-h2 toc-link" data-title="get-a-list-of-payment-sources">Get a list of payment sources</a>
                   </li>
                   <li>
                     <a href="#get-a-payment-source" class="toc-h2 toc-link" data-title="get-a-payment-source">Get a payment source</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-payment-source-balance" class="toc-h2 toc-link" data-title="get-a-payment-source-balance">Get a payment source balance</a>
+                  </li>
+                  <li>
+                    <a href="#get-payment-source-transactions" class="toc-h2 toc-link" data-title="get-payment-source-transactions">Get payment source transactions</a>
                   </li>
                   <li>
                     <a href="#create-a-payment-source" class="toc-h2 toc-link" data-title="create-a-payment-source">Create a payment source</a>
@@ -2767,7 +2776,25 @@ TODO: List validation error codes
 <td>The total number of participants regardless of status.</td>
 </tr>
 </tbody></table>
-<h1 id='payment-sources'>Payment Sources</h1><h2 id='get-a-list-of-payment-sources'>Get a list of payment sources</h2>
+<h1 id='payment-sources'>Payment Sources</h1><h2 id='the-payment-source-object'>The payment source object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"description"</span>: <span class="s2">"My Bank Account"</span>,
+  <span class="s2">"type"</span>: <span class="s2">"bank_account"</span>,
+  <span class="s2">"gateway"</span>: <span class="s2">"bank_of_london"</span>,
+  <span class="s2">"bank_account"</span>: <span class="o">{</span>
+    <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
+    <span class="s2">"swift"</span>: <span class="s2">"AAABBCCDDD"</span>,
+    <span class="s2">"iban"</span>: <span class="s2">"GB98MIDL07009312345678"</span>,
+    <span class="s2">"account_number"</span>: <span class="s2">""</span>,
+    <span class="s2">"nin"</span>: <span class="s2">""</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+<!-- TODO: Describe object -->
+<h2 id='get-a-list-of-payment-sources'>Get a list of payment sources</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
@@ -2844,6 +2871,34 @@ TODO: List validation error codes
 <p>Get a single payment source by UUID.</p>
 <h3 id='http-request-30'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payment_sources/{uuid}</code></p>
+<h2 id='get-a-payment-source-balance'>Get a payment source balance</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}/balance"</span> <span class="se">\</span>
+  -H <span class="s2">"Content-Type: application/json"</span> 
+</code></pre>
+<p>Get the balance for a payment source.</p>
+<h3 id='http-request-31'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payment_sources/{uuid}/balance</code></p>
+
+<!-- TODO: Example response -->
+<h2 id='get-payment-source-transactions'>Get payment source transactions</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}/transactions"</span> <span class="se">\</span>
+  -H <span class="s2">"Content-Type: application/json"</span> 
+</code></pre>
+<p>Get a list of transactions for a payment source.</p>
+<h3 id='http-request-32'>HTTP Request</h3>
+<p><code>GET</code> <code>/v1/payment_sources/{uuid}/transactions</code></p>
+
+<!-- TODO: URL Parameters -->
+
+<!-- TODO: Filtering -->
+
+<!-- TODO: Example response -->
 <h2 id='create-a-payment-source'>Create a payment source</h2>
 <blockquote>
 <p>Example Request (with BankAccount as type)</p>
@@ -2880,7 +2935,7 @@ TODO: List validation error codes
 }
 </span></code></pre>
 <p>Create a new payment source.</p>
-<h3 id='http-request-31'>HTTP Request</h3>
+<h3 id='http-request-33'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/payment_sources</code></p>
 
 <table><thead>
@@ -2998,7 +3053,7 @@ TODO: List validation error codes
 }
 </span></code></pre>
 <p>Update an existing payment source. If the source is a bank account, only its description can be updated. If the source is a card, its description and expiration date can be updated.</p>
-<h3 id='http-request-32'>HTTP Request</h3>
+<h3 id='http-request-34'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/payment_sources/{uuid}</code></p>
 
 <table><thead>
@@ -3041,7 +3096,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Delete an existing payment source.</p>
-<h3 id='http-request-33'>HTTP Request</h3>
+<h3 id='http-request-35'>HTTP Request</h3>
 <p><code>DELETE</code> <code>/v1/payment_sources/{uuid}</code></p>
 <h2 id='verify-payment-source'>Verify payment source</h2>
 <blockquote>
@@ -3054,7 +3109,7 @@ TODO: List validation error codes
 }
 </span></code></pre>
 <p>Verify a payment source using a specific code, which can, for example, be sent to the user&#39;s card statement.</p>
-<h3 id='http-request-34'>HTTP Request</h3>
+<h3 id='http-request-36'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/payment_sources/{uuid}/verify</code></p>
 
 <table><thead>
@@ -3078,7 +3133,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
-<h3 id='http-request-35'>HTTP Request</h3>
+<h3 id='http-request-37'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments</code></p>
 <h3 id='url-parameters-8'>URL Parameters</h3>
 <table><thead>
@@ -3139,7 +3194,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single payment by UUID. Transactions are not accessible from this endpoint (see Transactions).</p>
-<h3 id='http-request-36'>HTTP Request</h3>
+<h3 id='http-request-38'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments/{uuid}</code></p>
 <h2 id='create-a-payment'>Create a payment</h2>
 <blockquote>
@@ -3182,7 +3237,7 @@ TODO: List validation error codes
 }
 </span></code></pre>
 <p>Create a new payment and send money. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.</p>
-<h3 id='http-request-37'>HTTP Request</h3>
+<h3 id='http-request-39'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/payments</code></p>
 
 <table><thead>
@@ -3272,7 +3327,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.</p>
-<h3 id='http-request-38'>HTTP Request</h3>
+<h3 id='http-request-40'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments/{uuid}/receipt</code></p>
 <h1 id='receipt'>Receipt</h1><h2 id='the-receipt-object'>The receipt object</h2>
 <blockquote>
@@ -3465,7 +3520,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
-<h3 id='http-request-39'>HTTP Request</h3>
+<h3 id='http-request-41'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/reqests</code></p>
 <h3 id='url-parameters-9'>URL Parameters</h3>
 <table><thead>
@@ -3547,7 +3602,7 @@ TODO: List validation error codes
 }'</span>
 </code></pre>
 <p>Create a new request.</p>
-<h3 id='http-request-40'>HTTP Request</h3>
+<h3 id='http-request-42'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests</code></p>
 
 <table><thead>
@@ -3594,7 +3649,7 @@ TODO: List validation error codes
 }
 </span></code></pre>
 <p>Update an existing request. Can only update description and image.</p>
-<h3 id='http-request-41'>HTTP Request</h3>
+<h3 id='http-request-43'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/requests/{uuid}</code></p>
 
 <table><thead>
@@ -3623,7 +3678,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Delete an existing request. Can only be performed if none of the participants have responded.</p>
-<h3 id='http-request-42'>HTTP Request</h3>
+<h3 id='http-request-44'>HTTP Request</h3>
 <p><code>DELETE</code> <code>/v1/requests/{uuid}</code></p>
 <h2 id='remind-a-participant-to-pay'>Remind a participant to pay</h2>
 <blockquote>
@@ -3634,7 +3689,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Send a reminder to a request participant in form of a push notification. Note: There is a limit to how many times a participant can be reminded. Exceeding this limit will return in an error message.</p>
-<h3 id='http-request-43'>HTTP Request</h3>
+<h3 id='http-request-45'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{uuid}/participants/{uuid}/remind</code></p>
 <h2 id='settle-a-participant'>Settle a participant</h2>
 <blockquote>
@@ -3645,7 +3700,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Mark a participant as paid.</p>
-<h3 id='http-request-44'>HTTP Request</h3>
+<h3 id='http-request-46'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{uuid}/participants/{uuid}/remind</code></p>
 <h2 id='cancel-a-participant'>Cancel a participant</h2>
 <blockquote>
@@ -3656,7 +3711,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Cancel the request for a participant.</p>
-<h3 id='http-request-45'>HTTP Request</h3>
+<h3 id='http-request-47'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{uuid}/participants/{uuid}/cancel</code></p>
 <h2 id='pay-a-request'>Pay a request</h2>
 <blockquote>
@@ -3686,7 +3741,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Pay an existing request as a participant. Payment source and PIN is required for payments.</p>
-<h3 id='http-request-46'>HTTP Request</h3>
+<h3 id='http-request-48'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/pools/{uuid}/pay</code></p>
 
 <table><thead>
@@ -3707,7 +3762,7 @@ TODO: List validation error codes
 <td>The current user&#39;s PIN. <code>required</code></td>
 </tr>
 </tbody></table>
-<h3 id='http-request-47'>HTTP Request</h3>
+<h3 id='http-request-49'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{uuid}/pay</code></p>
 <h2 id='reject-a-request'>Reject a request</h2>
 <blockquote>
@@ -3718,7 +3773,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Reject an existing request as a participant.</p>
-<h3 id='http-request-48'>HTTP Request</h3>
+<h3 id='http-request-50'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{uuid}/reject</code></p>
 <h2 id='get-a-receipt-2'>Get a receipt</h2>
 <blockquote>
@@ -3765,7 +3820,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.</p>
-<h3 id='http-request-49'>HTTP Request</h3>
+<h3 id='http-request-51'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/requests/{uuid}/receipt</code></p>
 <h2 id='get-a-receipt-for-a-participant'>Get a receipt for a participant</h2>
 <blockquote>
@@ -3812,7 +3867,7 @@ TODO: List validation error codes
 <span class="o">}</span>
 </code></pre>
 <p>Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.</p>
-<h3 id='http-request-50'>HTTP Request</h3>
+<h3 id='http-request-52'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/requests/{uuid}/participants/{uuid}/receipt</code></p>
 <h1 id='transactions'>Transactions</h1><h2 id='the-transaction-object'>The transaction object</h2>
 <blockquote>
@@ -4001,7 +4056,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.</p>
-<h3 id='http-request-51'>HTTP Request</h3>
+<h3 id='http-request-53'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions</code></p>
 <h3 id='url-parameters-10'>URL Parameters</h3>
 <table><thead>
@@ -4056,7 +4111,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single transaction by UUID.</p>
-<h3 id='http-request-52'>HTTP Request</h3>
+<h3 id='http-request-54'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions/{uuid}</code></p>
 <h1 id='users'>Users</h1><h2 id='the-user-object'>The user object</h2>
 <blockquote>
@@ -4342,7 +4397,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get the currently logged in user. Returns a CurrentUser object.</p>
-<h3 id='http-request-53'>HTTP Request</h3>
+<h3 id='http-request-55'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/users/current</code></p>
 <h2 id='get-a-user'>Get a user</h2>
 <blockquote>
@@ -4356,7 +4411,7 @@ TODO: List validation error codes
 <aside class="notice">
 If the current has a relationship to this user, the User object will embed a Relationship object.
 </aside>
-<h3 id='http-request-54'>HTTP Request</h3>
+<h3 id='http-request-56'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/users/{uuid}</code></p>
 <h2 id='block-a-user'>Block a user</h2>
 <blockquote>
@@ -4366,7 +4421,7 @@ If the current has a relationship to this user, the User object will embed a Rel
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Block a specific user.</p>
-<h3 id='http-request-55'>HTTP Request</h3>
+<h3 id='http-request-57'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/{uuid}/block</code></p>
 <h2 id='unblock-a-user'>Unblock a user</h2>
 <blockquote>
@@ -4376,7 +4431,7 @@ If the current has a relationship to this user, the User object will embed a Rel
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Unblock a specific user.</p>
-<h3 id='http-request-56'>HTTP Request</h3>
+<h3 id='http-request-58'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/{uuid}/unblock</code></p>
 
 <!-- ## Search for users
@@ -4460,7 +4515,7 @@ TODO: Search -->
 </tbody></table>
 
 <p>Create a new user.</p>
-<h3 id='http-request-57'>HTTP Request</h3>
+<h3 id='http-request-59'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users</code></p>
 <h2 id='update-the-current-user'>Update the current user</h2>
 <blockquote>
@@ -4493,7 +4548,7 @@ TODO: Search -->
 <!-- TODO: Which attributes? -->
 
 <p>Update the current user.</p>
-<h3 id='http-request-58'>HTTP Request</h3>
+<h3 id='http-request-60'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/users/{uuid}</code></p>
 <h1 id='verifications'>Verifications</h1><h2 id='the-verification-object'>The verification object</h2>
 <blockquote>
@@ -4594,7 +4649,7 @@ TODO: Search -->
 </tbody></table>
 
 <p>Single step verification is when the user provides data of a specific type, such as passport or driver&#39;s liences information, and the provider processes it afterwards.</p>
-<h3 id='http-request-59'>HTTP Request</h3>
+<h3 id='http-request-61'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/verifications</code></p>
 <h2 id='two-step-verification-step-1-request-data'>Two-step verification – Step 1: Request data</h2>
 <blockquote>
@@ -4633,7 +4688,7 @@ TODO: Search -->
 </tbody></table>
 
 <p>Two-step verification is used when the user initiates the verification process and then provides the required data. For example, request an SMS code for a specific phone number and then provide the code which was sent via SMS.</p>
-<h3 id='http-request-60'>HTTP Request</h3>
+<h3 id='http-request-62'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/verifications</code></p>
 <h2 id='two-step-verification-step-2-provide-data'>Two-step verification – Step 2: Provide data</h2>
 <blockquote>
@@ -4660,7 +4715,7 @@ TODO: Search -->
 </tbody></table>
 
 <p>Provide the request code in a two-step verification process.</p>
-<h3 id='http-request-61'>HTTP Request</h3>
+<h3 id='http-request-63'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/verifications/{uuid}/data</code></p>
 <h2 id='get-a-verification-object'>Get a verification object</h2>
 <blockquote>
@@ -4670,7 +4725,7 @@ TODO: Search -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single verification object by UUID.</p>
-<h3 id='http-request-62'>HTTP Request</h3>
+<h3 id='http-request-64'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/verifications/{uuid}</code></p>
 
       </div>
