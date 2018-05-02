@@ -39,6 +39,8 @@ All requests to the API need to be accompanied by an Authorization header:
 
 ## The authentication object
 
+> Example Response
+
 ```shell
 {
   "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
@@ -50,24 +52,27 @@ All requests to the API need to be accompanied by an Authorization header:
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the authentication. |
-| status_id | integer | The status of the auhentication. TODO: Lýsa status |
+| status_id | integer | The status of the authentication.<br>`1 = pending`<br>`2 = approved`<br>`3 = rejected`|
 | token | string | The authentication token. |
 
 ## The session object
 
+> Example Response
+
 ```shell
 {
-  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status_id": 2,
-  "token": "wxKj3JV6ET1dXVou77675tMqC..."
+  "token": "d2LRgT827mEcwXlSoEMztc8If...",
+  "created_at": "2017-10-18T17:02:03.181879Z",
+  "expires_at": "2017-10-19T17:02:03.181879Z"
 }
 ```
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the authentication. |
-| status_id | integer | The status of the auhentication. TODO: Lýsa status |
+| uuid | uuid | The unique identifier for the session. |
 | token | string | The authentication token. |
+| expires_at | time | The time when the session expires, if set. |
+| created_at | time | The time when the session was created. |
 
 ## Get authentication token
 
@@ -164,6 +169,15 @@ curl "https://api.mementopayments.com/v1/tokens/{uuid}" \
 }
 ```
 
+> Example Response
+
+```shell
+{
+  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status_id": 1
+}
+```
+
 ### HTTP Request
 
 `GET` `/v1/tokens/{uuid}`
@@ -181,10 +195,9 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 
 ```shell
 {
-    "token": "d2LRgT827mEcwXlSoEMztc8If...",
-    "uuid": "3f35ae0a-e421-9ba3-531a-b51492d2a5ac",
-    "created_at": "2017-10-18T17:02:03.181879Z",
-    "expires_at": "2017-10-19T17:02:03.181879Z"
+  "token": "d2LRgT827mEcwXlSoEMztc8If...",
+  "created_at": "2017-10-18T17:02:03.181879Z",
+  "expires_at": "2017-10-19T17:02:03.181879Z"
 }
 ```
 
@@ -233,10 +246,14 @@ Verify that a specific session token is valid by sending the token as an Authori
 |404 |Not Found|Empty body.|Wrong URL or current user does not own specific object being manipulated.|
 |422 |Unprocessable Entity|A ValidationError object.|Validation errors, missing parameters or incorrect data.|
 
-TODO: List error codes
+<!--
+TODO: List error codes (eg unknown_exception)
 TODO: List validation error codes
+-->
 
 ## The error object
+
+> Example Response
 
 ```shell
 {
@@ -255,6 +272,8 @@ TODO: List validation error codes
 | message | string | The translated error message. |
 
 ## The validation error object
+
+> Example Response
 
 ```shell
 {
@@ -394,10 +413,6 @@ Get a list of all announcements that were sent after the time defined by the `si
 |Name|Type|Description|
 |----|----|-----------|
 |since|string|Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
-
-### Filtering
-
-TODO: Filtering
 
 ## Get an announcement
 
@@ -886,7 +901,18 @@ Get a single moment by UUID.
     }
   },
   "participants": [
-    { TODO: Participant object }
+    {
+      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+      "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+      "status_id": 1,
+      "amount": 20.00,
+      "currency": "EUR",
+      "full_name": "Arnar Participant",
+      "username": "arnarpart",
+      "created_at": "2017-09-04T12:26:43.398646Z",
+      "updated_at": "2017-09-04T12:26:43.398646Z"
+    }
   ],
   "participation": {
     "count": {
@@ -905,6 +931,7 @@ Get a single moment by UUID.
 }
 ```
 
+<!--
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | uuid | uuid | The unique identifier for the money pool. |
@@ -915,6 +942,7 @@ Get a single moment by UUID.
 | participation | Participation | Participation information for the money pool. |
 | created_at | time | The time when the money pool was created. |
 | updated_at | time | The time when the money pool was updated. |
+-->
 
 ## Get a list of money pools
 
@@ -933,11 +961,19 @@ Get a list of all pools created by the user and pools available to the user but 
 
 ### URL Parameters
 
-TODO: Parameters
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
 
 ### Filtering
 
-TODO: Filtering
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|owner|boolean|eq|true, false|
+|status|string|eq, in|open, closed, all `default: all`|
 
 ## Get a money pool
 
@@ -1032,7 +1068,7 @@ Update an existing money pool. Anything defined will be updated, otherwise curre
 
 `PUT` `/v1/pools/{uuid}`
 
-TODO: Object
+<!-- TODO: Object -->
 
 ## Close money pool
 
@@ -1089,7 +1125,18 @@ curl "https://api.mementopayments.com/v1/pools/{uuid}/participants" \
 
 ```shell
 [
-  { TODO: Participant object }
+  {
+    "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+    "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+    "status_id": 1,
+    "amount": 20.00,
+    "currency": "EUR",
+    "full_name": "John Dough",
+    "username": "jondough",
+    "created_at": "2017-09-04T12:26:43.398646Z",
+    "updated_at": "2017-09-04T12:26:43.398646Z"
+  }
 ]
 ```
 
@@ -1155,7 +1202,18 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/pay" \
 > Example Response
 
 ```shell
-{ TODO: Participant object }
+{
+  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+  "status_id": 1,
+  "amount": 50.00,
+  "currency": "EUR",
+  "full_name": "John Dough",
+  "username": "jondough",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
+}
 ```
 
 The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.
@@ -1173,6 +1231,8 @@ The user contributes to the money pool by making a payment. Payment source and P
 # Notifications
 
 ## The notification object
+
+> Example Response
 
 ```shell
 {
@@ -1238,13 +1298,43 @@ Get a list of all notifications.
 |filter|string|Filter the results.|
 |since|string|Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
 
-### Filtering
-
-TODO: Filtering
-
 # Participation
 
 Participation information for a moment, request or money pool.
+
+## The participant object
+
+> Example Response
+
+```shell
+{
+  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "parent_user_uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+  "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+  "status_id": 1,
+  "amount": 20.00,
+  "currency": "EUR",
+  "full_name": "John Dough",
+  "username": "jondough",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the participant. |
+| user_uuid | uuid | The unique identifier for the participant user. |
+| parent_user_uuid | uuid | The unique identifier for the participant parent user. |
+| transaction_uuid | uuid | The unique identifier for the transaction if a payment has been made. |
+| status_id | integer | The status of the participant.<br>`1 = pending`<br>`2 = paid`<br>`3 = settled`<br>`4 = rejected`<br>`5 = cancelled`<br>`6 = invited` |
+| amount | float | The amount being paid by or requested of the participant. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| full_name | string | The full name of the participant. |
+| username | string | The username of the participant. |
+| created_at | time | The time when the participant was created. |
+| updated_at | time | The time when the participant was updated. |
 
 ## The participation object
 
@@ -1640,6 +1730,8 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 
 ## The receipt object
 
+> Example Response
+
 ```shell
 {
   "description": "This is a payment description",
@@ -1675,11 +1767,13 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 }
 ```
 
-TODO: Receipt object
+<!-- TODO: Receipt object -->
 
 # Requests
 
 ## The request object
+
+> Example Response
 
 ```shell
 {
@@ -1724,7 +1818,18 @@ TODO: Receipt object
     }
   },
   "participants": [
-    { TODO: PaymentRecipient object }
+    {
+      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+      "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+      "status_id": 1,
+      "amount": 10.00,
+      "currency": "EUR",
+      "full_name": "Arnar Participant",
+      "username": "arnarpart",
+      "created_at": "2017-09-04T12:26:43.398646Z",
+      "updated_at": "2017-09-04T12:26:43.398646Z"
+    }
   ],
   "participation": {
     "count": {
@@ -1935,7 +2040,18 @@ curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/pay" \
 > Example Response
 
 ```shell
-{ TODO: Participant object }
+{
+  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+  "status_id": 1,
+  "amount": 20.00,
+  "currency": "EUR",
+  "full_name": "John Dough",
+  "username": "jondough",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
+}
 ```
 
 Pay an existing request as a participant. Payment source and PIN is required for payments.
@@ -2079,6 +2195,8 @@ Get a payment receipt for a specific participant in the request. The participant
 
 ## The transaction object
 
+> Example Response
+
 ```shell
 {
   "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
@@ -2127,6 +2245,8 @@ Get a payment receipt for a specific participant in the request. The participant
 | updated_at | time | The time when the transaction was updated. |
 
 ## The gateway response object
+
+> Example Response
 
 ```shell
 {
@@ -2203,6 +2323,8 @@ Get a single transaction by UUID.
 
 ## The user object
 
+> Example Response
+
 ```shell
 {
   "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
@@ -2247,6 +2369,8 @@ Get a single transaction by UUID.
 | relationship| Relationship | The relationship between the user and the current user. |
 
 ## The current user object
+
+> Example Response
 
 ```shell
 {
@@ -2302,6 +2426,8 @@ Get a single transaction by UUID.
 | updated_at | time | The time when the user was updated. |
 
 ## The relationship object
+
+> Example Response
 
 ```shell
 {
@@ -2390,9 +2516,9 @@ Unblock a specific user.
 
 `POST` `/v1/users/{uuid}/unblock`
 
-## Search for users
+<!-- ## Search for users
 
-TODO: Search
+TODO: Search -->
 
 ## Create a user – signup
 
@@ -2471,7 +2597,7 @@ curl -X PUT "https://api.mementopayments.com/v1/users" \
 }'
 ```
 
-TODO: Which attributes?
+<!-- TODO: Which attributes? -->
 
 Update the current user.
 
@@ -2482,6 +2608,8 @@ Update the current user.
 # Verifications
 
 ## The verification object
+
+> Example Response
 
 ```shell
 {
