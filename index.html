@@ -1961,18 +1961,114 @@ TODO: List validation error codes
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.48788Z"</span>
 <span class="o">}</span>
 </code></pre>
-<!--
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the money pool. |
-| status_id | integer | The money pool status.<br>`1 = open`<br>`2 = closed` |
-| TODO: ... |
-| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
-| image | Image | An optional money pool image. |
-| participation | Participation | Participation information for the money pool. |
-| created_at | time | The time when the money pool was created. |
-| updated_at | time | The time when the money pool was updated. |
--->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the money pool.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The money pool status.<br><code>1 = open</code><br><code>2 = closed</code></td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The total amount collected.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The money pool title.</td>
+</tr>
+<tr>
+<td>detailed_description</td>
+<td>string</td>
+<td>The money pool description.</td>
+</tr>
+<tr>
+<td>is_public</td>
+<td>boolean</td>
+<td>Whether the money pool is publicly available.</td>
+</tr>
+<tr>
+<td>has_unique_recipients</td>
+<td>boolean</td>
+<td>Whether users can only contribute once to the money pool.</td>
+</tr>
+<tr>
+<td>allows_optional_amount</td>
+<td>boolean</td>
+<td>Whether users can pay an optional amount of their choice.</td>
+</tr>
+<tr>
+<td>minimum_user_amount</td>
+<td>float</td>
+<td>The lowest amount of a single contribution made to the money pool.</td>
+</tr>
+<tr>
+<td>maximum_user_amount</td>
+<td>float</td>
+<td>The highest amount of a single contribution made to the money pool.</td>
+</tr>
+<tr>
+<td>amounts</td>
+<td>array</td>
+<td>A list of available payment options.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional money pool image.</td>
+</tr>
+<tr>
+<td>owner</td>
+<td>Owner</td>
+<td>The user which created the money pool.</td>
+</tr>
+<tr>
+<td>participants</td>
+<td>array</td>
+<td>A list of the participants. Only the 6 most recent will be provided here. For a more detailed list of participants, see <a href="#get-a-list-of-money-pools">Get money pool partipants</a>.</td>
+</tr>
+<tr>
+<td>participation</td>
+<td>Participation</td>
+<td>Participation information for the money pool.</td>
+</tr>
+<tr>
+<td>start_at</td>
+<td>time</td>
+<td>The time at which the money pool became or will become available.</td>
+</tr>
+<tr>
+<td>end_at</td>
+<td>time</td>
+<td>The time at which the money pool became or will become unavailable.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the money pool was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the money pool was updated.</td>
+</tr>
+</tbody></table>
 <h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
 <blockquote>
 <p>Example Request</p>
