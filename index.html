@@ -226,6 +226,12 @@
             <a href="#authentication" class="toc-h1 toc-link" data-title="authentication">Authentication</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-authentication-object" class="toc-h2 toc-link" data-title="the-authentication-object">The authentication object</a>
+                  </li>
+                  <li>
+                    <a href="#the-session-object" class="toc-h2 toc-link" data-title="the-session-object">The session object</a>
+                  </li>
+                  <li>
                     <a href="#get-authentication-token" class="toc-h2 toc-link" data-title="get-authentication-token">Get authentication token</a>
                   </li>
                   <li>
@@ -412,6 +418,9 @@
             <a href="#participation" class="toc-h1 toc-link" data-title="participation">Participation</a>
               <ul class="toc-list-h2">
                   <li>
+                    <a href="#the-participant-object" class="toc-h2 toc-link" data-title="the-participant-object">The participant object</a>
+                  </li>
+                  <li>
                     <a href="#the-participation-object" class="toc-h2 toc-link" data-title="the-participation-object">The participation object</a>
                   </li>
               </ul>
@@ -550,9 +559,6 @@
                     <a href="#unblock-a-user" class="toc-h2 toc-link" data-title="unblock-a-user">Unblock a user</a>
                   </li>
                   <li>
-                    <a href="#search-for-users" class="toc-h2 toc-link" data-title="search-for-users">Search for users</a>
-                  </li>
-                  <li>
                     <a href="#create-a-user-signup" class="toc-h2 toc-link" data-title="create-a-user-signup">Create a user – signup</a>
                   </li>
                   <li>
@@ -604,6 +610,77 @@ Authentication is based on a pair of authentication and session tokens.
 <p>All requests to the API need to be accompanied by an Authorization header:</p>
 
 <p><code>Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC...</code></p>
+<h2 id='the-authentication-object'>The authentication object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
+  <span class="s2">"status_id"</span>: 2,
+  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the authentication.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The status of the authentication.<br><code>1 = pending</code><br><code>2 = approved</code><br><code>3 = rejected</code></td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>The authentication token.</td>
+</tr>
+</tbody></table>
+<h2 id='the-session-object'>The session object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"token"</span>: <span class="s2">"d2LRgT827mEcwXlSoEMztc8If..."</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-10-18T17:02:03.181879Z"</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-19T17:02:03.181879Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the session.</td>
+</tr>
+<tr>
+<td>token</td>
+<td>string</td>
+<td>The authentication token.</td>
+</tr>
+<tr>
+<td>expires_at</td>
+<td>time</td>
+<td>The time when the session expires, if set.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the session was created.</td>
+</tr>
+</tbody></table>
 <h2 id='get-authentication-token'>Get authentication token</h2>
 <blockquote>
 <p>Example Request</p>
@@ -633,11 +710,45 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
-    <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
-    <span class="s2">"status_id"</span>: 1, // pending
-    <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
 <span class="o">}</span>
 </code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>identity.type</td>
+<td>string</td>
+<td>The name of the identity. Can be <code>phone</code> or <code>username</code>. <code>required</code></td>
+</tr>
+<tr>
+<td>identity.value</td>
+<td>string</td>
+<td>The value which to look up the user by, e.g. a username. <code>required</code></td>
+</tr>
+<tr>
+<td>authenticator</td>
+<td>string</td>
+<td>The name of the authenticator. Can be <code>password</code>, <code>sms</code> or a custom authenticator. <code>required</code></td>
+</tr>
+<tr>
+<td>secret</td>
+<td>string</td>
+<td>The secret required for the authenticator. <code>required</code></td>
+</tr>
+<tr>
+<td>device</td>
+<td>Device</td>
+<td>The user device information. <code>required</code></td>
+</tr>
+</tbody></table>
+
 <p>Post identity type + value (e.g. phone number), type of authentication (e.g. &quot;sms&quot;) and device. The response will include a UUID and status for lookup.</p>
 <h3 id='http-request'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/tokens</code></p>
@@ -650,23 +761,53 @@ Authentication is based on a pair of authentication and session tokens.
   -d <span class="s1">$'{
   "secret": "111111",
   "pin": "1234"
-}
-</span></code></pre>
+}'</span>
+</code></pre>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
-  <span class="s2">"status_id"</span>: 2, // approved
+  <span class="s2">"status_id"</span>: 1,
   <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
 <span class="o">}</span>
 </code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>secret</td>
+<td>string</td>
+<td>The secret required to authenticate. <code>required</code></td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string</td>
+<td>The PIN for the user wanting to authenticate. <code>required</code></td>
+</tr>
+</tbody></table>
+
 <p>Post the secret (e.g. verification code) and PIN (depends on the authenticator type).</p>
 <h3 id='http-request-2'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/tokens/{uuid}/secret</code></p>
-<h2 id='get-authentication-token-status'>Get authentication token status</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
-    <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
-    <span class="s2">"status_id"</span>: 2, // approved
+<h2 id='get-authentication-token-status'>Get authentication token status</h2>
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/tokens/{uuid}"</span> <span class="se">\</span>
+  -H <span class="s2">"Content-Type: application/json"</span>
+<span class="o">}</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
+  <span class="s2">"status_id"</span>: 1
 <span class="o">}</span>
 </code></pre><h3 id='http-request-3'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/tokens/{uuid}</code></p>
@@ -681,10 +822,9 @@ Authentication is based on a pair of authentication and session tokens.
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
-    <span class="s2">"token"</span>: <span class="s2">"d2LRgT827mEcwXlSoEMztc8If..."</span>,
-    <span class="s2">"uuid"</span>: <span class="s2">"3f35ae0a-e421-9ba3-531a-b51492d2a5ac"</span>,
-    <span class="s2">"created_at"</span>: <span class="s2">"2017-10-18T17:02:03.181879Z"</span>,
-    <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-19T17:02:03.181879Z"</span>
+  <span class="s2">"token"</span>: <span class="s2">"d2LRgT827mEcwXlSoEMztc8If..."</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-10-18T17:02:03.181879Z"</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-19T17:02:03.181879Z"</span>
 <span class="o">}</span>
 </code></pre>
 <p>Send an authentication token as an Authorization header and receive a session token as well as the date and time when the session expires.</p>
@@ -713,9 +853,21 @@ Authentication is based on a pair of authentication and session tokens.
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/sessions/verify"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
-<p>Verify that a specific session token is valid by sending the token as an Authorization header.</p>
+<p>Verify that a specific session token is valid by sending the token as an Authorization header. Returns 200 OK if the session token is valid.</p>
 <h3 id='http-request-5'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/sessions/verify</code></p>
+<h3 id='errors-2'>Errors</h3>
+<table><thead>
+<tr>
+<th>HTTP Status</th>
+<th>Explanation</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>401 Unauthorized</td>
+<td>The Session Token was not found or has expired.</td>
+</tr>
+</tbody></table>
 <h1 id='response-codes-amp-errors'>Response Codes &amp; Errors</h1>
 <table><thead>
 <tr>
@@ -763,9 +915,15 @@ Authentication is based on a pair of authentication and session tokens.
 </tr>
 </tbody></table>
 
-<p>TODO: List error codes
-TODO: List validation error codes</p>
-<h2 id='the-error-object'>The error object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<!--
+TODO: List error codes (eg unknown_exception)
+TODO: List validation error codes
+-->
+<h2 id='the-error-object'>The error object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"errors"</span>: <span class="o">[</span>
     <span class="o">{</span>
       <span class="s2">"code"</span>: <span class="s2">"unknown_exception"</span>,
@@ -792,7 +950,11 @@ TODO: List validation error codes</p>
 <td>The translated error message.</td>
 </tr>
 </tbody></table>
-<h2 id='the-validation-error-object'>The validation error object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h2 id='the-validation-error-object'>The validation error object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"errors"</span>: <span class="o">[</span>
     <span class="o">{</span>
       <span class="s2">"field"</span>: <span class="s2">"username"</span>,
@@ -1044,8 +1206,6 @@ TODO: List validation error codes</p>
 <td>Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-2'>Filtering</h3>
-<p>TODO: Filtering</p>
 <h2 id='get-an-announcement'>Get an announcement</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1689,7 +1849,7 @@ TODO: List validation error codes</p>
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-3'>Filtering</h3>
+<h3 id='filtering-2'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -1772,7 +1932,18 @@ TODO: List validation error codes</p>
     <span class="o">}</span>
   <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
-    <span class="o">{</span> TODO: Participant object <span class="o">}</span>
+    <span class="o">{</span>
+      <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+      <span class="s2">"user_uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+      <span class="s2">"transaction_uuid"</span>: <span class="s2">"875ef796-88a1-4c7f-8755-d4cb066b9a3e"</span>,
+      <span class="s2">"status_id"</span>: 1,
+      <span class="s2">"amount"</span>: 20.00,
+      <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+      <span class="s2">"full_name"</span>: <span class="s2">"Arnar Participant"</span>,
+      <span class="s2">"username"</span>: <span class="s2">"arnarpart"</span>,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+    <span class="o">}</span>
   <span class="o">]</span>,
   <span class="s2">"participation"</span>: <span class="o">{</span>
     <span class="s2">"count"</span>: <span class="o">{</span>
@@ -1790,54 +1961,18 @@ TODO: List validation error codes</p>
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.48788Z"</span>
 <span class="o">}</span>
 </code></pre>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>uuid</td>
-<td>uuid</td>
-<td>The unique identifier for the money pool.</td>
-</tr>
-<tr>
-<td>status_id</td>
-<td>integer</td>
-<td>The money pool status.<br><code>1 = open</code><br><code>2 = closed</code></td>
-</tr>
-<tr>
-<td>TODO: ...</td>
-<td></td>
-<td></td>
-</tr>
-<tr>
-<td>currency</td>
-<td>string</td>
-<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
-</tr>
-<tr>
-<td>image</td>
-<td>Image</td>
-<td>An optional money pool image.</td>
-</tr>
-<tr>
-<td>participation</td>
-<td>Participation</td>
-<td>Participation information for the money pool.</td>
-</tr>
-<tr>
-<td>created_at</td>
-<td>time</td>
-<td>The time when the money pool was created.</td>
-</tr>
-<tr>
-<td>updated_at</td>
-<td>time</td>
-<td>The time when the money pool was updated.</td>
-</tr>
-</tbody></table>
+<!--
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the money pool. |
+| status_id | integer | The money pool status.<br>`1 = open`<br>`2 = closed` |
+| TODO: ... |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| image | Image | An optional money pool image. |
+| participation | Participation | Participation information for the money pool. |
+| created_at | time | The time when the money pool was created. |
+| updated_at | time | The time when the money pool was updated. |
+-->
 <h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1849,9 +1984,56 @@ TODO: List validation error codes</p>
 <h3 id='http-request-19'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/pools</code></p>
 <h3 id='url-parameters-4'>URL Parameters</h3>
-<p>TODO: Parameters</p>
-<h3 id='filtering-4'>Filtering</h3>
-<p>TODO: Filtering</p>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-3'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>owner</td>
+<td>boolean</td>
+<td>eq</td>
+<td>true, false</td>
+</tr>
+<tr>
+<td>status</td>
+<td>string</td>
+<td>eq, in</td>
+<td>open, closed, all <code>default: all</code></td>
+</tr>
+</tbody></table>
 <h2 id='get-a-money-pool'>Get a money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -1997,7 +2179,7 @@ TODO: List validation error codes</p>
 <h3 id='http-request-22'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/pools/{uuid}</code></p>
 
-<p>TODO: Object</p>
+<!-- TODO: Object -->
 <h2 id='close-money-pool'>Close money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -2051,7 +2233,18 @@ TODO: List validation error codes</p>
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">[</span>
-  <span class="o">{</span> TODO: Participant object <span class="o">}</span>
+  <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+    <span class="s2">"user_uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"transaction_uuid"</span>: <span class="s2">"875ef796-88a1-4c7f-8755-d4cb066b9a3e"</span>,
+    <span class="s2">"status_id"</span>: 1,
+    <span class="s2">"amount"</span>: 20.00,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+    <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+    <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+  <span class="o">}</span>
 <span class="o">]</span>
 </code></pre>
 <p>Get a list of participants in a money pool.</p>
@@ -2086,7 +2279,7 @@ TODO: List validation error codes</p>
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-5'>Filtering</h3>
+<h3 id='filtering-4'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2150,7 +2343,18 @@ TODO: List validation error codes</p>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code><span class="o">{</span> TODO: Participant object <span class="o">}</span>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+  <span class="s2">"user_uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+  <span class="s2">"transaction_uuid"</span>: <span class="s2">"875ef796-88a1-4c7f-8755-d4cb066b9a3e"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"amount"</span>: 50.00,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+  <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+<span class="o">}</span>
 </code></pre>
 <p>The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.</p>
 <h3 id='http-request-27'>HTTP Request</h3>
@@ -2179,7 +2383,11 @@ TODO: List validation error codes</p>
 <td>The current user&#39;s PIN. <code>required</code></td>
 </tr>
 </tbody></table>
-<h1 id='notifications'>Notifications</h1><h2 id='the-notification-object'>The notification object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h1 id='notifications'>Notifications</h1><h2 id='the-notification-object'>The notification object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"68b206f0-ccea-45df-535f-ed16a97e5530"</span>,
   <span class="s2">"actor_uuid"</span>: <span class="s2">"92e7370f-8ea0-4b84-b412-776c4129a7c7"</span>,
   <span class="s2">"actor"</span>: <span class="s2">"Arnar"</span>,
@@ -2313,10 +2521,89 @@ TODO: List validation error codes</p>
 <td>Show notifications after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-6'>Filtering</h3>
-<p>TODO: Filtering</p>
 <h1 id='participation'>Participation</h1>
 <p>Participation information for a moment, request or money pool.</p>
+<h2 id='the-participant-object'>The participant object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+  <span class="s2">"user_uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+  <span class="s2">"parent_user_uuid"</span>: <span class="s2">"79d94752-f94a-46ab-8793-7f6434025cf7"</span>,
+  <span class="s2">"transaction_uuid"</span>: <span class="s2">"875ef796-88a1-4c7f-8755-d4cb066b9a3e"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"amount"</span>: 20.00,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+  <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the participant.</td>
+</tr>
+<tr>
+<td>user_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the participant user.</td>
+</tr>
+<tr>
+<td>parent_user_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the participant parent user.</td>
+</tr>
+<tr>
+<td>transaction_uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the transaction if a payment has been made.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The status of the participant.<br><code>1 = pending</code><br><code>2 = paid</code><br><code>3 = settled</code><br><code>4 = rejected</code><br><code>5 = cancelled</code><br><code>6 = invited</code></td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The amount being paid by or requested of the participant.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>full_name</td>
+<td>string</td>
+<td>The full name of the participant.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>The username of the participant.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the participant was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the participant was updated.</td>
+</tr>
+</tbody></table>
 <h2 id='the-participation-object'>The participation object</h2>
 <blockquote>
 <p>Example Response</p>
@@ -2423,7 +2710,7 @@ TODO: List validation error codes</p>
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-7'>Filtering</h3>
+<h3 id='filtering-5'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2726,7 +3013,7 @@ TODO: List validation error codes</p>
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-8'>Filtering</h3>
+<h3 id='filtering-6'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2891,7 +3178,11 @@ TODO: List validation error codes</p>
 <p>Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.</p>
 <h3 id='http-request-38'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments/{uuid}/receipt</code></p>
-<h1 id='receipt'>Receipt</h1><h2 id='the-receipt-object'>The receipt object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h1 id='receipt'>Receipt</h1><h2 id='the-receipt-object'>The receipt object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"description"</span>: <span class="s2">"This is a payment description"</span>,
   <span class="s2">"reference_code"</span>: <span class="s2">"00002MC"</span>,
   <span class="s2">"time"</span>: <span class="s2">"2017-05-23T12:41:15.813817Z"</span>,
@@ -2924,8 +3215,12 @@ TODO: List validation error codes</p>
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
-<p>TODO: Receipt object</p>
-<h1 id='requests'>Requests</h1><h2 id='the-request-object'>The request object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<!-- TODO: Receipt object -->
+<h1 id='requests'>Requests</h1><h2 id='the-request-object'>The request object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"c5d8701e-05cf-4b15-52bf-1cf76c3d84f2"</span>,
   <span class="s2">"status_id"</span>: 1,
   <span class="s2">"fulfillment_status_id"</span>: 2,
@@ -2967,7 +3262,18 @@ TODO: List validation error codes</p>
     <span class="o">}</span>
   <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
-    <span class="o">{</span> TODO: PaymentRecipient object <span class="o">}</span>
+    <span class="o">{</span>
+      <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+      <span class="s2">"user_uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+      <span class="s2">"transaction_uuid"</span>: <span class="s2">"875ef796-88a1-4c7f-8755-d4cb066b9a3e"</span>,
+      <span class="s2">"status_id"</span>: 1,
+      <span class="s2">"amount"</span>: 10.00,
+      <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+      <span class="s2">"full_name"</span>: <span class="s2">"Arnar Participant"</span>,
+      <span class="s2">"username"</span>: <span class="s2">"arnarpart"</span>,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+    <span class="o">}</span>
   <span class="o">]</span>,
   <span class="s2">"participation"</span>: <span class="o">{</span>
     <span class="s2">"count"</span>: <span class="o">{</span>
@@ -3094,7 +3400,7 @@ TODO: List validation error codes</p>
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-9'>Filtering</h3>
+<h3 id='filtering-7'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3270,7 +3576,18 @@ TODO: List validation error codes</p>
 <blockquote>
 <p>Example Response</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code><span class="o">{</span> TODO: Participant object <span class="o">}</span>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+  <span class="s2">"user_uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+  <span class="s2">"transaction_uuid"</span>: <span class="s2">"875ef796-88a1-4c7f-8755-d4cb066b9a3e"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"amount"</span>: 20.00,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"full_name"</span>: <span class="s2">"John Dough"</span>,
+  <span class="s2">"username"</span>: <span class="s2">"jondough"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+<span class="o">}</span>
 </code></pre>
 <p>Pay an existing request as a participant. Payment source and PIN is required for payments.</p>
 <h3 id='http-request-46'>HTTP Request</h3>
@@ -3401,7 +3718,11 @@ TODO: List validation error codes</p>
 <p>Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.</p>
 <h3 id='http-request-50'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/requests/{uuid}/participants/{uuid}/receipt</code></p>
-<h1 id='transactions'>Transactions</h1><h2 id='the-transaction-object'>The transaction object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h1 id='transactions'>Transactions</h1><h2 id='the-transaction-object'>The transaction object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
   <span class="s2">"out_user_uuid"</span>: <span class="s2">"dd72ebb8-db1f-4442-b203-095ac9ded974"</span>,
   <span class="s2">"in_user_uuid"</span>: <span class="s2">"1c478b12-288a-4ea0-831d-1e36639300da"</span>,
@@ -3507,7 +3828,11 @@ TODO: List validation error codes</p>
 <td>The time when the transaction was updated.</td>
 </tr>
 </tbody></table>
-<h2 id='the-gateway-response-object'>The gateway response object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h2 id='the-gateway-response-object'>The gateway response object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"79d90419-dc82-4093-6afc-65f8b206fea0"</span>,
   <span class="s2">"amount"</span>: 50.0,
   <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
@@ -3611,7 +3936,7 @@ TODO: List validation error codes</p>
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-10'>Filtering</h3>
+<h3 id='filtering-8'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3637,7 +3962,11 @@ TODO: List validation error codes</p>
 <p>Get a single transaction by UUID.</p>
 <h3 id='http-request-52'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions/{uuid}</code></p>
-<h1 id='users'>Users</h1><h2 id='the-user-object'>The user object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h1 id='users'>Users</h1><h2 id='the-user-object'>The user object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
   <span class="s2">"first_name"</span>: <span class="s2">"John"</span>,
   <span class="s2">"last_name"</span>: <span class="s2">"Dough"</span>,
@@ -3731,7 +4060,11 @@ TODO: List validation error codes</p>
 <td>The relationship between the user and the current user.</td>
 </tr>
 </tbody></table>
-<h2 id='the-current-user-object'>The current user object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h2 id='the-current-user-object'>The current user object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
   <span class="s2">"status_id"</span>: 1,
   <span class="s2">"first_name"</span>: <span class="s2">"John"</span>,
@@ -3863,7 +4196,11 @@ TODO: List validation error codes</p>
 <td>The time when the user was updated.</td>
 </tr>
 </tbody></table>
-<h2 id='the-relationship-object'>The relationship object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h2 id='the-relationship-object'>The relationship object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"status_id"</span>: 1,
   <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
@@ -3945,8 +4282,10 @@ If the current has a relationship to this user, the User object will embed a Rel
 <p>Unblock a specific user.</p>
 <h3 id='http-request-56'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/{uuid}/unblock</code></p>
-<h2 id='search-for-users'>Search for users</h2>
-<p>TODO: Search</p>
+
+<!-- ## Search for users
+
+TODO: Search -->
 <h2 id='create-a-user-signup'>Create a user – signup</h2>
 <blockquote>
 <p>Example Request</p>
@@ -4055,12 +4394,16 @@ If the current has a relationship to this user, the User object will embed a Rel
   }
 }'</span>
 </code></pre>
-<p>TODO: Which attributes?</p>
+<!-- TODO: Which attributes? -->
 
 <p>Update the current user.</p>
 <h3 id='http-request-58'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/users/{uuid}</code></p>
-<h1 id='verifications'>Verifications</h1><h2 id='the-verification-object'>The verification object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+<h1 id='verifications'>Verifications</h1><h2 id='the-verification-object'>The verification object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"f346ced3-f80c-45d9-a9f5-a2b0288cb126"</span>,
   <span class="s2">"type_id"</span>: 1,
   <span class="s2">"status_id"</span>: 1,
