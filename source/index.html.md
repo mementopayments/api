@@ -1387,7 +1387,7 @@ Participation information for a moment, request or money pool.
 ```shell
 {
   "uuid": "46d679a5-c221-4d91-89ee-da7eff58ed21",
-  "type_id": 1,
+  "type_id": 3,
   "description": "My payment source",
   "gateway": "bank_of_london",
   "bank_account": {
@@ -1399,15 +1399,17 @@ Participation information for a moment, request or money pool.
     "created_at": "2017-09-04T12:25:53.085206Z",
     "updated_at": "2017-09-04T12:25:53.085206Z"
   },
-  "balances": [{
-    "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-    "amount": 10.0,
-    "amount_in": 15.0,
-    "amount_out": 5.0,
-    "currency": "EUR",
-    "created_at": "2017-09-04T12:26:43.398646Z",
-    "updated_at": "2017-09-04T12:26:43.398646Z"
-  }],
+  "balances": [
+    {
+      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "amount": 10.0,
+      "amount_in": 15.0,
+      "amount_out": 5.0,
+      "currency": "EUR",
+      "created_at": "2017-09-04T12:26:43.398646Z",
+      "updated_at": "2017-09-04T12:26:43.398646Z"
+    }
+  ],
   "currencies": ["EUR"],
   "allows_in": false,
   "allows_out": true,
@@ -1546,23 +1548,6 @@ Get a single payment source by UUID.
 
 `GET` `/v1/payment_sources/{uuid}`
 
-## Get a payment source balance
-
-> Example Request
-
-```shell
-curl "https://api.mementopayments.com/v1/payment_sources/{uuid}/balance" \
-  -H "Content-Type: application/json" 
-```
-
-Get the balance for a payment source.
-
-### HTTP Request
-
-`GET` `/v1/payment_sources/{uuid}/balance`
-
-<!-- TODO: Example response -->
-
 ## Get payment source transactions
 
 > Example Request
@@ -1579,7 +1564,7 @@ Get a list of transactions for a payment source.
 `GET` `/v1/payment_sources/{uuid}/transactions`
 
 <!-- TODO: URL Parameters -->
-<!-- TODO: Filtering -->
+<!-- TODO: Filtering, t.d. currency -->
 <!-- TODO: Example response -->
 
 ## Create a payment source
