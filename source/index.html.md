@@ -1386,20 +1386,118 @@ Participation information for a moment, request or money pool.
 
 ```shell
 {
-  "description": "My Bank Account",
-  "type": "bank_account",
+  "uuid": "46d679a5-c221-4d91-89ee-da7eff58ed21",
+  "type_id": 1,
+  "description": "My payment source",
   "gateway": "bank_of_london",
   "bank_account": {
-    "country": "UK",
-    "swift": "AAABBCCDDD",
-    "iban": "GB98MIDL07009312345678",
-    "account_number": "",
-    "nin": ""
-  }
+    "uuid": "e21dac67-a93f-4681-6572-a6819c747135",
+    "country": "IS",
+    "account_number": "053526210380",
+    "owner_id": "2103805079",
+    "enabled": true,
+    "created_at": "2017-09-04T12:25:53.085206Z",
+    "updated_at": "2017-09-04T12:25:53.085206Z"
+  },
+  "balances": [{
+    "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+    "amount": 10.0,
+    "amount_in": 15.0,
+    "amount_out": 5.0,
+    "currency": "EUR",
+    "created_at": "2017-09-04T12:26:43.398646Z",
+    "updated_at": "2017-09-04T12:26:43.398646Z"
+  }],
+  "currencies": ["EUR"],
+  "allows_in": false,
+  "allows_out": true,
+  "active": true,
+  "verified": true,
+  "verified_at": "2017-09-04T12:26:43.398646Z",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
 }
 ```
 
-<!-- TODO: Describe object -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the payment source. |
+| type_id | integer | The type of payment source.<br>`1 = unclaimed funds`<br>`2 = virtual`<br>`3 = bank_account`<br>`4 = card`<br>`5 = crypto_address`|
+| description | string | The title of the payment source, determined by the user. |
+| gateway | string | The name of the gateway being used for the payment source type. |
+| bank_account | BankAccount | The bank account this payment source connects to. |
+| card | Card | The debit or credit card this payment source connects to. |
+| crypto_address | CryptoAddress | The address this payment source connects to. |
+| balances | array | A list of the current payment source balance per currency. |
+| currencies | array | A list of currencies which the payment source can send and receive funds in. |
+| allows_in | boolean | Whether funds can be received by the payment source. |
+| allows_out | boolean | Whether funds can be sent from the payment source. |
+| active | boolean | Whether the payment source can receive and/or send funds. |
+| verified | boolean | Whether the payment source has been verified by the user. |
+| verified_at | time | The time when the payment source was verified, if it has been verified. |
+| created_at | time | The time when the payment source was created. |
+| updated_at | time | The time when the payment source was updated. |
+
+## The payment source balance object
+
+```shell
+{
+  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "amount": 10.0,
+  "amount_in": 15.0,
+  "amount_out": 5.0,
+  "currency": "EUR",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
+}
+```
+
+<!-- TODO: Lýsa -->
+
+## The bank account object
+
+```shell
+{
+  "uuid": "e21dac67-a93f-4681-6572-a6819c747135",
+  "country": "IS",
+  "account_number": "053526210380",
+  "owner_id": "2103805079",
+  "enabled": true,
+  "created_at": "2017-09-04T12:25:53.085206Z",
+  "updated_at": "2017-09-04T12:25:53.085206Z"
+}
+```
+
+<!-- TODO: Lýsa -->
+
+## The card object
+```shell
+{
+  "uuid": "335563f9-5249-4339-6d31-078e29fd5f04",
+  "status_id": 1,
+  "type_id": 1,
+  "brand": "MasterCard",
+  "csc": "123",
+  "owner_id": "...",
+  "expiration_month": 10,
+  "expiration_year": 20,
+  "masked_number": "1234 56** **** 1234",
+  "verified": false,
+  "verified_at": "0001-01-01T00:00:00Z",
+  "created_at": "2017-09-04T12:25:52.43349Z",
+  "updated_at": "2017-09-04T12:25:52.43349Z"
+}
+```
+
+<!-- TODO: owner_id -->
+<!-- TODO: Lýsa -->
+
+<!-- ## The crypto address object
+
+```shell
+```
+
+TODO: Lýsa -->
 
 ## Get a list of payment sources
 
@@ -1531,7 +1629,7 @@ Create a new payment source.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | description | string | The title of the payment source, only visible to the user. `required` |
-| type | string | The type of payment source, can be `bank_account` or `card`. `required` |
+| type | string | The type of payment source, can be `bank_account`, `card`, `crypto_address` or `virtual`. `required` |
 | gateway | string | The name of the gateway being used for the payment source type. `required` |
 | bank_account | BankAccount | If the type is `bank_account` this object is required. |
 | card | Card | If the type is `card` this object is required. |
