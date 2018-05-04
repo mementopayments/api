@@ -432,6 +432,15 @@
                     <a href="#the-payment-source-object" class="toc-h2 toc-link" data-title="the-payment-source-object">The payment source object</a>
                   </li>
                   <li>
+                    <a href="#the-payment-source-balance-object" class="toc-h2 toc-link" data-title="the-payment-source-balance-object">The payment source balance object</a>
+                  </li>
+                  <li>
+                    <a href="#the-bank-account-object" class="toc-h2 toc-link" data-title="the-bank-account-object">The bank account object</a>
+                  </li>
+                  <li>
+                    <a href="#the-card-object" class="toc-h2 toc-link" data-title="the-card-object">The card object</a>
+                  </li>
+                  <li>
                     <a href="#get-a-list-of-payment-sources" class="toc-h2 toc-link" data-title="get-a-list-of-payment-sources">Get a list of payment sources</a>
                   </li>
                   <li>
@@ -2781,19 +2790,174 @@ TODO: List validation error codes
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
-  <span class="s2">"description"</span>: <span class="s2">"My Bank Account"</span>,
-  <span class="s2">"type"</span>: <span class="s2">"bank_account"</span>,
+  <span class="s2">"uuid"</span>: <span class="s2">"46d679a5-c221-4d91-89ee-da7eff58ed21"</span>,
+  <span class="s2">"type_id"</span>: 1,
+  <span class="s2">"description"</span>: <span class="s2">"My payment source"</span>,
   <span class="s2">"gateway"</span>: <span class="s2">"bank_of_london"</span>,
   <span class="s2">"bank_account"</span>: <span class="o">{</span>
-    <span class="s2">"country"</span>: <span class="s2">"UK"</span>,
-    <span class="s2">"swift"</span>: <span class="s2">"AAABBCCDDD"</span>,
-    <span class="s2">"iban"</span>: <span class="s2">"GB98MIDL07009312345678"</span>,
-    <span class="s2">"account_number"</span>: <span class="s2">""</span>,
-    <span class="s2">"nin"</span>: <span class="s2">""</span>
-  <span class="o">}</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"e21dac67-a93f-4681-6572-a6819c747135"</span>,
+    <span class="s2">"country"</span>: <span class="s2">"IS"</span>,
+    <span class="s2">"account_number"</span>: <span class="s2">"053526210380"</span>,
+    <span class="s2">"owner_id"</span>: <span class="s2">"2103805079"</span>,
+    <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:53.085206Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:53.085206Z"</span>
+  <span class="o">}</span>,
+  <span class="s2">"balances"</span>: <span class="o">[{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+    <span class="s2">"amount"</span>: 10.0,
+    <span class="s2">"amount_in"</span>: 15.0,
+    <span class="s2">"amount_out"</span>: 5.0,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+  <span class="o">}]</span>,
+  <span class="s2">"currencies"</span>: <span class="o">[</span><span class="s2">"EUR"</span><span class="o">]</span>,
+  <span class="s2">"allows_in"</span>: <span class="nb">false</span>,
+  <span class="s2">"allows_out"</span>: <span class="nb">true</span>,
+  <span class="s2">"active"</span>: <span class="nb">true</span>,
+  <span class="s2">"verified"</span>: <span class="nb">true</span>,
+  <span class="s2">"verified_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
 <span class="o">}</span>
 </code></pre>
-<!-- TODO: Describe object -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source.</td>
+</tr>
+<tr>
+<td>type_id</td>
+<td>integer</td>
+<td>The type of payment source.<br><code>1 = unclaimed funds</code><br><code>2 = virtual</code><br><code>3 = bank_account</code><br><code>4 = card</code><br><code>5 = crypto_address</code></td>
+</tr>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The title of the payment source, determined by the user.</td>
+</tr>
+<tr>
+<td>gateway</td>
+<td>string</td>
+<td>The name of the gateway being used for the payment source type.</td>
+</tr>
+<tr>
+<td>bank_account</td>
+<td>BankAccount</td>
+<td>The bank account this payment source connects to.</td>
+</tr>
+<tr>
+<td>card</td>
+<td>Card</td>
+<td>The debit or credit card this payment source connects to.</td>
+</tr>
+<tr>
+<td>crypto_address</td>
+<td>CryptoAddress</td>
+<td>The address this payment source connects to.</td>
+</tr>
+<tr>
+<td>balances</td>
+<td>array</td>
+<td>A list of the current payment source balance per currency.</td>
+</tr>
+<tr>
+<td>currencies</td>
+<td>array</td>
+<td>A list of currencies which the payment source can send and receive funds in.</td>
+</tr>
+<tr>
+<td>allows_in</td>
+<td>boolean</td>
+<td>Whether funds can be received by the payment source.</td>
+</tr>
+<tr>
+<td>allows_out</td>
+<td>boolean</td>
+<td>Whether funds can be sent from the payment source.</td>
+</tr>
+<tr>
+<td>active</td>
+<td>boolean</td>
+<td>Whether the payment source can receive and/or send funds.</td>
+</tr>
+<tr>
+<td>verified</td>
+<td>boolean</td>
+<td>Whether the payment source has been verified by the user.</td>
+</tr>
+<tr>
+<td>verified_at</td>
+<td>time</td>
+<td>The time when the payment source was verified, if it has been verified.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the payment source was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the payment source was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='the-payment-source-balance-object'>The payment source balance object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+  <span class="s2">"amount"</span>: 10.0,
+  <span class="s2">"amount_in"</span>: 15.0,
+  <span class="s2">"amount_out"</span>: 5.0,
+  <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
+<span class="o">}</span>
+</code></pre>
+<!-- TODO: Lýsa -->
+<h2 id='the-bank-account-object'>The bank account object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"e21dac67-a93f-4681-6572-a6819c747135"</span>,
+  <span class="s2">"country"</span>: <span class="s2">"IS"</span>,
+  <span class="s2">"account_number"</span>: <span class="s2">"053526210380"</span>,
+  <span class="s2">"owner_id"</span>: <span class="s2">"2103805079"</span>,
+  <span class="s2">"enabled"</span>: <span class="nb">true</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:53.085206Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:53.085206Z"</span>
+<span class="o">}</span>
+</code></pre>
+<!-- TODO: Lýsa -->
+<h2 id='the-card-object'>The card object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"uuid"</span>: <span class="s2">"335563f9-5249-4339-6d31-078e29fd5f04"</span>,
+  <span class="s2">"status_id"</span>: 1,
+  <span class="s2">"type_id"</span>: 1,
+  <span class="s2">"brand"</span>: <span class="s2">"MasterCard"</span>,
+  <span class="s2">"csc"</span>: <span class="s2">"123"</span>,
+  <span class="s2">"owner_id"</span>: <span class="s2">"..."</span>,
+  <span class="s2">"expiration_month"</span>: 10,
+  <span class="s2">"expiration_year"</span>: 20,
+  <span class="s2">"masked_number"</span>: <span class="s2">"1234 56** **** 1234"</span>,
+  <span class="s2">"verified"</span>: <span class="nb">false</span>,
+  <span class="s2">"verified_at"</span>: <span class="s2">"0001-01-01T00:00:00Z"</span>,
+  <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:52.43349Z"</span>,
+  <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:52.43349Z"</span>
+<span class="o">}</span>
+</code></pre>
+<!-- TODO: owner_id -->
+
+<!-- TODO: Lýsa -->
+
+<!-- ## The crypto address object
+
+```shell
+```
+
+TODO: Lýsa -->
 <h2 id='get-a-list-of-payment-sources'>Get a list of payment sources</h2>
 <blockquote>
 <p>Example Request</p>
@@ -2953,7 +3117,7 @@ TODO: List validation error codes
 <tr>
 <td>type</td>
 <td>string</td>
-<td>The type of payment source, can be <code>bank_account</code> or <code>card</code>. <code>required</code></td>
+<td>The type of payment source, can be <code>bank_account</code>, <code>card</code>, <code>crypto_address</code> or <code>virtual</code>. <code>required</code></td>
 </tr>
 <tr>
 <td>gateway</td>
