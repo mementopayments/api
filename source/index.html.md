@@ -1454,7 +1454,15 @@ Participation information for a moment, request or money pool.
 }
 ```
 
-<!-- TODO: Lýsa -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the payment source balance. |
+| amount | float | The difference between amounts deposited to and withdrawn from the payment source in the specific currency. |
+| amount_in | float | The total amount deposited to this payment source in the specific currency. |
+| amount_out | float | The total amount withdrawn from this payment source in the specific currency. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| created_at | time | The time when the payment source balance was created. |
+| updated_at | time | The time when the payment source balance was updated. |
 
 ## The bank account object
 
@@ -1470,7 +1478,15 @@ Participation information for a moment, request or money pool.
 }
 ```
 
-<!-- TODO: Lýsa -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the bank account. |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank account is located in. |
+| account_number | string | The unique bank account identifier within the bank where it is hosted. The format depends on the bank. |
+| owner_id | string | An optional unique identifier for the person who owns the bank account. The format depends on the bank. |
+| enabled | boolean | Whether the bank account is enabled. |
+| created_at | time | The time when the bank account was created. |
+| updated_at | time | The time when the bank account was updated. |
 
 ## The card object
 ```shell
@@ -1479,10 +1495,9 @@ Participation information for a moment, request or money pool.
   "status_id": 1,
   "type_id": 1,
   "brand": "MasterCard",
-  "csc": "123",
-  "owner_id": "...",
+  "owner_id": "2103805079",
   "expiration_month": 10,
-  "expiration_year": 20,
+  "expiration_year": 2020,
   "masked_number": "1234 56** **** 1234",
   "verified": false,
   "verified_at": "0001-01-01T00:00:00Z",
@@ -1491,8 +1506,20 @@ Participation information for a moment, request or money pool.
 }
 ```
 
-<!-- TODO: owner_id -->
-<!-- TODO: Lýsa -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| uuid | uuid | The unique identifier for the card. |
+| status_id | integer | The card status.<br>`1 = active`<br>`2 = expired`<br>`3 = rejected`<br>`4 = cancelled` |
+| type_id | integer | The type of card.<br>`1 = debit`<br>`2 = credit` |
+| brand | string | The card brand, e.g. `MasterCard`, `VISA`, etc. |
+| owner_id | string | An optional unique identifier for the person who owns the card. The format depends on the card processor. |
+| expiration_month | integer | Two digit number representing the card's expiration month. |
+| expiration_year | integer | Four digit number representing the card's expiration year. |
+| masked_number | string | The masked card number. The format depends on the card processor. |
+| verified | boolean | Whether the card has been verified. |
+| verified_at | time | The time when the card was verified, if it has been verified. |
+| created_at | time | The time when the bank account was created. |
+| updated_at | time | The time when the bank account was updated. |
 
 <!-- ## The crypto address object
 
@@ -1557,15 +1584,61 @@ curl "https://api.mementopayments.com/v1/payment_sources/{uuid}/transactions" \
   -H "Content-Type: application/json" 
 ```
 
-Get a list of transactions for a payment source.
+> Example Response
+
+```shell
+[
+  {
+    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "out_user_uuid": "dd72ebb8-db1f-4442-b203-095ac9ded974",
+    "in_user_uuid": "1c478b12-288a-4ea0-831d-1e36639300da",
+    "out_payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+    "in_payment_source_uuid": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
+    "payment_uuid": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
+    "status_id": 2,
+    "amount": 50.0,
+    "currency": "EUR",
+    "tracking_code": "DEF456",
+    "error": false,
+    "gateway_response": {
+      "uuid": "79d90419-dc82-4093-6afc-65f8b206fea0",
+      "amount": 50.0,
+      "currency": "EUR",
+      "authorization_code": "1234",
+      "reference_code": "ABC123",
+      "tracking_code": "DEF456",
+      "processor_datetime": "2017-09-04T12:25:53.35114Z",
+      "created_at": "2017-09-04T12:25:53.35114Z",
+      "updated_at": "2017-09-04T12:25:53.35114Z"
+    },
+    "expires_at": "2017-10-04T12:25:48.827724Z",
+    "created_at": "2017-09-04T12:25:48.827724Z",
+    "updated_at": "2017-09-04T12:25:48.827724Z"
+  }
+]
+```
+
+Get a list of transactions for a payment source, both deposits and withdrawals.
 
 ### HTTP Request
 
 `GET` `/v1/payment_sources/{uuid}/transactions`
 
-<!-- TODO: URL Parameters -->
-<!-- TODO: Filtering, t.d. currency -->
-<!-- TODO: Example response -->
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|currency|string|eq|Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency.|
+|deposits_only|boolean|eq|true, false|
 
 ## Create a payment source
 
@@ -1917,7 +1990,24 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 }
 ```
 
-<!-- TODO: Receipt object -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The payment title. |
+| reference_code | string | A generated reference code. |
+| time | time | The time when the payment occurred. |
+| payer.uuid | uuid | The unique identifier for the user sending the payment. |
+| payer.title | string | The name of the user sending the payment. |
+| payer.details | array | An optional list of strings with details about the user sending the payment, e.g. address. |
+| recipient.uuid | uuid | The unique identifier for the user receiving the payment. |
+| recipient.title | string | The name of the user receiving the payment. |
+| recipient.details | array | An optional list of strings with details about the user receiving the payment, e.g. address. |
+| payment_method.uuid | uuid | The unique identifier for the payment method. |
+| payment_method.title | string | The payment method title. |
+| payment_method.details | array | An optional list of strings with details about the payment method, e.g. card information. |
+| amount.total | string | The formatted total amount of the payment in the currency in which the payment was made. |
+| amount.paid | string | The formatted amount paid in the currency in which the payment was made. |
+| amount.cost | string | The formatted cost amount paid in the currency in which the payment was made. |
+| amount.currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. |
 
 # Requests
 
