@@ -1072,13 +1072,28 @@ curl -X PUT "https://api.mementopayments.com/v1/pools/{uuid}" \
 }'
 ```
 
-Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.
+Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON. Currency can not be changed.
 
 ### HTTP Request
 
 `PUT` `/v1/pools/{uuid}`
 
-<!-- TODO: Object -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The money pool title. |
+| detailed_description | string | Any description for the money pool. |
+| hashtag | string | An optional hashtag for the money pool. |
+| amounts | array | A list of payment options. |
+| invites | array | A list of users that will be invited to participate in the money pool. |
+| image | Image | An optional image object. This can also be performed after creating the money pool. |
+| is_public | boolean | Whether everyone can open the money pool or invited users only. |
+| only_owner_sees_participants | boolean | Whether the owner is the only one who can see the list of participants. |
+| has_unique_recipients | boolean | Whether users can only contribute once to the money pool. |
+| allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. |
+| minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
+| maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
+| start_at | time | The time at which the money pool will become available. |
+| end_at | time | The time at which the money pool will become unavailable. |
 
 ## Close money pool
 
@@ -2837,7 +2852,16 @@ curl -X PUT "https://api.mementopayments.com/v1/users" \
 }'
 ```
 
-<!-- TODO: Which attributes? -->
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| first_name | string | The first name of the user. |
+| last_name | string | The last name of the user. |
+| username | string | The unique username of the user. |
+| email | string | The name of the OS running on the device. |
+| phone | string | The version of the OS running on the device. |
+| pin | string | The user's PIN. |
+| device | Device | The user device information. |
+| image | Image | The height of the device's screen. |
 
 Update the current user.
 
