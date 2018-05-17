@@ -2286,11 +2286,88 @@ TODO: List validation error codes
   "description": "New Title"
 }'</span>
 </code></pre>
-<p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON.</p>
+<p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON. Currency can not be changed.</p>
 <h3 id='http-request-22'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/pools/{uuid}</code></p>
 
-<!-- TODO: Object -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The money pool title.</td>
+</tr>
+<tr>
+<td>detailed_description</td>
+<td>string</td>
+<td>Any description for the money pool.</td>
+</tr>
+<tr>
+<td>hashtag</td>
+<td>string</td>
+<td>An optional hashtag for the money pool.</td>
+</tr>
+<tr>
+<td>amounts</td>
+<td>array</td>
+<td>A list of payment options.</td>
+</tr>
+<tr>
+<td>invites</td>
+<td>array</td>
+<td>A list of users that will be invited to participate in the money pool.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>An optional image object. This can also be performed after creating the money pool.</td>
+</tr>
+<tr>
+<td>is_public</td>
+<td>boolean</td>
+<td>Whether everyone can open the money pool or invited users only.</td>
+</tr>
+<tr>
+<td>only_owner_sees_participants</td>
+<td>boolean</td>
+<td>Whether the owner is the only one who can see the list of participants.</td>
+</tr>
+<tr>
+<td>has_unique_recipients</td>
+<td>boolean</td>
+<td>Whether users can only contribute once to the money pool.</td>
+</tr>
+<tr>
+<td>allows_optional_amount</td>
+<td>boolean</td>
+<td>Whether users can pay an optional amount of their choice.</td>
+</tr>
+<tr>
+<td>minimum_user_amount</td>
+<td>float</td>
+<td>The lowest amount of a single contribution made to the money pool.</td>
+</tr>
+<tr>
+<td>maximum_user_amount</td>
+<td>float</td>
+<td>The highest amount of a single contribution made to the money pool.</td>
+</tr>
+<tr>
+<td>start_at</td>
+<td>time</td>
+<td>The time at which the money pool will become available.</td>
+</tr>
+<tr>
+<td>end_at</td>
+<td>time</td>
+<td>The time at which the money pool will become unavailable.</td>
+</tr>
+</tbody></table>
 <h2 id='close-money-pool'>Close money pool</h2>
 <blockquote>
 <p>Example Request</p>
@@ -2919,7 +2996,49 @@ TODO: List validation error codes
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.398646Z"</span>
 <span class="o">}</span>
 </code></pre>
-<!-- TODO: Lýsa -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment source balance.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The difference between amounts deposited to and withdrawn from the payment source in the specific currency.</td>
+</tr>
+<tr>
+<td>amount_in</td>
+<td>float</td>
+<td>The total amount deposited to this payment source in the specific currency.</td>
+</tr>
+<tr>
+<td>amount_out</td>
+<td>float</td>
+<td>The total amount withdrawn from this payment source in the specific currency.</td>
+</tr>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the payment source balance was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the payment source balance was updated.</td>
+</tr>
+</tbody></table>
 <h2 id='the-bank-account-object'>The bank account object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"e21dac67-a93f-4681-6572-a6819c747135"</span>,
   <span class="s2">"country"</span>: <span class="s2">"IS"</span>,
@@ -2930,16 +3049,57 @@ TODO: List validation error codes
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:53.085206Z"</span>
 <span class="o">}</span>
 </code></pre>
-<!-- TODO: Lýsa -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the bank account.</td>
+</tr>
+<tr>
+<td>country</td>
+<td>string</td>
+<td>Two letter ISO 3166-1 alpha-2 country code representing the country the bank account is located in.</td>
+</tr>
+<tr>
+<td>account_number</td>
+<td>string</td>
+<td>The unique bank account identifier within the bank where it is hosted. The format depends on the bank.</td>
+</tr>
+<tr>
+<td>owner_id</td>
+<td>string</td>
+<td>An optional unique identifier for the person who owns the bank account. The format depends on the bank.</td>
+</tr>
+<tr>
+<td>enabled</td>
+<td>boolean</td>
+<td>Whether the bank account is enabled.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the bank account was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the bank account was updated.</td>
+</tr>
+</tbody></table>
 <h2 id='the-card-object'>The card object</h2><pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"uuid"</span>: <span class="s2">"335563f9-5249-4339-6d31-078e29fd5f04"</span>,
   <span class="s2">"status_id"</span>: 1,
   <span class="s2">"type_id"</span>: 1,
   <span class="s2">"brand"</span>: <span class="s2">"MasterCard"</span>,
-  <span class="s2">"csc"</span>: <span class="s2">"123"</span>,
-  <span class="s2">"owner_id"</span>: <span class="s2">"..."</span>,
+  <span class="s2">"owner_id"</span>: <span class="s2">"2103805079"</span>,
   <span class="s2">"expiration_month"</span>: 10,
-  <span class="s2">"expiration_year"</span>: 20,
+  <span class="s2">"expiration_year"</span>: 2020,
   <span class="s2">"masked_number"</span>: <span class="s2">"1234 56** **** 1234"</span>,
   <span class="s2">"verified"</span>: <span class="nb">false</span>,
   <span class="s2">"verified_at"</span>: <span class="s2">"0001-01-01T00:00:00Z"</span>,
@@ -2947,9 +3107,74 @@ TODO: List validation error codes
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:52.43349Z"</span>
 <span class="o">}</span>
 </code></pre>
-<!-- TODO: owner_id -->
-
-<!-- TODO: Lýsa -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the card.</td>
+</tr>
+<tr>
+<td>status_id</td>
+<td>integer</td>
+<td>The card status.<br><code>1 = active</code><br><code>2 = expired</code><br><code>3 = rejected</code><br><code>4 = cancelled</code></td>
+</tr>
+<tr>
+<td>type_id</td>
+<td>integer</td>
+<td>The type of card.<br><code>1 = debit</code><br><code>2 = credit</code></td>
+</tr>
+<tr>
+<td>brand</td>
+<td>string</td>
+<td>The card brand, e.g. <code>MasterCard</code>, <code>VISA</code>, etc.</td>
+</tr>
+<tr>
+<td>owner_id</td>
+<td>string</td>
+<td>An optional unique identifier for the person who owns the card. The format depends on the card processor.</td>
+</tr>
+<tr>
+<td>expiration_month</td>
+<td>integer</td>
+<td>Two digit number representing the card&#39;s expiration month.</td>
+</tr>
+<tr>
+<td>expiration_year</td>
+<td>integer</td>
+<td>Four digit number representing the card&#39;s expiration year.</td>
+</tr>
+<tr>
+<td>masked_number</td>
+<td>string</td>
+<td>The masked card number. The format depends on the card processor.</td>
+</tr>
+<tr>
+<td>verified</td>
+<td>boolean</td>
+<td>Whether the card has been verified.</td>
+</tr>
+<tr>
+<td>verified_at</td>
+<td>time</td>
+<td>The time when the card was verified, if it has been verified.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>time</td>
+<td>The time when the bank account was created.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>time</td>
+<td>The time when the bank account was updated.</td>
+</tr>
+</tbody></table>
 
 <!-- ## The crypto address object
 
@@ -3041,15 +3266,93 @@ TODO: Lýsa -->
 <pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/payment_sources/{uuid}/transactions"</span> <span class="se">\</span>
   -H <span class="s2">"Content-Type: application/json"</span> 
 </code></pre>
-<p>Get a list of transactions for a payment source.</p>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">[</span>
+  <span class="o">{</span>
+    <span class="s2">"uuid"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
+    <span class="s2">"out_user_uuid"</span>: <span class="s2">"dd72ebb8-db1f-4442-b203-095ac9ded974"</span>,
+    <span class="s2">"in_user_uuid"</span>: <span class="s2">"1c478b12-288a-4ea0-831d-1e36639300da"</span>,
+    <span class="s2">"out_payment_source_uuid"</span>: <span class="s2">"d4097613-3b63-4dbb-befe-2211b9dc821a"</span>,
+    <span class="s2">"in_payment_source_uuid"</span>: <span class="s2">"b1f6a7de-7a8b-4c3f-a908-a02e16f8e529"</span>,
+    <span class="s2">"payment_uuid"</span>: <span class="s2">"745ad357-c7dc-478d-a46b-a97ebd9de4c7"</span>,
+    <span class="s2">"status_id"</span>: 2,
+    <span class="s2">"amount"</span>: 50.0,
+    <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+    <span class="s2">"tracking_code"</span>: <span class="s2">"DEF456"</span>,
+    <span class="s2">"error"</span>: <span class="nb">false</span>,
+    <span class="s2">"gateway_response"</span>: <span class="o">{</span>
+      <span class="s2">"uuid"</span>: <span class="s2">"79d90419-dc82-4093-6afc-65f8b206fea0"</span>,
+      <span class="s2">"amount"</span>: 50.0,
+      <span class="s2">"currency"</span>: <span class="s2">"EUR"</span>,
+      <span class="s2">"authorization_code"</span>: <span class="s2">"1234"</span>,
+      <span class="s2">"reference_code"</span>: <span class="s2">"ABC123"</span>,
+      <span class="s2">"tracking_code"</span>: <span class="s2">"DEF456"</span>,
+      <span class="s2">"processor_datetime"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:53.35114Z"</span>
+    <span class="o">}</span>,
+    <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-04T12:25:48.827724Z"</span>,
+    <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>,
+    <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>
+  <span class="o">}</span>
+<span class="o">]</span>
+</code></pre>
+<p>Get a list of transactions for a payment source, both deposits and withdrawals.</p>
 <h3 id='http-request-31'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payment_sources/{uuid}/transactions</code></p>
-
-<!-- TODO: URL Parameters -->
-
-<!-- TODO: Filtering, t.d. currency -->
-
-<!-- TODO: Example response -->
+<h3 id='url-parameters-8'>URL Parameters</h3>
+<table><thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>page</td>
+<td>int</td>
+<td>Item pagination.</td>
+</tr>
+<tr>
+<td>limit</td>
+<td>int</td>
+<td>Number of items to return per page.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>string</td>
+<td>Sort the results by <code>created_at</code>, <code>updated_at</code>.</td>
+</tr>
+<tr>
+<td>filter</td>
+<td>string</td>
+<td>Filter the results.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-6'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>currency</td>
+<td>string</td>
+<td>eq</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency.</td>
+</tr>
+<tr>
+<td>deposits_only</td>
+<td>boolean</td>
+<td>eq</td>
+<td>true, false</td>
+</tr>
+</tbody></table>
 <h2 id='create-a-payment-source'>Create a payment source</h2>
 <blockquote>
 <p>Example Request (with BankAccount as type)</p>
@@ -3286,7 +3589,7 @@ TODO: Lýsa -->
 <p>Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
 <h3 id='http-request-36'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments</code></p>
-<h3 id='url-parameters-8'>URL Parameters</h3>
+<h3 id='url-parameters-9'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3315,7 +3618,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-6'>Filtering</h3>
+<h3 id='filtering-7'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3517,7 +3820,94 @@ TODO: Lýsa -->
   <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
-<!-- TODO: Receipt object -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>description</td>
+<td>string</td>
+<td>The payment title.</td>
+</tr>
+<tr>
+<td>reference_code</td>
+<td>string</td>
+<td>A generated reference code.</td>
+</tr>
+<tr>
+<td>time</td>
+<td>time</td>
+<td>The time when the payment occurred.</td>
+</tr>
+<tr>
+<td>payer.uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the user sending the payment.</td>
+</tr>
+<tr>
+<td>payer.title</td>
+<td>string</td>
+<td>The name of the user sending the payment.</td>
+</tr>
+<tr>
+<td>payer.details</td>
+<td>array</td>
+<td>An optional list of strings with details about the user sending the payment, e.g. address.</td>
+</tr>
+<tr>
+<td>recipient.uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the user receiving the payment.</td>
+</tr>
+<tr>
+<td>recipient.title</td>
+<td>string</td>
+<td>The name of the user receiving the payment.</td>
+</tr>
+<tr>
+<td>recipient.details</td>
+<td>array</td>
+<td>An optional list of strings with details about the user receiving the payment, e.g. address.</td>
+</tr>
+<tr>
+<td>payment_method.uuid</td>
+<td>uuid</td>
+<td>The unique identifier for the payment method.</td>
+</tr>
+<tr>
+<td>payment_method.title</td>
+<td>string</td>
+<td>The payment method title.</td>
+</tr>
+<tr>
+<td>payment_method.details</td>
+<td>array</td>
+<td>An optional list of strings with details about the payment method, e.g. card information.</td>
+</tr>
+<tr>
+<td>amount.total</td>
+<td>string</td>
+<td>The formatted total amount of the payment in the currency in which the payment was made.</td>
+</tr>
+<tr>
+<td>amount.paid</td>
+<td>string</td>
+<td>The formatted amount paid in the currency in which the payment was made.</td>
+</tr>
+<tr>
+<td>amount.cost</td>
+<td>string</td>
+<td>The formatted cost amount paid in the currency in which the payment was made.</td>
+</tr>
+<tr>
+<td>amount.currency</td>
+<td>string</td>
+<td>Three-letter <a href="https://www.iso.org/iso-4217-currency-codes.html">ISO currency code</a>. Must be a supported currency.</td>
+</tr>
+</tbody></table>
 <h1 id='requests'>Requests</h1><h2 id='the-request-object'>The request object</h2>
 <blockquote>
 <p>Example Response</p>
@@ -3673,7 +4063,7 @@ TODO: Lýsa -->
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
 <h3 id='http-request-40'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/reqests</code></p>
-<h3 id='url-parameters-9'>URL Parameters</h3>
+<h3 id='url-parameters-10'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3702,7 +4092,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-7'>Filtering</h3>
+<h3 id='filtering-8'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -4209,7 +4599,7 @@ TODO: Lýsa -->
 <p>Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.</p>
 <h3 id='http-request-52'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions</code></p>
-<h3 id='url-parameters-10'>URL Parameters</h3>
+<h3 id='url-parameters-11'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4238,7 +4628,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-8'>Filtering</h3>
+<h3 id='filtering-9'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -4696,7 +5086,54 @@ TODO: Search -->
   }
 }'</span>
 </code></pre>
-<!-- TODO: Which attributes? -->
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>first_name</td>
+<td>string</td>
+<td>The first name of the user.</td>
+</tr>
+<tr>
+<td>last_name</td>
+<td>string</td>
+<td>The last name of the user.</td>
+</tr>
+<tr>
+<td>username</td>
+<td>string</td>
+<td>The unique username of the user.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>string</td>
+<td>The name of the OS running on the device.</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>string</td>
+<td>The version of the OS running on the device.</td>
+</tr>
+<tr>
+<td>pin</td>
+<td>string</td>
+<td>The user&#39;s PIN.</td>
+</tr>
+<tr>
+<td>device</td>
+<td>Device</td>
+<td>The user device information.</td>
+</tr>
+<tr>
+<td>image</td>
+<td>Image</td>
+<td>The height of the device&#39;s screen.</td>
+</tr>
+</tbody></table>
 
 <p>Update the current user.</p>
 <h3 id='http-request-59'>HTTP Request</h3>
