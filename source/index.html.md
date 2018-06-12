@@ -43,16 +43,16 @@ All requests to the API need to be accompanied by an Authorization header:
 
 ```shell
 {
-  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status_id": 2,
+  "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status": "approved",
   "token": "wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the authentication. |
-| status_id | integer | The status of the authentication.<br>`1 = pending`<br>`2 = approved`<br>`3 = rejected`|
+| id | uuid | The unique identifier for the authentication. |
+| status | string | The status of the authentication.<br>`pending`<br>`approved`<br>`rejected`|
 | token | string | The authentication token. |
 
 ## The session object
@@ -69,7 +69,7 @@ All requests to the API need to be accompanied by an Authorization header:
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the session. |
+| id | uuid | The unique identifier for the session. |
 | token | string | The authentication token. |
 | expires_at | time | The time when the session expires, if set. |
 | created_at | time | The time when the session was created. |
@@ -89,7 +89,7 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
   "authenticator": "password",
   "secret": "123456",
   "device": {
-      "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+      "id": "582a5abb-1335-4794-4855-11e067b8c55e",
       "make": "iPhone",
       "model": "iPhone6,2",
       "os_name": "iOS",
@@ -105,8 +105,8 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 
 ```shell
 {
-  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status_id": 1,
+  "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status": "pending",
   "token": "wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -119,7 +119,7 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 | secret | string | The secret required for the authenticator. `required` |
 | device | Device | The user device information. `required` |
 
-Post identity type + value (e.g. phone number), type of authentication (e.g. "sms") and device. The response will include a UUID and status for lookup.
+Post identity type + value (e.g. phone number), type of authentication (e.g. "sms") and device. The response will include an ID and status for lookup.
 
 ### HTTP Request
 
@@ -142,8 +142,8 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 
 ```shell
 {
-  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status_id": 1,
+  "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status": "pending",
   "token": "wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -157,14 +157,14 @@ Post the secret (e.g. verification code) and PIN (depends on the authenticator t
 
 ### HTTP Request
 
-`POST` `/v1/tokens/{uuid}/secret`
+`POST` `/v1/tokens/{id}/secret`
 
 ## Get authentication token status
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/tokens/{uuid}" \
+curl "https://api.mementopayments.com/v1/tokens/{id}" \
   -H "Content-Type: application/json"
 }
 ```
@@ -173,14 +173,14 @@ curl "https://api.mementopayments.com/v1/tokens/{uuid}" \
 
 ```shell
 {
-  "uuid": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status_id": 1
+  "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+  "status": "pending"
 }
 ```
 
 ### HTTP Request
 
-`GET` `/v1/tokens/{uuid}`
+`GET` `/v1/tokens/{id}`
 
 ## Get session token
 
@@ -370,7 +370,7 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 ```shell
 {
   "id": 1,
-  "type_id": 1,
+  "type": "general",
   "title": "Updated Terms of Use",
   "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
   "action_url": "http://www.mementopayments.com/terms",
@@ -383,8 +383,8 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the announcement. |
-| type_id | integer | The type of announcement.<br>`1 = general`|
+| id | uuid | The unique identifier for the announcement. |
+| type | string | The type of announcement.<br>`general`|
 | title | string | The announcement title. |
 | message | string | The announcement message body. |
 | action_label | string | If an action is optional or required, this is the action button label. |
@@ -419,15 +419,15 @@ Get a list of all announcements that were sent after the time defined by the `si
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/announcement/{uuid}" \
+curl "https://api.mementopayments.com/v1/announcement/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single announcement by UUID.
+Get a single announcement by ID.
 
 ### HTTP Request
 
-`GET` `/v1/announcements/{uuid}`
+`GET` `/v1/announcements/{id}`
 
 # Contacts
 
@@ -437,8 +437,8 @@ Get a single announcement by UUID.
 
 ```shell
 {
-  "uuid": "d6edcdba-f3f1-4249-96bc-bb977fde27fb",
-  "user_uuid": "fbc521f9-aea8-4da7-840a-1e13ec924b28",
+  "id": "d6edcdba-f3f1-4249-96bc-bb977fde27fb",
+  "user_id": "fbc521f9-aea8-4da7-840a-1e13ec924b28",
   "name": "John Dough",
   "username": "johndough",
   "country": "UK",
@@ -453,8 +453,8 @@ A contact can be either a reference to a User or an independent object with a pe
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the announcement. |
-| user_uuid | uuid | The User object representing the contact, if the contact is a registered user. |
+| id | uuid | The unique identifier for the announcement. |
+| user_id | uuid | The User object representing the contact, if the contact is a registered user. |
 | name | string | The full name of the contact. |
 | username | string | The contact's username, if the contact is a registered user. |
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in. |
@@ -483,15 +483,15 @@ Get a list of all of the user's contacts.
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/contacts/{uuid}" \
+curl "https://api.mementopayments.com/v1/contacts/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single contact by UUID.
+Get a single contact by ID.
 
 ### HTTP Request
 
-`GET` `/v1/contacts/{uuid}`
+`GET` `/v1/contacts/{id}`
 
 ## Create a contact
 
@@ -501,7 +501,7 @@ Get a single contact by UUID.
 curl -X POST "https://api.mementopayments.com/v1/contacts" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "user_uuid": "d6edcdba-f3f1-4249-96bc-bb977fde27fb"
+  "user_id": "d6edcdba-f3f1-4249-96bc-bb977fde27fb"
 }'
 ```
 
@@ -527,7 +527,7 @@ Create a new contact. A contact can either be created with a user ID or a name a
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| user_uuid | uuid | The unique identifier of the user. `required` |
+| user_id | uuid | The unique identifier of the user. `required` |
 
 ### Create contact with a name and phone number
 
@@ -542,7 +542,7 @@ Create a new contact. A contact can either be created with a user ID or a name a
 > Example Request
 
 ```shell
-curl -X PUT "https://api.mementopayments.com/v1/contacts/{uuid}" \
+curl -X PUT "https://api.mementopayments.com/v1/contacts/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "name": "Johanna Dough"
@@ -553,7 +553,7 @@ Update an existing contact.
 
 ### HTTP Request
 
-`PUT` `/v1/contacts/{uuid}`
+`PUT` `/v1/contacts/{id}`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -566,7 +566,7 @@ Update an existing contact.
 > Example Request
 
 ```shell
-curl -X DELETE "https://api.mementopayments.com/v1/contacts/{uuid}" \
+curl -X DELETE "https://api.mementopayments.com/v1/contacts/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -574,7 +574,7 @@ Delete an existing contact.
 
 ### HTTP Request
 
-`DELETE` `/v1/contacts/{uuid}`
+`DELETE` `/v1/contacts/{id}`
 
 # Devices
 
@@ -584,7 +584,7 @@ Delete an existing contact.
 
 ```shell
 {
-  "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+  "id": "582a5abb-1335-4794-4855-11e067b8c55e",
   "make": "iPhone",
   "model": "iPhone6,2",
   "os_name": "iOS",
@@ -597,7 +597,7 @@ Delete an existing contact.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the device. |
+| id | uuid | The unique identifier for the device. |
 | make | string | The device make. |
 | model | string | The device model. |
 | os_name | string | The name of the OS running on the device. |
@@ -614,7 +614,7 @@ Delete an existing contact.
 curl -X POST "https://api.mementopayments.com/v1/devices/current" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+  "id": "582a5abb-1335-4794-4855-11e067b8c55e",
   "make": "iPhone",
   "model": "iPhone6,2",
   "os_name": "iOS",
@@ -654,7 +654,7 @@ Update the user's current device.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the device. `required` |
+| id | uuid | The unique identifier for the device. `required` |
 | make | string | The device make. `required` |
 | model | string | The device model. `required` |
 | os_name | string | The name of the OS running on the device. `required` |
@@ -677,11 +677,11 @@ curl -X POST "https://api.mementopayments.com/v1/fees/calculate" \
   -d $'{
   "amount": 10.5,
   "source": {
-    "payment_source_uuid": "d4e07e85-bb7e-485d-b13a-cd6ee18ff599",
+    "payment_source_id": "d4e07e85-bb7e-485d-b13a-cd6ee18ff599",
     "currency": "EUR"
   },
   "destination": {
-    "payment_source_uuid": "9f5bbafc-cab6-47f4-8489-c8e007ab4288",
+    "payment_source_id": "9f5bbafc-cab6-47f4-8489-c8e007ab4288",
     "currency": "USD"
   }
 }'
@@ -703,7 +703,7 @@ Calculate the fee when sending money from one payment source to another.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| payment_source_uuid | uuid | The unique identifier of the payment source handling the payment. `required` |
+| payment_source_id | uuid | The unique identifier of the payment source handling the payment. `required` |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
 
 # Images
@@ -714,7 +714,7 @@ Calculate the fee when sending money from one payment source to another.
 
 ```shell
 {
-  "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+  "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
   "url": "https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
   "full_screen_url": "https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
   "thumbnail_url": "https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -725,7 +725,7 @@ Calculate the fee when sending money from one payment source to another.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the image. |
+| id | uuid | The unique identifier for the image. |
 | url | string | The URL of the UI (cropped) version of the image. |
 | full_screen_url | string | The URL of the full screen version of the image. |
 | thumbnail_url | string | The URL of the thumbnail version of the image. |
@@ -744,17 +744,17 @@ Calculate the fee when sending money from one payment source to another.
 
 ```shell
 {
-  "uuid": "ad2636c3-82fe-4c45-af2d-d6324b2e618f",
-  "status_id": 1,
-  "type_id": 1,
-  "object_uuid": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "id": "ad2636c3-82fe-4c45-af2d-d6324b2e618f",
+  "status": "open",
+  "type": "payment",
+  "object_id": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
   "title": "Payment request",
   "note": "Message from user",
   "amount": 10.0,
   "total_amount": 20.0,
   "currency": "EUR",
   "image": {
-    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "full_screen_url": "https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "thumbnail_url": "https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -780,10 +780,10 @@ Calculate the fee when sending money from one payment source to another.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the moment. |
-| status_id | integer | The moment status.<br>`1 = open`<br>`2 = closed`|
-| type_id | integer | The moment type. <br>`1 = payment`<br>`2 = request`<br>`3 = pool`|
-| object_uuid | uuid | The unique identifier of the object which the moment refers to. |
+| id | uuid | The unique identifier for the moment. |
+| status | string | The moment status.<br>`open`<br>`closed`|
+| type | string | The moment type. <br>`payment`<br>`request`<br>`pool`|
+| object_id | uuid | The unique identifier of the object which the moment refers to. |
 | title | string | The title of the moment. |
 | note | string | A message accompanying the object which the moment refers to. |
 | amount | float | The amount of the moment. This can either be the full amount or partial amount. |
@@ -831,15 +831,15 @@ Get a list of all moments.
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/moments/{uuid}" \
+curl "https://api.mementopayments.com/v1/moments/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single moment by UUID.
+Get a single moment by ID.
 
 ### HTTP Request
 
-`GET` `/v1/moments/{uuid}`
+`GET` `/v1/moments/{id}`
 
 # Money Pools
 
@@ -849,8 +849,8 @@ Get a single moment by UUID.
 
 ```shell
 {
-  "uuid": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
-  "status_id": 1,
+  "id": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "status": "open",
   "amount": 60.00,
   "currency": "EUR",
   "description": "Money Pool Title",
@@ -862,13 +862,13 @@ Get a single moment by UUID.
   "maximum_user_amount": 150.00,
   "amounts": [
     {
-      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
       "title": "Option A",
       "amount": 50.00
     }
   ],
   "image": {
-    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
     "full_screen_url": "https://{imagehost}/full/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
     "thumbnail_url": "https://{imagehost}/thumbnail/pools/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
@@ -876,7 +876,7 @@ Get a single moment by UUID.
     "updated_at": "2017-09-04T12:26:43.403883Z"
 	},
   "owner": {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "first_name": "John",
     "last_name": "Dough",
     "full_name": "John Dough",
@@ -887,7 +887,7 @@ Get a single moment by UUID.
     "verified": true,
     "official": true,
     "image": {
-      "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
       "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
       "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
       "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -895,17 +895,17 @@ Get a single moment by UUID.
       "updated_at": "2017-09-04T12:26:43.403883Z"
     },
     "relationship": {
-      "status_id": 1,
+      "status": "active",
       "created_at": "2017-04-19T14:35:09.308904Z",
       "updated_at": "2017-04-19T14:35:09.308904Z"
     }
   },
   "participants": [
     {
-      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-      "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-      "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
-      "status_id": 1,
+      "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+      "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+      "status": "paid",
       "amount": 20.00,
       "currency": "EUR",
       "full_name": "Arnar Participant",
@@ -933,8 +933,8 @@ Get a single moment by UUID.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the money pool. |
-| status_id | integer | The money pool status.<br>`1 = open`<br>`2 = closed` |
+| id | uuid | The unique identifier for the money pool. |
+| status | string | The money pool status.<br>`open`<br>`closed` |
 | amount | float | The total amount collected. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | description | string | The money pool title. |
@@ -990,15 +990,15 @@ Get a list of all pools created by the user and pools available to the user but 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/pools/{uuid}" \
+curl "https://api.mementopayments.com/v1/pools/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single money pool by UUID.
+Get a single money pool by ID.
 
 ### HTTP Request
 
-`GET` `/v1/pools/{uuid}`
+`GET` `/v1/pools/{id}`
 
 ## Create a money pool
 
@@ -1065,7 +1065,7 @@ Create a new money pool.
 > Example Request
 
 ```shell
-curl -X PUT "https://api.mementopayments.com/v1/pools/{uuid}" \
+curl -X PUT "https://api.mementopayments.com/v1/pools/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "New Title"
@@ -1076,7 +1076,7 @@ Update an existing money pool. Anything defined will be updated, otherwise curre
 
 ### HTTP Request
 
-`PUT` `/v1/pools/{uuid}`
+`PUT` `/v1/pools/{id}`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -1100,7 +1100,7 @@ Update an existing money pool. Anything defined will be updated, otherwise curre
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/close" \
+curl -X POST "https://api.mementopayments.com/v1/pools/{id}/close" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -1115,14 +1115,14 @@ Closes a money pool so users cannot contribute anymore. The pool's fulfillment s
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/invite" \
+curl -X POST "https://api.mementopayments.com/v1/pools/{id}/invite" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'[
   {
-    "user_uuid": "d31fabcb-dbd8-4a32-824f-23d2dad5a5cc"
+    "user_id": "d31fabcb-dbd8-4a32-824f-23d2dad5a5cc"
   },
   {
-    "user_uuid": "5e2c96cd-9701-46e9-b9d2-b4fa4e786f1a"
+    "user_id": "5e2c96cd-9701-46e9-b9d2-b4fa4e786f1a"
   }
 ]'
 ```
@@ -1131,18 +1131,18 @@ Adds users as participants marked as `invited`.
 
 ### HTTP Request
 
-`POST` `/v1/pools/{uuid}/invite`
+`POST` `/v1/pools/{id}/invite`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| user_uuid | uuid | The unique identifier of the user being invited. `required` |
+| user_id | uuid | The unique identifier of the user being invited. `required` |
 
 ## Get money pool participants
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/pools/{uuid}/participants" \
+curl "https://api.mementopayments.com/v1/pools/{id}/participants" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -1151,10 +1151,10 @@ curl "https://api.mementopayments.com/v1/pools/{uuid}/participants" \
 ```shell
 [
   {
-    "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-    "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-    "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
-    "status_id": 1,
+    "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+    "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+    "status": "paid",
     "amount": 20.00,
     "currency": "EUR",
     "full_name": "John Dough",
@@ -1169,7 +1169,7 @@ Get a list of participants in a money pool.
 
 ### HTTP Request
 
-`GET` `/v1/pools/{uuid}/participants`
+`GET` `/v1/pools/{id}/participants`
 
 ### URL Parameters
 
@@ -1191,7 +1191,7 @@ Get a list of participants in a money pool.
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/export" \
+curl -X POST "https://api.mementopayments.com/v1/pools/{id}/export" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "email": "johndough@example.com",
@@ -1203,7 +1203,7 @@ Request a list of participants to be sent to a specific email address.
 
 ### HTTP Request
 
-`POST` `/v1/pools/{uuid}/participants/export`
+`POST` `/v1/pools/{id}/participants/export`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -1215,11 +1215,11 @@ Request a list of participants to be sent to a specific email address.
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/pay" \
+curl -X POST "https://api.mementopayments.com/v1/pools/{id}/pay" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "amount": 50.0,
-  "payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "pin": "1234"
 }'
 ```
@@ -1228,10 +1228,10 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{uuid}/pay" \
 
 ```shell
 {
-  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-  "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-  "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
-  "status_id": 1,
+  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+  "status": "paid",
   "amount": 50.00,
   "currency": "EUR",
   "full_name": "John Dough",
@@ -1245,12 +1245,12 @@ The user contributes to the money pool by making a payment. Payment source and P
 
 ### HTTP Request
 
-`POST` `/v1/pools/{uuid}/pay`
+`POST` `/v1/pools/{id}/pay`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
-| payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| payment_source_id | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 # Notifications
@@ -1261,17 +1261,17 @@ The user contributes to the money pool by making a payment. Payment source and P
 
 ```shell
 {
-  "uuid": "68b206f0-ccea-45df-535f-ed16a97e5530",
-  "actor_uuid": "92e7370f-8ea0-4b84-b412-776c4129a7c7",
+  "id": "68b206f0-ccea-45df-535f-ed16a97e5530",
+  "actor_id": "92e7370f-8ea0-4b84-b412-776c4129a7c7",
   "actor": "Arnar",
   "notification_type": "payment",
   "notification_key": "request",
-  "object_uuid": "74301781-a1eb-41a6-763c-70f235a636b2",
+  "object_id": "74301781-a1eb-41a6-763c-70f235a636b2",
   "object_data_number": 20.00,
   "object_data_string": "",
   "description": "Arnar accepted your friend request",
   "image": {
-    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
     "full_screen_url": "https://{imagehost}/full/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
     "thumbnail_url": "https://{imagehost}/thumbnail/payments/c5d8701e-05cf-4b15-52bf-1cf76c3d84f2.jpg",
@@ -1285,12 +1285,12 @@ The user contributes to the money pool by making a payment. Payment source and P
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the notification. |
-| actor_uuid | uuid | The UUID of the acting user. |
+| id | uuid | The unique identifier for the notification. |
+| actor_id | uuid | The unique identifier for the acting user. |
 | actor | string | The name of the acting user. |
 | notification_type | string | The notification type. Can be either `payment`, `pool`, `request`. |
 | notification_key | string | An optional key which explains the action of the notification type, such as `invited` if the user is invited to a money pool. |
-| object_uuid | uuid | The unique identifier for the object of the specified notification type. |
+| object_id | uuid | The unique identifier for the object of the specified notification type. |
 | object_data_number | float | An optional number related to the notification's object, such as amount for a payment. |
 | object_data_string | string | An optional message related to the notifications's object. |
 | description | string | The notification message body. |
@@ -1333,11 +1333,11 @@ Participation information for a moment, request or money pool.
 
 ```shell
 {
-  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-  "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-  "parent_user_uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
-  "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
-  "status_id": 1,
+  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "parent_user_id": "79d94752-f94a-46ab-8793-7f6434025cf7",
+  "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+  "status": "paid",
   "amount": 20.00,
   "currency": "EUR",
   "full_name": "John Dough",
@@ -1349,11 +1349,11 @@ Participation information for a moment, request or money pool.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the participant. |
-| user_uuid | uuid | The unique identifier for the participant user. |
-| parent_user_uuid | uuid | The unique identifier for the participant parent user. |
-| transaction_uuid | uuid | The unique identifier for the transaction if a payment has been made. |
-| status_id | integer | The status of the participant.<br>`1 = pending`<br>`2 = paid`<br>`3 = settled`<br>`4 = rejected`<br>`5 = cancelled`<br>`6 = invited` |
+| id | uuid | The unique identifier for the participant. |
+| user_id | uuid | The unique identifier for the participant user. |
+| parent_user_id | uuid | The unique identifier for the participant parent user. |
+| transaction_id | uuid | The unique identifier for the transaction if a payment has been made. |
+| status | string | The status of the participant.<br>`pending`<br>`paid`<br>`settled`<br>`rejected`<br>`cancelled`<br>`invited` |
 | amount | float | The amount being paid by or requested of the participant. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | full_name | string | The full name of the participant. |
@@ -1401,12 +1401,12 @@ Participation information for a moment, request or money pool.
 
 ```shell
 {
-  "uuid": "46d679a5-c221-4d91-89ee-da7eff58ed21",
-  "type_id": 3,
+  "id": "46d679a5-c221-4d91-89ee-da7eff58ed21",
+  "type": "bank_account",
   "description": "My payment source",
   "gateway": "bank_of_london",
   "bank_account": {
-    "uuid": "e21dac67-a93f-4681-6572-a6819c747135",
+    "id": "e21dac67-a93f-4681-6572-a6819c747135",
     "country": "IS",
     "account_number": "053526210380",
     "owner_id": "2103805079",
@@ -1416,7 +1416,7 @@ Participation information for a moment, request or money pool.
   },
   "balances": [
     {
-      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
       "amount": 10.0,
       "amount_in": 15.0,
       "amount_out": 5.0,
@@ -1438,8 +1438,8 @@ Participation information for a moment, request or money pool.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the payment source. |
-| type_id | integer | The type of payment source.<br>`1 = unclaimed funds`<br>`2 = virtual`<br>`3 = bank_account`<br>`4 = card`<br>`5 = crypto_address`|
+| id | uuid | The unique identifier for the payment source. |
+| type | string | The type of payment source.<br>`unclaimed funds`<br>`virtual`<br>`bank_account`<br>`card`<br>`crypto_address`|
 | description | string | The title of the payment source, determined by the user. |
 | gateway | string | The name of the gateway being used for the payment source type. |
 | bank_account | BankAccount | The bank account this payment source connects to. |
@@ -1459,7 +1459,7 @@ Participation information for a moment, request or money pool.
 
 ```shell
 {
-  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
   "amount": 10.0,
   "amount_in": 15.0,
   "amount_out": 5.0,
@@ -1471,7 +1471,7 @@ Participation information for a moment, request or money pool.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the payment source balance. |
+| id | uuid | The unique identifier for the payment source balance. |
 | amount | float | The difference between amounts deposited to and withdrawn from the payment source in the specific currency. |
 | amount_in | float | The total amount deposited to this payment source in the specific currency. |
 | amount_out | float | The total amount withdrawn from this payment source in the specific currency. |
@@ -1483,7 +1483,7 @@ Participation information for a moment, request or money pool.
 
 ```shell
 {
-  "uuid": "e21dac67-a93f-4681-6572-a6819c747135",
+  "id": "e21dac67-a93f-4681-6572-a6819c747135",
   "country": "IS",
   "account_number": "053526210380",
   "owner_id": "2103805079",
@@ -1495,7 +1495,7 @@ Participation information for a moment, request or money pool.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the bank account. |
+| id | uuid | The unique identifier for the bank account. |
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank account is located in. |
 | account_number | string | The unique bank account identifier within the bank where it is hosted. The format depends on the bank. |
 | owner_id | string | An optional unique identifier for the person who owns the bank account. The format depends on the bank. |
@@ -1506,9 +1506,9 @@ Participation information for a moment, request or money pool.
 ## The card object
 ```shell
 {
-  "uuid": "335563f9-5249-4339-6d31-078e29fd5f04",
-  "status_id": 1,
-  "type_id": 1,
+  "id": "335563f9-5249-4339-6d31-078e29fd5f04",
+  "status": "active",
+  "type": "debit",
   "brand": "MasterCard",
   "owner_id": "2103805079",
   "expiration_month": 10,
@@ -1523,9 +1523,9 @@ Participation information for a moment, request or money pool.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the card. |
-| status_id | integer | The card status.<br>`1 = active`<br>`2 = expired`<br>`3 = rejected`<br>`4 = cancelled` |
-| type_id | integer | The type of card.<br>`1 = debit`<br>`2 = credit` |
+| id | uuid | The unique identifier for the card. |
+| status | string | The card status.<br>`active`<br>`expired`<br>`rejected`<br>`cancelled` |
+| type | string | The type of card.<br>`debit`<br>`credit` |
 | brand | string | The card brand, e.g. `MasterCard`, `VISA`, etc. |
 | owner_id | string | An optional unique identifier for the person who owns the card. The format depends on the card processor. |
 | expiration_month | integer | Two digit number representing the card's expiration month. |
@@ -1580,22 +1580,22 @@ Get a list of all payment sources.
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+curl "https://api.mementopayments.com/v1/payment_sources/{id}" \
   -H "Content-Type: application/json" 
 ```
 
-Get a single payment source by UUID.
+Get a single payment source by ID.
 
 ### HTTP Request
 
-`GET` `/v1/payment_sources/{uuid}`
+`GET` `/v1/payment_sources/{id}`
 
 ## Get payment source transactions
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/payment_sources/{uuid}/transactions" \
+curl "https://api.mementopayments.com/v1/payment_sources/{id}/transactions" \
   -H "Content-Type: application/json" 
 ```
 
@@ -1604,19 +1604,19 @@ curl "https://api.mementopayments.com/v1/payment_sources/{uuid}/transactions" \
 ```shell
 [
   {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-    "out_user_uuid": "dd72ebb8-db1f-4442-b203-095ac9ded974",
-    "in_user_uuid": "1c478b12-288a-4ea0-831d-1e36639300da",
-    "out_payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
-    "in_payment_source_uuid": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
-    "payment_uuid": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
-    "status_id": 2,
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
+    "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
+    "out_payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+    "in_payment_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
+    "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
+    "status": "active",
     "amount": 50.0,
     "currency": "EUR",
     "tracking_code": "DEF456",
     "error": false,
     "gateway_response": {
-      "uuid": "79d90419-dc82-4093-6afc-65f8b206fea0",
+      "id": "79d90419-dc82-4093-6afc-65f8b206fea0",
       "amount": 50.0,
       "currency": "EUR",
       "authorization_code": "1234",
@@ -1637,7 +1637,7 @@ Get a list of transactions for a payment source, both deposits and withdrawals.
 
 ### HTTP Request
 
-`GET` `/v1/payment_sources/{uuid}/transactions`
+`GET` `/v1/payment_sources/{id}/transactions`
 
 ### URL Parameters
 
@@ -1730,7 +1730,7 @@ Create a new payment source.
 > Example Request (with BankAccount as type)
 
 ```shell
-curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "My Updated Bank Account"
@@ -1740,7 +1740,7 @@ curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
 > Example Request (with Card as type)
 
 ```shell
-curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "My Updated Card",
@@ -1755,7 +1755,7 @@ Update an existing payment source. If the source is a bank account, only its des
 
 ### HTTP Request
 
-`PUT` `/v1/payment_sources/{uuid}`
+`PUT` `/v1/payment_sources/{id}`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -1773,7 +1773,7 @@ Update an existing payment source. If the source is a bank account, only its des
 > Example Request
 
 ```shell
-curl -X DELETE "https://api.mementopayments.com/v1/payment_sources/{uuid}" \
+curl -X DELETE "https://api.mementopayments.com/v1/payment_sources/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -1781,14 +1781,14 @@ Delete an existing payment source.
 
 ### HTTP Request
 
-`DELETE` `/v1/payment_sources/{uuid}`
+`DELETE` `/v1/payment_sources/{id}`
 
 ## Verify payment source
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/payment_sources/{uuid}/verify" \
+curl -X POST "https://api.mementopayments.com/v1/payment_sources/{id}/verify" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "code": "abc123"
@@ -1799,7 +1799,7 @@ Verify a payment source using a specific code, which can, for example, be sent t
 
 ### HTTP Request
 
-`POST` `/v1/payment_sources/{uuid}/verify`
+`POST` `/v1/payment_sources/{id}/verify`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -1843,15 +1843,15 @@ Get a list of all payments created by the user and payments where the user is th
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/payments/{uuid}" \
+curl "https://api.mementopayments.com/v1/payments/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single payment by UUID. Transactions are not accessible from this endpoint (see Transactions).
+Get a single payment by ID. Transactions are not accessible from this endpoint (see Transactions).
 
 ### HTTP Request
 
-`GET` `/v1/payments/{uuid}`
+`GET` `/v1/payments/{id}`
 
 ## Create a payment
 
@@ -1865,12 +1865,12 @@ curl -X POST "https://api.mementopayments.com/v1/payments" \
   "description": "This is a payment description",
   "recipient": {
     "amount": 20.0,
-    "user_uuid": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a"
+    "user_id": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a"
   },
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
-  "payment_source_uuid": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "payment_source_id": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
   "pin": "1234"
 }
 ```
@@ -1891,12 +1891,12 @@ curl -X POST "https://api.mementopayments.com/v1/payments" \
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
-  "payment_source_uuid": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "payment_source_id": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
   "pin": "1234"
 }
 ```
 
-Create a new payment and send money. Recipient can be based on a user UUID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.
+Create a new payment and send money. Recipient can be based on a user ID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.
 
 ### HTTP Request
 
@@ -1909,7 +1909,7 @@ Create a new payment and send money. Recipient can be based on a user UUID or ph
 | description | string | The payment message. |
 | recipient | Participant | The recipient of the funds. `required` |
 | image | Image | An optional payment image. |
-| payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| payment_source_id | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 ## Get a receipt
@@ -1917,7 +1917,7 @@ Create a new payment and send money. Recipient can be based on a user UUID or ph
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/payments/{uuid}/receipt" \
+curl "https://api.mementopayments.com/v1/payments/{id}/receipt" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -1929,12 +1929,12 @@ curl "https://api.mementopayments.com/v1/payments/{uuid}/receipt" \
   "reference_code": "00002MC",
   "time": "2017-05-23T12:41:15.813817Z",
   "payer": {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "title": "John Dough (@johndough)",
     "details": null
   },
   "recipient": {
-    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "id": "90bcfb20-99fd-465d-6e23-2e19e8952420",
     "title": "Merchant Name",
     "details": [
       "Memento ehf. (700114-0580)",
@@ -1942,7 +1942,7 @@ curl "https://api.mementopayments.com/v1/payments/{uuid}/receipt" \
     ]
   },
   "payment_method": {
-    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "id": "79d94752-f94a-46ab-8793-7f6434025cf7",
     "title": "Credit Card",
     "details": [
       "MasterCard 1111",
@@ -1962,7 +1962,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 
 ### HTTP Request
 
-`GET` `/v1/payments/{uuid}/receipt`
+`GET` `/v1/payments/{id}/receipt`
 
 # Receipt
 
@@ -1976,12 +1976,12 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
   "reference_code": "00002MC",
   "time": "2017-05-23T12:41:15.813817Z",
   "payer": {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "title": "John Dough (@johndough)",
     "details": null
   },
   "recipient": {
-    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "id": "90bcfb20-99fd-465d-6e23-2e19e8952420",
     "title": "Merchant Name",
     "details": [
       "Memento ehf. (700114-0580)",
@@ -1989,7 +1989,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
     ]
   },
   "payment_method": {
-    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "id": "79d94752-f94a-46ab-8793-7f6434025cf7",
     "title": "Credit Card",
     "details": [
       "MasterCard 1111",
@@ -2010,13 +2010,13 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 | description | string | The payment title. |
 | reference_code | string | A generated reference code. |
 | time | time | The time when the payment occurred. |
-| payer.uuid | uuid | The unique identifier for the user sending the payment. |
+| payer.id | uuid | The unique identifier for the user sending the payment. |
 | payer.title | string | The name of the user sending the payment. |
 | payer.details | array | An optional list of strings with details about the user sending the payment, e.g. address. |
-| recipient.uuid | uuid | The unique identifier for the user receiving the payment. |
+| recipient.id | uuid | The unique identifier for the user receiving the payment. |
 | recipient.title | string | The name of the user receiving the payment. |
 | recipient.details | array | An optional list of strings with details about the user receiving the payment, e.g. address. |
-| payment_method.uuid | uuid | The unique identifier for the payment method. |
+| payment_method.id | uuid | The unique identifier for the payment method. |
 | payment_method.title | string | The payment method title. |
 | payment_method.details | array | An optional list of strings with details about the payment method, e.g. card information. |
 | amount.total | string | The formatted total amount of the payment in the currency in which the payment was made. |
@@ -2032,15 +2032,15 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 
 ```shell
 {
-  "uuid": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
-  "status_id": 1,
-  "fulfillment_status_id": 2,
+  "id": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "status": "open",
+  "fulfillment_status": "partial",
   "amount": 20.00,
   "amount_paid": 10.00,
   "currency": "EUR",
   "description": "Payment request",
   "image": {
-    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "full_screen_url": "https://{imagehost}/full/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "thumbnail_url": "https://{imagehost}/thumbnail/requests/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -2048,7 +2048,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
     "updated_at": "2017-09-04T12:26:43.403883Z"
 	},
   "owner": {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "first_name": "John",
     "last_name": "Dough",
     "full_name": "John Dough",
@@ -2059,7 +2059,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
     "verified": true,
     "official": true,
     "image": {
-      "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
       "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
       "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
       "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -2067,17 +2067,17 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
       "updated_at": "2017-09-04T12:26:43.403883Z"
     },
     "relationship": {
-      "status_id": 1,
+      "status": "active",
       "created_at": "2017-04-19T14:35:09.308904Z",
       "updated_at": "2017-04-19T14:35:09.308904Z"
     }
   },
   "participants": [
     {
-      "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-      "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-      "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
-      "status_id": 1,
+      "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+      "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+      "status": "paid",
       "amount": 10.00,
       "currency": "EUR",
       "full_name": "Arnar Participant",
@@ -2102,9 +2102,9 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the moment. |
-| status_id | integer | The request status.<br>`1 = open`<br>`2 = closed` |
-| fulfillment_status_id | integer | The request fulfillment status.<br>`1 = unfulfilled`<br>`2 = partial`<br>`3 = fulfilled` |
+| id | uuid | The unique identifier for the moment. |
+| status | string | The request status.<br>`open`<br>`closed` |
+| fulfillment_status | string | The request fulfillment status.<br>`unfulfilled`<br>`partial`<br>`fulfilled` |
 | amount | float | The total amount of the request. |
 | amount_paid | float | The amount that has already been paid. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
@@ -2149,7 +2149,7 @@ Get a list of all requests created by the user and requests where the user is th
 
 ## Get a request
 
-Get a single request by UUID.
+Get a single request by ID.
 
 ## Create a request
 
@@ -2164,7 +2164,7 @@ curl -X POST "https://api.mementopayments.com/v1/requests" \
   "description": "Payment request",
   "participants": [
     {
-      "user_uuid": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a",
+      "user_id": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a",
       "amount": 10.0
     },
     {
@@ -2198,7 +2198,7 @@ Create a new request.
 > Example Request
 
 ```shell
-curl -X PUT "https://api.mementopayments.com/v1/requests/{uuid}" \
+curl -X PUT "https://api.mementopayments.com/v1/requests/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "My Updated Bank Account"
@@ -2209,7 +2209,7 @@ Update an existing request. Can only update description and image.
 
 ### HTTP Request
 
-`PUT` `/v1/requests/{uuid}`
+`PUT` `/v1/requests/{id}`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -2221,7 +2221,7 @@ Update an existing request. Can only update description and image.
 > Example Request
 
 ```shell
-curl -X DELETE "https://api.mementopayments.com/v1/requests/{uuid}" \
+curl -X DELETE "https://api.mementopayments.com/v1/requests/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -2229,14 +2229,14 @@ Delete an existing request. Can only be performed if none of the participants ha
 
 ### HTTP Request
 
-`DELETE` `/v1/requests/{uuid}`
+`DELETE` `/v1/requests/{id}`
 
 ## Remind a participant to pay
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/remind" \
+curl -X POST "https://api.mementopayments.com/v1/requests/{id}/participants/{id}/remind" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -2245,14 +2245,14 @@ Send a reminder to a request participant in form of a push notification. Note: T
 
 ### HTTP Request
 
-`POST` `/v1/requests/{uuid}/participants/{uuid}/remind`
+`POST` `/v1/requests/{id}/participants/{id}/remind`
 
 ## Settle a participant
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/settle" \
+curl -X POST "https://api.mementopayments.com/v1/requests/{id}/participants/{id}/settle" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -2261,14 +2261,14 @@ Mark a participant as paid.
 
 ### HTTP Request
 
-`POST` `/v1/requests/{uuid}/participants/{uuid}/remind`
+`POST` `/v1/requests/{id}/participants/{id}/remind`
 
 ## Cancel a participant
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/cancel" \
+curl -X POST "https://api.mementopayments.com/v1/requests/{id}/participants/{id}/cancel" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -2277,17 +2277,17 @@ Cancel the request for a participant.
 
 ### HTTP Request
 
-`POST` `/v1/requests/{uuid}/participants/{uuid}/cancel`
+`POST` `/v1/requests/{id}/participants/{id}/cancel`
 
 ## Pay a request
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/pay" \
+curl -X POST "https://api.mementopayments.com/v1/requests/{id}/pay" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "pin": "1234"
 }'
 ```
@@ -2296,10 +2296,10 @@ curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/pay" \
 
 ```shell
 {
-  "uuid": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-  "user_uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-  "transaction_uuid": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
-  "status_id": 1,
+  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+  "status": "paid",
   "amount": 20.00,
   "currency": "EUR",
   "full_name": "John Dough",
@@ -2313,23 +2313,23 @@ Pay an existing request as a participant. Payment source and PIN is required for
 
 ### HTTP Request
 
-`POST` `/v1/pools/{uuid}/pay`
+`POST` `/v1/pools/{id}/pay`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| payment_source_uuid | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| payment_source_id | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 ### HTTP Request
 
-`POST` `/v1/requests/{uuid}/pay`
+`POST` `/v1/requests/{id}/pay`
 
 ## Reject a request
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/requests/{uuid}/reject" \
+curl -X POST "https://api.mementopayments.com/v1/requests/{id}/reject" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -2338,14 +2338,14 @@ Reject an existing request as a participant.
 
 ### HTTP Request
 
-`POST` `/v1/requests/{uuid}/reject`
+`POST` `/v1/requests/{id}/reject`
 
 ## Get a receipt
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/requests/{uuid}/receipt" \
+curl "https://api.mementopayments.com/v1/requests/{id}/receipt" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -2358,12 +2358,12 @@ curl "https://api.mementopayments.com/v1/requests/{uuid}/receipt" \
   "reference_code": "00002MC",
   "time": "2017-05-23T12:41:15.813817Z",
   "payer": {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "title": "John Dough (@johndough)",
     "details": null
   },
   "recipient": {
-    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "id": "90bcfb20-99fd-465d-6e23-2e19e8952420",
     "title": "Merchant Name",
     "details": [
       "Memento ehf. (700114-0580)",
@@ -2371,7 +2371,7 @@ curl "https://api.mementopayments.com/v1/requests/{uuid}/receipt" \
     ]
   },
   "payment_method": {
-    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "id": "79d94752-f94a-46ab-8793-7f6434025cf7",
     "title": "Credit Card",
     "details": [
       "MasterCard 1111",
@@ -2391,14 +2391,14 @@ Get a payment receipt as a participant. The request must be paid, otherwise no r
 
 ### HTTP Request
 
-`GET` `/v1/requests/{uuid}/receipt`
+`GET` `/v1/requests/{id}/receipt`
 
 ## Get a receipt for a participant
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/receipt" \
+curl "https://api.mementopayments.com/v1/requests/{id}/participants/{id}/receipt" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 }
 ```
@@ -2411,12 +2411,12 @@ curl "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/rec
   "reference_code": "00002MC",
   "time": "2017-05-23T12:41:15.813817Z",
   "payer": {
-    "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "title": "John Dough (@johndough)",
     "details": null
   },
   "recipient": {
-    "uuid": "90bcfb20-99fd-465d-6e23-2e19e8952420",
+    "id": "90bcfb20-99fd-465d-6e23-2e19e8952420",
     "title": "Merchant Name",
     "details": [
       "Memento ehf. (700114-0580)",
@@ -2424,7 +2424,7 @@ curl "https://api.mementopayments.com/v1/requests/{uuid}/participants/{uuid}/rec
     ]
   },
   "payment_method": {
-    "uuid": "79d94752-f94a-46ab-8793-7f6434025cf7",
+    "id": "79d94752-f94a-46ab-8793-7f6434025cf7",
     "title": "Credit Card",
     "details": [
       "MasterCard 1111",
@@ -2444,7 +2444,7 @@ Get a payment receipt for a specific participant in the request. The participant
 
 ### HTTP Request
 
-`GET` `/v1/requests/{uuid}/participants/{uuid}/receipt`
+`GET` `/v1/requests/{id}/participants/{id}/receipt`
 
 # Transactions
 
@@ -2454,19 +2454,19 @@ Get a payment receipt for a specific participant in the request. The participant
 
 ```shell
 {
-  "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-  "out_user_uuid": "dd72ebb8-db1f-4442-b203-095ac9ded974",
-  "in_user_uuid": "1c478b12-288a-4ea0-831d-1e36639300da",
-  "out_payment_source_uuid": "d4097613-3b63-4dbb-befe-2211b9dc821a",
-  "in_payment_source_uuid": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
-  "payment_uuid": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
-  "status_id": 2,
+  "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
+  "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
+  "out_payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "in_payment_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
+  "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
+  "status": "approved",
   "amount": 50.0,
   "currency": "EUR",
   "tracking_code": "DEF456",
   "error": false,
   "gateway_response": {
-    "uuid": "79d90419-dc82-4093-6afc-65f8b206fea0",
+    "id": "79d90419-dc82-4093-6afc-65f8b206fea0",
     "amount": 50.0,
     "currency": "EUR",
     "authorization_code": "1234",
@@ -2484,12 +2484,12 @@ Get a payment receipt for a specific participant in the request. The participant
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the moment. |
-| out_user_uuid | uuid | The unique identifier for the user who made the transaction. |
-| in_user_uuid | uuid | The unique identifier for the user who received the transaction. |
-| out_payment_source_uuid | uuid | The unique identifier for the payment source which was withdrawn from. |
-| in_payment_source_uuid | uuid | The unique identifier for the payment source which was deposited to. |
-| status_id | integer | The transactions status.<br>`1 = active`<br>`2 = approved`<br>`3 = rejected`<br>`4 = cancelled`<br>`5 = failed` |
+| id | uuid | The unique identifier for the moment. |
+| out_user_id | uuid | The unique identifier for the user who made the transaction. |
+| in_user_id | uuid | The unique identifier for the user who received the transaction. |
+| out_payment_source_id | uuid | The unique identifier for the payment source which was withdrawn from. |
+| in_payment_source_id | uuid | The unique identifier for the payment source which was deposited to. |
+| status | string | The transactions status.<br>`active`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | amount | float | The transaction amount. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | tracking_code | string | An optional tracking number which can be used as a reference for other systems. |
@@ -2505,7 +2505,7 @@ Get a payment receipt for a specific participant in the request. The participant
 
 ```shell
 {
-  "uuid": "79d90419-dc82-4093-6afc-65f8b206fea0",
+  "id": "79d90419-dc82-4093-6afc-65f8b206fea0",
   "amount": 50.0,
   "currency": "EUR",
   "authorization_code": "1234",
@@ -2519,7 +2519,7 @@ Get a payment receipt for a specific participant in the request. The participant
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the gateway response. |
+| id | uuid | The unique identifier for the gateway response. |
 | amount | float | The amount that was processed. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | authorization_code | string | An optional authorization code received from the gateway. |
@@ -2557,22 +2557,22 @@ Get a list of all transactions, in and out, for all of the payment sources belon
 
 |Attribute|Type|Operators|Values|
 |---------|----|---------|------|
-|payment\_source_uuid|uuid|eq, in|Payment source UUID(s).|
+|payment\_source_id|uuid|eq, in|Payment source ID(s).|
 
 ## Get a transaction
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/transactions/{uuid}" \
+curl "https://api.mementopayments.com/v1/transactions/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single transaction by UUID.
+Get a single transaction by ID.
 
 ### HTTP Request
 
-`GET` `/v1/transactions/{uuid}`
+`GET` `/v1/transactions/{id}`
 
 # Users
 
@@ -2582,7 +2582,7 @@ Get a single transaction by UUID.
 
 ```shell
 {
-  "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
   "first_name": "John",
   "last_name": "Dough",
   "full_name": "John Dough",
@@ -2593,7 +2593,7 @@ Get a single transaction by UUID.
   "verified": true,
   "official": true,
   "image": {
-    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -2601,7 +2601,7 @@ Get a single transaction by UUID.
     "updated_at": "2017-09-04T12:26:43.403883Z"
   },
   "relationship": {
-    "status_id": 1,
+    "status": "active",
     "created_at": "2017-04-19T14:35:09.308904Z",
     "updated_at": "2017-04-19T14:35:09.308904Z"
   }
@@ -2610,7 +2610,7 @@ Get a single transaction by UUID.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the user. |
+| id | uuid | The unique identifier for the user. |
 | first_name | string | The first name of the user. |
 | last_name | string | The last name of the user. |
 | full_name | string | The full name of the user. |
@@ -2629,8 +2629,8 @@ Get a single transaction by UUID.
 
 ```shell
 {
-  "uuid": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-  "status_id": 1,
+  "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+  "status": "active",
   "first_name": "John",
   "last_name": "Dough",
   "full_name": "John Dough",
@@ -2646,7 +2646,7 @@ Get a single transaction by UUID.
   "phone": "+44 123 1234 1234",
   "token": "jLIeXTajtW1j4bfC2opJI...",
   "image": {
-    "uuid": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
     "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -2660,8 +2660,8 @@ Get a single transaction by UUID.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the user. |
-| status_id | integer | The status of the user.<br>`1 = pending`<br>`2 = active`<br>`3 = locked`<br>`4 = rejected` |
+| id | uuid | The unique identifier for the user. |
+| status | string | The status of the user.<br>`pending`<br>`active`<br>`locked`<br>`rejected` |
 | first_name | string | The first name of the user. |
 | last_name | string | The last name of the user. |
 | full_name | string | The full name of the user. |
@@ -2686,7 +2686,7 @@ Get a single transaction by UUID.
 
 ```shell
 {
-  "status_id": 1,
+  "status": "active",
   "created_at": "2017-04-19T14:35:09.308904Z",
   "updated_at": "2017-04-19T14:35:09.308904Z"
 }
@@ -2694,7 +2694,7 @@ Get a single transaction by UUID.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| status_id | integer | The status of the relationship.<br>`1 = active`<br>`2 = blocked` |
+| status | string | The status of the relationship.<br>`none`<br>`active`<br>`blocked` |
 | created_at | time | The time when the relationship was created. |
 | updated_at | time | The time when the relationship was updated. |
 
@@ -2727,7 +2727,7 @@ Get the currently logged in user. Returns a CurrentUser object.
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/users/{uuid}" \
+curl "https://api.mementopayments.com/v1/users/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -2739,14 +2739,14 @@ If the current has a relationship to this user, the User object will embed a Rel
 
 ### HTTP Request
 
-`GET` `/v1/users/{uuid}`
+`GET` `/v1/users/{id}`
 
 ## Block a user
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/users/{uuid}/block" \
+curl -X POST "https://api.mementopayments.com/v1/users/{id}/block" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -2754,14 +2754,14 @@ Block a specific user.
 
 ### HTTP Request
 
-`POST` `/v1/users/{uuid}/block`
+`POST` `/v1/users/{id}/block`
 
 ## Unblock a user
 
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/users/{uuid}/unblock" \
+curl -X POST "https://api.mementopayments.com/v1/users/{id}/unblock" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -2769,7 +2769,7 @@ Unblock a specific user.
 
 ### HTTP Request
 
-`POST` `/v1/users/{uuid}/unblock`
+`POST` `/v1/users/{id}/unblock`
 
 <!-- ## Search for users
 
@@ -2790,7 +2790,7 @@ curl -X POST "https://api.mementopayments.com/v1/users" \
   "phone": "+44 123 1234 1234",
   "pin": "1234",
   "device": {
-    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "id": "582a5abb-1335-4794-4855-11e067b8c55e",
     "make": "iPhone",
     "model": "iPhone6,2",
     "os_name": "iOS",
@@ -2837,7 +2837,7 @@ curl -X PUT "https://api.mementopayments.com/v1/users" \
   "phone": "+44 123 1234 1234",
   "pin": "1234",
   "device": {
-    "uuid": "582a5abb-1335-4794-4855-11e067b8c55e",
+    "id": "582a5abb-1335-4794-4855-11e067b8c55e",
     "make": "iPhone",
     "model": "iPhone6,2",
     "os_name": "iOS",
@@ -2867,7 +2867,7 @@ Update the current user.
 
 ### HTTP Request
 
-`PUT` `/v1/users/{uuid}`
+`PUT` `/v1/users/{id}`
 
 # Verifications
 
@@ -2877,9 +2877,9 @@ Update the current user.
 
 ```shell
 {
-  "uuid": "f346ced3-f80c-45d9-a9f5-a2b0288cb126",
-  "type_id": 1,
-  "status_id": 1,
+  "id": "f346ced3-f80c-45d9-a9f5-a2b0288cb126",
+  "type": "sms",
+  "status": "pending",
   "attempts": 1,
   "error_code": "",
   "error_message": "",
@@ -2889,9 +2889,9 @@ Update the current user.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| uuid | uuid | The unique identifier for the announcement. |
-| type_id | integer | The type of verification.<br>`1 = sms`<br>`2 = driver's license`<br>`3 = passport` |
-| status_id | integer | The status of verification.<br>`1 = pending`<br>`2 = approved`<br>`3 = rejected`<br>`4 = cancelled`<br>`5 = failed` |
+| id | uuid | The unique identifier for the announcement. |
+| type | string | The type of verification.<br>`sms`<br>`driver's license`<br>`passport` |
+| status | string | The status of verification.<br>`pending`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | attempts | integer | The number of verification attemps. Initial value is 1. The maximum number of attempts depends on the verification type and processor. |
 | error_code | string | The error code, in case of an error. The value depends on the verification type and processor. | 
 | error_message | string | The error message, in case of an error. The value depends on the verification type and processor. | 
@@ -2955,7 +2955,7 @@ Two-step verification is used when the user initiates the verification process a
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/verifications/{uuid}/data" \
+curl -X POST "https://api.mementopayments.com/v1/verifications/{id}/data" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "data": "123456"
@@ -2970,19 +2970,19 @@ Provide the request code in a two-step verification process.
 
 ### HTTP Request
 
-`POST` `/v1/verifications/{uuid}/data`
+`POST` `/v1/verifications/{id}/data`
 
 ## Get a verification object
 
 > Example Request
 
 ```shell
-curl -X GET "https://api.mementopayments.com/v1/verifications/{uuid}" \
+curl -X GET "https://api.mementopayments.com/v1/verifications/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single verification object by UUID.
+Get a single verification object by ID.
 
 ### HTTP Request
 
-`GET` `/v1/verifications/{uuid}`
+`GET` `/v1/verifications/{id}`
