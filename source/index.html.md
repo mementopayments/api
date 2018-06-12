@@ -113,7 +113,7 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| identity.type | string | The name of the identity. Can be `phone` or `username`. `required` |
+| identity.type | string | The name of the identity.`required`<br>`phone`<br>`username` |
 | identity.value | string | The value which to look up the user by, e.g. a username. `required` |
 | authenticator | string | The name of the authenticator. Can be `password`, `sms` or a custom authenticator. `required` |
 | secret | string | The secret required for the authenticator. `required` |
@@ -1288,7 +1288,7 @@ The user contributes to the money pool by making a payment. Payment source and P
 | id | uuid | The unique identifier for the notification. |
 | actor_id | uuid | The unique identifier for the acting user. |
 | actor | string | The name of the acting user. |
-| notification_type | string | The notification type. Can be either `payment`, `pool`, `request`. |
+| notification_type | string | The notification type.<br>`payment`<br>`pool`<br>`request` |
 | notification_key | string | An optional key which explains the action of the notification type, such as `invited` if the user is invited to a money pool. |
 | object_id | uuid | The unique identifier for the object of the specified notification type. |
 | object_data_number | float | An optional number related to the notification's object, such as amount for a payment. |
@@ -1702,7 +1702,7 @@ Create a new payment source.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | description | string | The title of the payment source, only visible to the user. `required` |
-| type | string | The type of payment source, can be `bank_account`, `card`, `crypto_address` or `virtual`. `required` |
+| type | string | The type of payment source.`required`<br>`bank_account`<br>`card`<br>`crypto_address`<br>`virtual`  |
 | gateway | string | The name of the gateway being used for the payment source type. `required` |
 | bank_account | BankAccount | If the type is `bank_account` this object is required. |
 | card | Card | If the type is `card` this object is required. |
