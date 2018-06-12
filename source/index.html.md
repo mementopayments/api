@@ -2890,7 +2890,7 @@ Update the current user.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | id | uuid | The unique identifier for the announcement. |
-| type | string | The type of verification.<br>`sms`<br>`driver's license`<br>`passport` |
+| type | string | The type of verification.<br>`sms`<br>`drivers_license`<br>`passport` |
 | status | string | The status of verification.<br>`pending`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | attempts | integer | The number of verification attemps. Initial value is 1. The maximum number of attempts depends on the verification type and processor. |
 | error_code | string | The error code, in case of an error. The value depends on the verification type and processor. | 
@@ -2914,7 +2914,7 @@ curl -X POST "https://api.mementopayments.com/v1/verifications" \
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| type | string | The type of verification. Can be `driver's license` or `passport`. `required` |
+| type | string | The type of verification.`required`<br>`drivers_license`<br>`passport` |
 | data | string | The data which the verification process needs for processing, e.g. passport ID. `required` |
 | event | string | The name of the verification event, which describes the purpose of the verification. This value can be passed along to custom or 3rd party processors. `required` |
 
