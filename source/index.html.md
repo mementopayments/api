@@ -2940,7 +2940,7 @@ curl -X POST "https://api.mementopayments.com/v1/verifications" \
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| type | string | The type of verification. Can be `call`, `email` or `sms`. `required` |
+| type | string | The type of verification.`required`<br>`call`<br>`email`<br>`sms` |
 | recipient | string | The recipient of the verification code, e.g. phone number. `required` |
 | event | string | The name of the verification event, which describes the purpose of the verification. This value can be passed along to custom or 3rd party processors. `required` |
 
