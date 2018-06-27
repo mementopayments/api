@@ -297,28 +297,28 @@ TODO: List validation error codes
 
 Filtering, pagination and sorting is done with query string parameters.
 
-|Parameter|Description|Format|
-|---------|-----------|------|
-|page|Which page to get.|page=1|
-|limit|How many items to get per page.|limit=100|
-|filter|Result filtering.|filter=status:eq:open,name:like:john|
-|sort|Which field and direction to sort the results.|sort=created_at:desc,name:asc|
+| Parameter | Description | Format |
+| --------- | ----------- | ------ |
+| page | Which page to get. | page=1 |
+| limit | How many items to get per page. | limit=100 |
+| filter | Result filtering. | filter=status:eq:open,name:like:john |
+| sort | Which field and direction to sort the results. | sort=created_at:desc,name:asc |
 
 ## Operators
 
-|Operator|Description|
-|--------|-----------|
-|eq|Equals|
-|gt|Greater than|
-|gte|Greater than or equal|
-|lt|Less than|
-|lte|Less than or equal|
-|in|Any of [list]|
-|like|Partial text search|
+| Operator | Description |
+| -------- | ----------- |
+| eq | Equals |
+| gt | Greater than |
+| gte | Greater than or equal |
+| lt | Less than |
+| lte | Less than or equal |
+| in | Any of [list] |
+| like | Partial text search |
 
 ## Example
 
-`GET` `/v1/pools?filter=status:in:[open,closed],created_at:lt:2018-01-01,name:like:john&sort=name:asc`
+`GET` `/v1/pools?filter=status:in:[open;closed],created_at:lt:2018-01-01,name:like:john&sort=name:asc`
 
 # Activity Updates
 
@@ -357,9 +357,9 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 
 ### URL Parameters
 
-|Name|Type|Description|
-|----|----|-----------|
-|since|string|Show updates after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| since | string | Show updates after a certain date and time. Format is YYYY-MM-DD HH:MM:SS. |
 
 # Announcements
 
@@ -439,11 +439,10 @@ Get a single announcement by ID.
 {
   "id": "d6edcdba-f3f1-4249-96bc-bb977fde27fb",
   "user_id": "fbc521f9-aea8-4da7-840a-1e13ec924b28",
-  "name": "John Dough",
-  "username": "johndough",
+  "first_name": "John",
+  "last_name": "Dough",
+  "full_name": "John Dough",
   "country": "UK",
-  "emails": ["john@example.com"],
-  "phones": ["+44 123 4567 8901"],
   "created_at": "2017-09-04T12:25:52.43349Z",
   "updated_at": "2017-09-04T12:25:52.43349Z"
 }
@@ -455,11 +454,10 @@ A contact can be either a reference to a User or an independent object with a pe
 | --------- | ---- | ----------- |
 | id | uuid | The unique identifier for the announcement. |
 | user_id | uuid | The User object representing the contact, if the contact is a registered user. |
-| name | string | The full name of the contact. |
-| username | string | The contact's username, if the contact is a registered user. |
+| first_name | string | The first name of the contact. |
+| last_name | string | The last name of the contact. |
+| full_name | string | The full name of the contact. |
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in. |
-| emails | array | A list of the contact's email addresses. |
-| phones | array | A list of the contact's phone numbers. |
 | created_at | time | The time when the contact was created. |
 | updated_at | time | The time when the contact was updated. |
 
@@ -495,7 +493,7 @@ Get a single contact by ID.
 
 ## Create a contact
 
-> Example Request (create contact from a user)
+> Example Request
 
 ```shell
 curl -X POST "https://api.mementopayments.com/v1/contacts" \
@@ -505,61 +503,17 @@ curl -X POST "https://api.mementopayments.com/v1/contacts" \
 }'
 ```
 
-> Example Request (create contact with a name and phone number)
-
-```shell
-curl -X POST "https://api.mementopayments.com/v1/contacts" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "name": "Jane Dough",
-  "email": "jane@example.com",
-  "phone": "+44 123 4567 8901"
-}
-```
-
-Create a new contact. A contact can either be created with a user ID or a name and phone number.
+Create a new contact by providing a user ID.
 
 ### HTTP Request
 
 `POST` `/v1/contacts`
 
-### Create contact from a user
+### Create contact
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | user_id | uuid | The unique identifier of the user. `required` |
-
-### Create contact with a name and phone number
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| name | string | The full name of the contact. `required` |
-| email | string | The contact's email address. |
-| phone | string | The contact's full international phone number. `required` |
-
-## Update a contact
-
-> Example Request
-
-```shell
-curl -X PUT "https://api.mementopayments.com/v1/contacts/{id}" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "name": "Johanna Dough"
-}'
-```
-
-Update an existing contact.
-
-### HTTP Request
-
-`PUT` `/v1/contacts/{id}`
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| name | string | The full name of the contact. |
-| email | string | The contact's email address. |
-| phone | string | The contact's full international phone number. |
 
 ## Delete a contact
 
@@ -2771,9 +2725,78 @@ Unblock a specific user.
 
 `POST` `/v1/users/{id}/unblock`
 
-<!-- ## Search for users
+## Search for users
 
-TODO: Search -->
+> Example Request (specific fields)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/users/search" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "name": "John Dough",
+  "username": "johndough",
+  "email": "john@example.com",
+  "phone": "111 2222 3333",
+  "show_current_friends": true
+}'
+```
+
+> Example Request (all fields)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/users/search" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "any": "john",
+  "show_current_friends": true
+}'
+```
+
+> Example Response
+
+```shell
+[
+  {
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "first_name": "John",
+    "last_name": "Dough",
+    "full_name": "John Dough",
+    "username": "jondough",
+    "country": "UK",
+    "timezone": "Europe/London",
+    "timezone_utc_offset": 0,
+    "verified": true,
+    "official": true,
+    "image": {
+      "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "created_at": "2017-09-04T12:26:43.403883Z",
+      "updated_at": "2017-09-04T12:26:43.403883Z"
+    },
+    "relationship": {
+      "status": "active",
+      "created_at": "2017-04-19T14:35:09.308904Z",
+      "updated_at": "2017-04-19T14:35:09.308904Z"
+    }
+  }
+]
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| name | string | Searches within the first and last names. |
+| username | string | Searches for a username. |
+| email | string | Searches for an email address. |
+| phone | string | Search for a phone number. |
+| show_current_friends | string | Show users that are already in the current user's contact list. `default: false`|
+
+Search for users based on one of the following: name, username, email or phone number. Only define one field per request.
+
+### HTTP Request
+
+`POST` `/v1/users/search`
 
 ## Create a user – signup
 
@@ -2810,8 +2833,8 @@ curl -X POST "https://api.mementopayments.com/v1/users" \
 | first_name | string | The first name of the user. `required` |
 | last_name | string | The last name of the user. `required` |
 | username | string | The unique username of the user. `required` |
-| email | string | The name of the OS running on the device. |
-| phone | string | The version of the OS running on the device. `required` |
+| email | string | The user's email address. |
+| phone | string | The user's phone number. |
 | pin | string | The user's PIN. `required` |
 | device | Device | The user device information. `required` |
 | image | Image | The height of the device's screen. |
