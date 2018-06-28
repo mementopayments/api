@@ -2733,10 +2733,10 @@ Unblock a specific user.
 curl -X POST "https://api.mementopayments.com/v1/users/search" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "name": "John Dough",
-  "username": "johndough",
-  "email": "john@example.com",
-  "phone": "111 2222 3333",
+  "name": ["John Dough"],
+  "username": ["johndough"],
+  "email": ["john@example.com"],
+  "phone": ["+44 111 2222 3333"],
   "show_current_friends": true
 }'
 ```
@@ -2747,7 +2747,7 @@ curl -X POST "https://api.mementopayments.com/v1/users/search" \
 curl -X POST "https://api.mementopayments.com/v1/users/search" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "any": "john",
+  "username": ["johndough"],
   "show_current_friends": true
 }'
 ```
@@ -2786,13 +2786,13 @@ curl -X POST "https://api.mementopayments.com/v1/users/search" \
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| name | string | Searches within the first and last names. |
-| username | string | Searches for a username. |
-| email | string | Searches for an email address. |
-| phone | string | Search for a phone number. |
+| name | array | A list of names. |
+| username | array | A list of usernames. |
+| email | array | A list of emails. |
+| phone | array | A list of phone numbers. |
 | show_current_friends | string | Show users that are already in the current user's contact list. `default: false`|
 
-Search for users based on one of the following: name, username, email or phone number. Only define one field per request.
+Search for users based on one or all of the following: name, username, email, phone number.
 
 ### HTTP Request
 
