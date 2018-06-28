@@ -4903,10 +4903,10 @@ If the current has a relationship to this user, the User object will embed a Rel
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/users/search"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
-  "name": "John Dough",
-  "username": "johndough",
-  "email": "john@example.com",
-  "phone": "111 2222 3333",
+  "name": ["John Dough"],
+  "username": ["johndough"],
+  "email": ["john@example.com"],
+  "phone": ["+44 111 2222 3333"],
   "show_current_friends": true
 }'</span>
 </code></pre>
@@ -4916,7 +4916,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/users/search"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
-  "any": "john",
+  "username": ["johndough"],
   "show_current_friends": true
 }'</span>
 </code></pre>
@@ -4960,23 +4960,23 @@ If the current has a relationship to this user, the User object will embed a Rel
 </thead><tbody>
 <tr>
 <td>name</td>
-<td>string</td>
-<td>Searches within the first and last names.</td>
+<td>array</td>
+<td>A list of names.</td>
 </tr>
 <tr>
 <td>username</td>
-<td>string</td>
-<td>Searches for a username.</td>
+<td>array</td>
+<td>A list of usernames.</td>
 </tr>
 <tr>
 <td>email</td>
-<td>string</td>
-<td>Searches for an email address.</td>
+<td>array</td>
+<td>A list of emails.</td>
 </tr>
 <tr>
 <td>phone</td>
-<td>string</td>
-<td>Search for a phone number.</td>
+<td>array</td>
+<td>A list of phone numbers.</td>
 </tr>
 <tr>
 <td>show_current_friends</td>
@@ -4985,7 +4985,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tr>
 </tbody></table>
 
-<p>Search for users based on one of the following: name, username, email or phone number. Only define one field per request.</p>
+<p>Search for users based on one or all of the following: name, username, email, phone number.</p>
 <h3 id='http-request-57'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/search</code></p>
 <h2 id='create-a-user-signup'>Create a user – signup</h2>
