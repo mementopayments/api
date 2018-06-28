@@ -2727,27 +2727,27 @@ Unblock a specific user.
 
 ## Search for users
 
-> Example Request (specific fields)
+> Example Request (single value)
 
 ```shell
 curl -X POST "https://api.mementopayments.com/v1/users/search" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "name": ["John Dough"],
   "username": ["johndough"],
-  "email": ["john@example.com"],
-  "phone": ["+44 111 2222 3333"],
   "show_current_friends": true
 }'
 ```
 
-> Example Request (all fields)
+> Example Request (multiple values)
 
 ```shell
 curl -X POST "https://api.mementopayments.com/v1/users/search" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "username": ["johndough"],
+  "name": ["John Dough", "John Doe"],
+  "username": ["johndough", "johndoe"],
+  "email": ["john@example.com"],
+  "phone": ["+44 111 2222 3333"],
   "show_current_friends": true
 }'
 ```
