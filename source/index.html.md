@@ -130,7 +130,7 @@ Post identity type + value (e.g. phone number), type of authentication (e.g. "sm
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/tokens" \
+curl -X POST "https://api.mementopayments.com/v1/tokens/8d3f94b0-87d0-497f-810c-9b150d42ed05/secret" \
   -H "Content-Type: application/json" \
   -d $'{
   "secret": "111111",
@@ -848,11 +848,14 @@ Get a single moment by ID.
       "created_at": "2017-09-04T12:26:43.403883Z",
       "updated_at": "2017-09-04T12:26:43.403883Z"
     },
-    "relationship": {
-      "status": "active",
-      "created_at": "2017-04-19T14:35:09.308904Z",
-      "updated_at": "2017-04-19T14:35:09.308904Z"
-    }
+    "relationships": [
+      {
+        "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+        "type": "contact",
+        "created_at": "2017-04-19T14:35:09.308904Z",
+        "updated_at": "2017-04-19T14:35:09.308904Z"
+      }
+    ]
   },
   "participants": [
     {
@@ -2020,11 +2023,14 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
       "created_at": "2017-09-04T12:26:43.403883Z",
       "updated_at": "2017-09-04T12:26:43.403883Z"
     },
-    "relationship": {
-      "status": "active",
-      "created_at": "2017-04-19T14:35:09.308904Z",
-      "updated_at": "2017-04-19T14:35:09.308904Z"
-    }
+    "relationships": [
+      {
+        "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+        "type": "contact",
+        "created_at": "2017-04-19T14:35:09.308904Z",
+        "updated_at": "2017-04-19T14:35:09.308904Z"
+      }
+    ]
   },
   "participants": [
     {
@@ -2554,11 +2560,14 @@ Get a single transaction by ID.
     "created_at": "2017-09-04T12:26:43.403883Z",
     "updated_at": "2017-09-04T12:26:43.403883Z"
   },
-  "relationship": {
-    "status": "active",
-    "created_at": "2017-04-19T14:35:09.308904Z",
-    "updated_at": "2017-04-19T14:35:09.308904Z"
-  }
+  "relationships": [
+    {
+      "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+      "type": "contact",
+      "created_at": "2017-04-19T14:35:09.308904Z",
+      "updated_at": "2017-04-19T14:35:09.308904Z"
+    }
+  ]
 }
 ```
 
@@ -2575,7 +2584,7 @@ Get a single transaction by ID.
 | verified | boolean | Whether the user has a verified account. |
 | official | boolean | Whether the user's account has been marked as an official one. |
 | image | Image | An optional user image. |
-| relationship| Relationship | The relationship between the user and the current user. |
+| relationships | array | An array of Relationship objects describing the relationship between the user and the current user. |
 
 ## The current user object
 
@@ -2640,7 +2649,8 @@ Get a single transaction by ID.
 
 ```shell
 {
-  "status": "active",
+  "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+  "type": "contact",
   "created_at": "2017-04-19T14:35:09.308904Z",
   "updated_at": "2017-04-19T14:35:09.308904Z"
 }
@@ -2648,7 +2658,8 @@ Get a single transaction by ID.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| status | string | The status of the relationship.<br>`none`<br>`active`<br>`blocked` |
+| id | uuid | The unique identifier for the relationship. |
+| type | string | The type of the relationship.<br>`blocked`<br>`contact`<br>`following`<br>`friend`<br>`guardian` |
 | created_at | time | The time when the relationship was created. |
 | updated_at | time | The time when the relationship was updated. |
 
@@ -2775,11 +2786,14 @@ curl -X POST "https://api.mementopayments.com/v1/users/search" \
       "created_at": "2017-09-04T12:26:43.403883Z",
       "updated_at": "2017-09-04T12:26:43.403883Z"
     },
-    "relationship": {
-      "status": "active",
-      "created_at": "2017-04-19T14:35:09.308904Z",
-      "updated_at": "2017-04-19T14:35:09.308904Z"
-    }
+    "relationships": [
+      {
+        "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+        "type": "contact",
+        "created_at": "2017-04-19T14:35:09.308904Z",
+        "updated_at": "2017-04-19T14:35:09.308904Z"
+      }
+    ]
   }
 ]
 ```
