@@ -771,7 +771,7 @@ Authentication is based on a pair of authentication and session tokens.
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/tokens"</span> <span class="se">\</span>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/tokens/8d3f94b0-87d0-497f-810c-9b150d42ed05/secret"</span> <span class="se">\</span>
   -H <span class="s2">"Content-Type: application/json"</span> <span class="se">\</span>
   -d <span class="s1">$'{
   "secret": "111111",
@@ -1862,11 +1862,14 @@ TODO: List validation error codes
       <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
       <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
     <span class="o">}</span>,
-    <span class="s2">"relationship"</span>: <span class="o">{</span>
-      <span class="s2">"status"</span>: <span class="s2">"active"</span>,
-      <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
-      <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
-    <span class="o">}</span>
+    <span class="s2">"relationships"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">"id"</span>: <span class="s2">"4ec5c820-520d-4668-ba84-0d7bdee23af5"</span>,
+        <span class="s2">"type"</span>: <span class="s2">"contact"</span>,
+        <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+        <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
   <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
     <span class="o">{</span>
@@ -3869,11 +3872,14 @@ TODO: Lýsa -->
       <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
       <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
     <span class="o">}</span>,
-    <span class="s2">"relationship"</span>: <span class="o">{</span>
-      <span class="s2">"status"</span>: <span class="s2">"active"</span>,
-      <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
-      <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
-    <span class="o">}</span>
+    <span class="s2">"relationships"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">"id"</span>: <span class="s2">"4ec5c820-520d-4668-ba84-0d7bdee23af5"</span>,
+        <span class="s2">"type"</span>: <span class="s2">"contact"</span>,
+        <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+        <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
   <span class="o">}</span>,
   <span class="s2">"participants"</span>: <span class="o">[</span>
     <span class="o">{</span>
@@ -4599,11 +4605,14 @@ TODO: Lýsa -->
     <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
     <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
   <span class="o">}</span>,
-  <span class="s2">"relationship"</span>: <span class="o">{</span>
-    <span class="s2">"status"</span>: <span class="s2">"active"</span>,
-    <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
-    <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
-  <span class="o">}</span>
+  <span class="s2">"relationships"</span>: <span class="o">[</span>
+    <span class="o">{</span>
+      <span class="s2">"id"</span>: <span class="s2">"4ec5c820-520d-4668-ba84-0d7bdee23af5"</span>,
+      <span class="s2">"type"</span>: <span class="s2">"contact"</span>,
+      <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+      <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+    <span class="o">}</span>
+  <span class="o">]</span>
 <span class="o">}</span>
 </code></pre>
 <table><thead>
@@ -4669,9 +4678,9 @@ TODO: Lýsa -->
 <td>An optional user image.</td>
 </tr>
 <tr>
-<td>relationship</td>
-<td>Relationship</td>
-<td>The relationship between the user and the current user.</td>
+<td>relationships</td>
+<td>array</td>
+<td>An array of Relationship objects describing the relationship between the user and the current user.</td>
 </tr>
 </tbody></table>
 <h2 id='the-current-user-object'>The current user object</h2>
@@ -4815,7 +4824,8 @@ TODO: Lýsa -->
 <p>Example Response</p>
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
-  <span class="s2">"status"</span>: <span class="s2">"active"</span>,
+  <span class="s2">"id"</span>: <span class="s2">"4ec5c820-520d-4668-ba84-0d7bdee23af5"</span>,
+  <span class="s2">"type"</span>: <span class="s2">"contact"</span>,
   <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
 <span class="o">}</span>
@@ -4828,9 +4838,14 @@ TODO: Lýsa -->
 </tr>
 </thead><tbody>
 <tr>
-<td>status</td>
+<td>id</td>
+<td>uuid</td>
+<td>The unique identifier for the relationship.</td>
+</tr>
+<tr>
+<td>type</td>
 <td>string</td>
-<td>The status of the relationship.<br><code>none</code><br><code>active</code><br><code>blocked</code></td>
+<td>The type of the relationship.<br><code>blocked</code><br><code>contact</code><br><code>following</code><br><code>friend</code><br><code>guardian</code></td>
 </tr>
 <tr>
 <td>created_at</td>
@@ -4943,11 +4958,14 @@ If the current has a relationship to this user, the User object will embed a Rel
       <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
       <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
     <span class="o">}</span>,
-    <span class="s2">"relationship"</span>: <span class="o">{</span>
-      <span class="s2">"status"</span>: <span class="s2">"active"</span>,
-      <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
-      <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
-    <span class="o">}</span>
+    <span class="s2">"relationships"</span>: <span class="o">[</span>
+      <span class="o">{</span>
+        <span class="s2">"id"</span>: <span class="s2">"4ec5c820-520d-4668-ba84-0d7bdee23af5"</span>,
+        <span class="s2">"type"</span>: <span class="s2">"contact"</span>,
+        <span class="s2">"created_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>,
+        <span class="s2">"updated_at"</span>: <span class="s2">"2017-04-19T14:35:09.308904Z"</span>
+      <span class="o">}</span>
+    <span class="o">]</span>
   <span class="o">}</span>
 <span class="o">]</span>
 </code></pre>
