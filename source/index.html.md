@@ -631,17 +631,17 @@ curl -X POST "https://api.mementopayments.com/v1/fees/calculate" \
   -d $'{
   "amount": 10.5,
   "source": {
-    "payment_source_id": "d4e07e85-bb7e-485d-b13a-cd6ee18ff599",
+    "funding_source_id": "d4e07e85-bb7e-485d-b13a-cd6ee18ff599",
     "currency": "EUR"
   },
   "destination": {
-    "payment_source_id": "9f5bbafc-cab6-47f4-8489-c8e007ab4288",
+    "funding_source_id": "9f5bbafc-cab6-47f4-8489-c8e007ab4288",
     "currency": "USD"
   }
 }'
 ```
 
-Calculate the fee when sending money from one payment source to another.
+Calculate the fee when sending money from one funding source to another.
 
 ### HTTP Request
 
@@ -650,15 +650,429 @@ Calculate the fee when sending money from one payment source to another.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
-| source | FeePaymentSource | The source from which payment is made and the currency it's made in. `required` |
-| destination | FeePaymentSource | The destination to which payment is made and the currency it should be received in. `required` |
+| source | FeeFundingSource | The source from which payment is made and the currency it's made in. `required` |
+| destination | FeeFundingSource | The destination to which payment is made and the currency it should be received in. `required` |
 
-### FeePaymentSource
+### FeeFundingSource
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| payment_source_id | uuid | The unique identifier of the payment source handling the payment. `required` |
+| funding_source_id | uuid | The unique identifier of the funding source handling the payment. `required` |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
+
+# Funding Sources
+
+## The funding source object
+
+> Example Response
+
+```shell
+{
+  "id": "46d679a5-c221-4d91-89ee-da7eff58ed21",
+  "type": "bank_account",
+  "description": "My funding source",
+  "meta": "{\"color\": \"blue\"}",
+  "gateway": "bank_of_london",
+  "bank_account": {
+    "id": "e21dac67-a93f-4681-6572-a6819c747135",
+    "country": "IS",
+    "account_number": "053526210380",
+    "owner_id": "2103805079",
+    "enabled": true,
+    "created_at": "2017-09-04T12:25:53.085206Z",
+    "updated_at": "2017-09-04T12:25:53.085206Z"
+  },
+  "balances": [
+    {
+      "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+      "amount": 10.0,
+      "amount_in": 15.0,
+      "amount_out": 5.0,
+      "currency": "EUR",
+      "created_at": "2017-09-04T12:26:43.398646Z",
+      "updated_at": "2017-09-04T12:26:43.398646Z"
+    }
+  ],
+  "currencies": ["EUR"],
+  "allows_in": false,
+  "allows_out": true,
+  "enabled": true,
+  "verified": true,
+  "verified_at": "2017-09-04T12:26:43.398646Z",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the funding source. |
+| type | string | The type of funding source.<br>`unclaimed funds`<br>`virtual`<br>`bank_account`<br>`card`<br>`crypto_address`|
+| description | string | The title of the funding source, determined by the user. |
+| meta | string | A JSON object which can store meta data used by the client. |
+| gateway | string | The name of the gateway being used for the funding source type. |
+| bank_account | BankAccount | The bank account this funding source connects to. |
+| card | Card | The debit or credit card this funding source connects to. |
+| crypto_address | CryptoAddress | The address this funding source connects to. |
+| balances | array | A list of the current funding source balance per currency. |
+| currencies | array | A list of currencies which the funding source can send and receive funds in. |
+| allows_in | boolean | Whether funds can be received by the funding source. |
+| allows_out | boolean | Whether funds can be sent from the funding source. |
+| enabled | boolean | Whether the funding source can receive and/or send funds. |
+| verified | boolean | Whether the funding source has been verified by the user. |
+| verified_at | time | The time when the funding source was verified, if it has been verified. |
+| created_at | time | The time when the funding source was created. |
+| updated_at | time | The time when the funding source was updated. |
+
+## The funding source balance object
+
+```shell
+{
+  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "amount": 10.0,
+  "amount_in": 15.0,
+  "amount_out": 5.0,
+  "currency": "EUR",
+  "created_at": "2017-09-04T12:26:43.398646Z",
+  "updated_at": "2017-09-04T12:26:43.398646Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the funding source balance. |
+| amount | float | The difference between amounts deposited to and withdrawn from the funding source in the specific currency. |
+| amount_in | float | The total amount deposited to this funding source in the specific currency. |
+| amount_out | float | The total amount withdrawn from this funding source in the specific currency. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| created_at | time | The time when the funding source balance was created. |
+| updated_at | time | The time when the funding source balance was updated. |
+
+## The bank account object
+
+```shell
+{
+  "id": "e21dac67-a93f-4681-6572-a6819c747135",
+  "country": "IS",
+  "account_number": "053526210380",
+  "owner_id": "2103805079",
+  "enabled": true,
+  "created_at": "2017-09-04T12:25:53.085206Z",
+  "updated_at": "2017-09-04T12:25:53.085206Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the bank account. |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank account is located in. |
+| account_number | string | The unique bank account identifier within the bank where it is hosted. The format depends on the bank. |
+| owner_id | string | An optional unique identifier for the person who owns the bank account. The format depends on the bank. |
+| enabled | boolean | Whether the bank account is enabled. |
+| created_at | time | The time when the bank account was created. |
+| updated_at | time | The time when the bank account was updated. |
+
+## The card object
+```shell
+{
+  "id": "335563f9-5249-4339-6d31-078e29fd5f04",
+  "status": "active",
+  "type": "debit",
+  "brand": "MasterCard",
+  "owner_id": "2103805079",
+  "expiration_month": 10,
+  "expiration_year": 2020,
+  "masked_number": "1234 56** **** 1234",
+  "verified": false,
+  "verified_at": "0001-01-01T00:00:00Z",
+  "created_at": "2017-09-04T12:25:52.43349Z",
+  "updated_at": "2017-09-04T12:25:52.43349Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the card. |
+| status | string | The card status.<br>`active`<br>`expired`<br>`rejected`<br>`cancelled` |
+| type | string | The type of card.<br>`debit`<br>`credit` |
+| brand | string | The card brand, e.g. `MasterCard`, `VISA`, etc. |
+| owner_id | string | An optional unique identifier for the person who owns the card. The format depends on the card processor. |
+| expiration_month | integer | Two digit number representing the card's expiration month. |
+| expiration_year | integer | Four digit number representing the card's expiration year. |
+| masked_number | string | The masked card number. The format depends on the card processor. |
+| verified | boolean | Whether the card has been verified. |
+| verified_at | time | The time when the card was verified, if it has been verified. |
+| created_at | time | The time when the bank account was created. |
+| updated_at | time | The time when the bank account was updated. |
+
+<!-- ## The crypto address object
+
+```shell
+```
+
+TODO: Lýsa -->
+
+## Get a list of funding sources
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/funding_sources" \
+  -H "Content-Type: application/json" 
+```
+
+Get a list of all funding sources.
+
+### HTTP Request
+
+`GET` `/v1/funding_sources`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|owner|boolean|eq|true, false|
+|status|string|eq, in|pending, enabled, disabled, rejected, all `default: all`|
+|type|string|eq, in|bank_account, card, virtual, all `default: all`|
+
+## Get a funding source
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/funding_sources/{id}" \
+  -H "Content-Type: application/json" 
+```
+
+Get a single funding source by ID.
+
+### HTTP Request
+
+`GET` `/v1/funding_sources/{id}`
+
+## Get funding source transactions
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/funding_sources/{id}/transactions" \
+  -H "Content-Type: application/json" 
+```
+
+> Example Response
+
+```shell
+[
+  {
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
+    "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
+    "out_funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+    "in_funding_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
+    "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
+    "status": "active",
+    "amount": 50.0,
+    "currency": "EUR",
+    "tracking_code": "DEF456",
+    "error": false,
+    "gateway_response": {
+      "id": "79d90419-dc82-4093-6afc-65f8b206fea0",
+      "amount": 50.0,
+      "currency": "EUR",
+      "authorization_code": "1234",
+      "reference_code": "ABC123",
+      "tracking_code": "DEF456",
+      "processor_datetime": "2017-09-04T12:25:53.35114Z",
+      "created_at": "2017-09-04T12:25:53.35114Z",
+      "updated_at": "2017-09-04T12:25:53.35114Z"
+    },
+    "expires_at": "2017-10-04T12:25:48.827724Z",
+    "created_at": "2017-09-04T12:25:48.827724Z",
+    "updated_at": "2017-09-04T12:25:48.827724Z"
+  }
+]
+```
+
+Get a list of transactions for a funding source, both deposits and withdrawals.
+
+### HTTP Request
+
+`GET` `/v1/funding_sources/{id}/transactions`
+
+### URL Parameters
+
+|Name|Type|Description|
+|----|----|-----------|
+|page|int|Item pagination.|
+|limit|int|Number of items to return per page.|
+|sort|string|Sort the results by `created_at`, `updated_at`.|
+|filter|string|Filter the results.|
+
+### Filtering
+
+|Attribute|Type|Operators|Values|
+|---------|----|---------|------|
+|currency|string|eq|Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency.|
+|deposits_only|boolean|eq|true, false|
+
+## Create a funding source
+
+> Example Request (with BankAccount as type)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/funding_sources" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Bank Account",
+  "type": "bank_account",
+  "gateway": "bank_of_london",
+  "bank_account": {
+    "country": "UK",
+    "swift": "AAABBCCDDD",
+    "iban": "GB98MIDL07009312345678",
+    "account_number": "",
+    "nin": ""
+  },
+}
+```
+
+> Example Request (with Card as type)
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/funding_sources" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Default Card",
+  "type": "card",
+  "gateway": "valitor",
+  "card": {
+    "expiration_month": 11,
+    "expiration_year": 2020,
+    "token": "9724017303484431"
+  }
+}
+```
+
+Create a new funding source.
+
+### HTTP Request
+
+`POST` `/v1/funding_sources`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The title of the funding source, only visible to the user. `required` |
+| type | string | The type of funding source.`required`<br>`bank_account`<br>`card`<br>`crypto_address`<br>`virtual`  |
+| gateway | string | The name of the gateway being used for the funding source type. `required` |
+| bank_account | BankAccount | If the type is `bank_account` this object is required. |
+| card | Card | If the type is `card` this object is required. |
+
+### BankAccount
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank is located in. `required` |
+| swift | string | The SWIFT code of the bank. `required` |
+| iban | string | The IBAN code of the bank account. This is required if `account_number` is empty. |
+| account_number | string | The account number of the bank account, in a format which the bank gateway understands. This is required if `iban` is empty. |
+| nin | string | The National Identification Number of the bank account owner. This may be required by the bank gateway. |
+
+### Card
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| expiration_month | integer | Two digit number representing the card's expiration month. `required` |
+| expiration_year | integer | Four digit number representing the card's expiration year. `required` |
+| token | string | The tokenized cardholder data used by the card processor gateway. `required` |
+
+## Update a funding source
+
+> Example Request (with BankAccount as type)
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/funding_sources/{id}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Updated Bank Account"
+}
+```
+
+> Example Request (with Card as type)
+
+```shell
+curl -X PUT "https://api.mementopayments.com/v1/funding_sources/{id}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "description": "My Updated Card",
+  "card": {
+    "expiration_month": 11,
+    "expiration_year": 2025
+  }
+}
+```
+
+Update an existing funding source. If the source is a bank account, only its description can be updated. If the source is a card, its description and expiration date can be updated.
+
+### HTTP Request
+
+`PUT` `/v1/funding_sources/{id}`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| description | string | The title of the funding source, only visible to the user. `required` |
+
+### Card
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| expiration_month | integer | Two digit number representing the card's expiration month. `required` |
+| expiration_year | integer | Four digit number representing the card's expiration year. `required` |
+
+## Delete a funding source
+
+> Example Request
+
+```shell
+curl -X DELETE "https://api.mementopayments.com/v1/funding_sources/{id}" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+Delete an existing funding source.
+
+### HTTP Request
+
+`DELETE` `/v1/funding_sources/{id}`
+
+## Verify funding source
+
+> Example Request
+
+```shell
+curl -X POST "https://api.mementopayments.com/v1/funding_sources/{id}/verify" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  -d $'{
+  "code": "abc123"
+}
+```
+
+Verify a funding source using a specific code, which can, for example, be sent to the user's card statement.
+
+### HTTP Request
+
+`POST` `/v1/funding_sources/{id}/verify`
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| code | string | The verification code. `required` |
 
 # Images
 
@@ -1176,7 +1590,7 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{id}/pay" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "amount": 50.0,
-  "payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "pin": "1234"
 }'
 ```
@@ -1207,7 +1621,7 @@ The user contributes to the money pool by making a payment. Payment source and P
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
-| payment_source_id | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| funding_source_id | uuid | The unique identifier for the funding source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 # Notifications
@@ -1350,418 +1764,6 @@ Participation information for a moment, request or money pool.
 | rejected | integer | The number of participants who have rejected the payment request. |
 | total | integer | The total number of participants regardless of status. |
 
-# Payment Sources
-
-## The payment source object
-
-> Example Response
-
-```shell
-{
-  "id": "46d679a5-c221-4d91-89ee-da7eff58ed21",
-  "type": "bank_account",
-  "description": "My payment source",
-  "gateway": "bank_of_london",
-  "bank_account": {
-    "id": "e21dac67-a93f-4681-6572-a6819c747135",
-    "country": "IS",
-    "account_number": "053526210380",
-    "owner_id": "2103805079",
-    "enabled": true,
-    "created_at": "2017-09-04T12:25:53.085206Z",
-    "updated_at": "2017-09-04T12:25:53.085206Z"
-  },
-  "balances": [
-    {
-      "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-      "amount": 10.0,
-      "amount_in": 15.0,
-      "amount_out": 5.0,
-      "currency": "EUR",
-      "created_at": "2017-09-04T12:26:43.398646Z",
-      "updated_at": "2017-09-04T12:26:43.398646Z"
-    }
-  ],
-  "currencies": ["EUR"],
-  "allows_in": false,
-  "allows_out": true,
-  "active": true,
-  "verified": true,
-  "verified_at": "2017-09-04T12:26:43.398646Z",
-  "created_at": "2017-09-04T12:26:43.398646Z",
-  "updated_at": "2017-09-04T12:26:43.398646Z"
-}
-```
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| id | uuid | The unique identifier for the payment source. |
-| type | string | The type of payment source.<br>`unclaimed funds`<br>`virtual`<br>`bank_account`<br>`card`<br>`crypto_address`|
-| description | string | The title of the payment source, determined by the user. |
-| gateway | string | The name of the gateway being used for the payment source type. |
-| bank_account | BankAccount | The bank account this payment source connects to. |
-| card | Card | The debit or credit card this payment source connects to. |
-| crypto_address | CryptoAddress | The address this payment source connects to. |
-| balances | array | A list of the current payment source balance per currency. |
-| currencies | array | A list of currencies which the payment source can send and receive funds in. |
-| allows_in | boolean | Whether funds can be received by the payment source. |
-| allows_out | boolean | Whether funds can be sent from the payment source. |
-| active | boolean | Whether the payment source can receive and/or send funds. |
-| verified | boolean | Whether the payment source has been verified by the user. |
-| verified_at | time | The time when the payment source was verified, if it has been verified. |
-| created_at | time | The time when the payment source was created. |
-| updated_at | time | The time when the payment source was updated. |
-
-## The payment source balance object
-
-```shell
-{
-  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
-  "amount": 10.0,
-  "amount_in": 15.0,
-  "amount_out": 5.0,
-  "currency": "EUR",
-  "created_at": "2017-09-04T12:26:43.398646Z",
-  "updated_at": "2017-09-04T12:26:43.398646Z"
-}
-```
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| id | uuid | The unique identifier for the payment source balance. |
-| amount | float | The difference between amounts deposited to and withdrawn from the payment source in the specific currency. |
-| amount_in | float | The total amount deposited to this payment source in the specific currency. |
-| amount_out | float | The total amount withdrawn from this payment source in the specific currency. |
-| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
-| created_at | time | The time when the payment source balance was created. |
-| updated_at | time | The time when the payment source balance was updated. |
-
-## The bank account object
-
-```shell
-{
-  "id": "e21dac67-a93f-4681-6572-a6819c747135",
-  "country": "IS",
-  "account_number": "053526210380",
-  "owner_id": "2103805079",
-  "enabled": true,
-  "created_at": "2017-09-04T12:25:53.085206Z",
-  "updated_at": "2017-09-04T12:25:53.085206Z"
-}
-```
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| id | uuid | The unique identifier for the bank account. |
-| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank account is located in. |
-| account_number | string | The unique bank account identifier within the bank where it is hosted. The format depends on the bank. |
-| owner_id | string | An optional unique identifier for the person who owns the bank account. The format depends on the bank. |
-| enabled | boolean | Whether the bank account is enabled. |
-| created_at | time | The time when the bank account was created. |
-| updated_at | time | The time when the bank account was updated. |
-
-## The card object
-```shell
-{
-  "id": "335563f9-5249-4339-6d31-078e29fd5f04",
-  "status": "active",
-  "type": "debit",
-  "brand": "MasterCard",
-  "owner_id": "2103805079",
-  "expiration_month": 10,
-  "expiration_year": 2020,
-  "masked_number": "1234 56** **** 1234",
-  "verified": false,
-  "verified_at": "0001-01-01T00:00:00Z",
-  "created_at": "2017-09-04T12:25:52.43349Z",
-  "updated_at": "2017-09-04T12:25:52.43349Z"
-}
-```
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| id | uuid | The unique identifier for the card. |
-| status | string | The card status.<br>`active`<br>`expired`<br>`rejected`<br>`cancelled` |
-| type | string | The type of card.<br>`debit`<br>`credit` |
-| brand | string | The card brand, e.g. `MasterCard`, `VISA`, etc. |
-| owner_id | string | An optional unique identifier for the person who owns the card. The format depends on the card processor. |
-| expiration_month | integer | Two digit number representing the card's expiration month. |
-| expiration_year | integer | Four digit number representing the card's expiration year. |
-| masked_number | string | The masked card number. The format depends on the card processor. |
-| verified | boolean | Whether the card has been verified. |
-| verified_at | time | The time when the card was verified, if it has been verified. |
-| created_at | time | The time when the bank account was created. |
-| updated_at | time | The time when the bank account was updated. |
-
-<!-- ## The crypto address object
-
-```shell
-```
-
-TODO: Lýsa -->
-
-## Get a list of payment sources
-
-> Example Request
-
-```shell
-curl "https://api.mementopayments.com/v1/payment_sources" \
-  -H "Content-Type: application/json" 
-```
-
-Get a list of all payment sources.
-
-### HTTP Request
-
-`GET` `/v1/payment_sources`
-
-### URL Parameters
-
-|Name|Type|Description|
-|----|----|-----------|
-|page|int|Item pagination.|
-|limit|int|Number of items to return per page.|
-|sort|string|Sort the results by `created_at`, `updated_at`.|
-|filter|string|Filter the results.|
-
-### Filtering
-
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|owner|boolean|eq|true, false|
-|status|string|eq, in|pending, enabled, disabled, rejected, all `default: all`|
-|type|string|eq, in|bank_account, card, virtual, all `default: all`|
-
-## Get a payment source
-
-> Example Request
-
-```shell
-curl "https://api.mementopayments.com/v1/payment_sources/{id}" \
-  -H "Content-Type: application/json" 
-```
-
-Get a single payment source by ID.
-
-### HTTP Request
-
-`GET` `/v1/payment_sources/{id}`
-
-## Get payment source transactions
-
-> Example Request
-
-```shell
-curl "https://api.mementopayments.com/v1/payment_sources/{id}/transactions" \
-  -H "Content-Type: application/json" 
-```
-
-> Example Response
-
-```shell
-[
-  {
-    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
-    "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
-    "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
-    "out_payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
-    "in_payment_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
-    "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
-    "status": "active",
-    "amount": 50.0,
-    "currency": "EUR",
-    "tracking_code": "DEF456",
-    "error": false,
-    "gateway_response": {
-      "id": "79d90419-dc82-4093-6afc-65f8b206fea0",
-      "amount": 50.0,
-      "currency": "EUR",
-      "authorization_code": "1234",
-      "reference_code": "ABC123",
-      "tracking_code": "DEF456",
-      "processor_datetime": "2017-09-04T12:25:53.35114Z",
-      "created_at": "2017-09-04T12:25:53.35114Z",
-      "updated_at": "2017-09-04T12:25:53.35114Z"
-    },
-    "expires_at": "2017-10-04T12:25:48.827724Z",
-    "created_at": "2017-09-04T12:25:48.827724Z",
-    "updated_at": "2017-09-04T12:25:48.827724Z"
-  }
-]
-```
-
-Get a list of transactions for a payment source, both deposits and withdrawals.
-
-### HTTP Request
-
-`GET` `/v1/payment_sources/{id}/transactions`
-
-### URL Parameters
-
-|Name|Type|Description|
-|----|----|-----------|
-|page|int|Item pagination.|
-|limit|int|Number of items to return per page.|
-|sort|string|Sort the results by `created_at`, `updated_at`.|
-|filter|string|Filter the results.|
-
-### Filtering
-
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|currency|string|eq|Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency.|
-|deposits_only|boolean|eq|true, false|
-
-## Create a payment source
-
-> Example Request (with BankAccount as type)
-
-```shell
-curl -X POST "https://api.mementopayments.com/v1/payment_sources" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "description": "My Bank Account",
-  "type": "bank_account",
-  "gateway": "bank_of_london",
-  "bank_account": {
-    "country": "UK",
-    "swift": "AAABBCCDDD",
-    "iban": "GB98MIDL07009312345678",
-    "account_number": "",
-    "nin": ""
-  },
-}
-```
-
-> Example Request (with Card as type)
-
-```shell
-curl -X POST "https://api.mementopayments.com/v1/payment_sources" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "description": "My Default Card",
-  "type": "card",
-  "gateway": "valitor",
-  "card": {
-    "expiration_month": 11,
-    "expiration_year": 2020,
-    "token": "9724017303484431"
-  }
-}
-```
-
-Create a new payment source.
-
-### HTTP Request
-
-`POST` `/v1/payment_sources`
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| description | string | The title of the payment source, only visible to the user. `required` |
-| type | string | The type of payment source.`required`<br>`bank_account`<br>`card`<br>`crypto_address`<br>`virtual`  |
-| gateway | string | The name of the gateway being used for the payment source type. `required` |
-| bank_account | BankAccount | If the type is `bank_account` this object is required. |
-| card | Card | If the type is `card` this object is required. |
-
-### BankAccount
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank is located in. `required` |
-| swift | string | The SWIFT code of the bank. `required` |
-| iban | string | The IBAN code of the bank account. This is required if `account_number` is empty. |
-| account_number | string | The account number of the bank account, in a format which the bank gateway understands. This is required if `iban` is empty. |
-| nin | string | The National Identification Number of the bank account owner. This may be required by the bank gateway. |
-
-### Card
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| expiration_month | integer | Two digit number representing the card's expiration month. `required` |
-| expiration_year | integer | Four digit number representing the card's expiration year. `required` |
-| token | string | The tokenized cardholder data used by the card processor gateway. `required` |
-
-## Update a payment source
-
-> Example Request (with BankAccount as type)
-
-```shell
-curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{id}" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "description": "My Updated Bank Account"
-}
-```
-
-> Example Request (with Card as type)
-
-```shell
-curl -X PUT "https://api.mementopayments.com/v1/payment_sources/{id}" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "description": "My Updated Card",
-  "card": {
-    "expiration_month": 11,
-    "expiration_year": 2025
-  }
-}
-```
-
-Update an existing payment source. If the source is a bank account, only its description can be updated. If the source is a card, its description and expiration date can be updated.
-
-### HTTP Request
-
-`PUT` `/v1/payment_sources/{id}`
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| description | string | The title of the payment source, only visible to the user. `required` |
-
-### Card
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| expiration_month | integer | Two digit number representing the card's expiration month. `required` |
-| expiration_year | integer | Four digit number representing the card's expiration year. `required` |
-
-## Delete a payment source
-
-> Example Request
-
-```shell
-curl -X DELETE "https://api.mementopayments.com/v1/payment_sources/{id}" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
-```
-
-Delete an existing payment source.
-
-### HTTP Request
-
-`DELETE` `/v1/payment_sources/{id}`
-
-## Verify payment source
-
-> Example Request
-
-```shell
-curl -X POST "https://api.mementopayments.com/v1/payment_sources/{id}/verify" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'{
-  "code": "abc123"
-}
-```
-
-Verify a payment source using a specific code, which can, for example, be sent to the user's card statement.
-
-### HTTP Request
-
-`POST` `/v1/payment_sources/{id}/verify`
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| code | string | The verification code. `required` |
-
 # Payments
 
 ## Get a list of payments
@@ -1827,7 +1829,7 @@ curl -X POST "https://api.mementopayments.com/v1/payments" \
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
-  "payment_source_id": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "funding_source_id": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
   "pin": "1234"
 }
 ```
@@ -1848,7 +1850,7 @@ curl -X POST "https://api.mementopayments.com/v1/payments" \
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
-  "payment_source_id": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
+  "funding_source_id": "f36525d5-39f4-48a9-a547-1887cc69b5cf",
   "pin": "1234"
 }
 ```
@@ -1866,7 +1868,7 @@ Create a new payment and send money. Recipient can be based on a user ID or phon
 | description | string | The payment message. |
 | recipient | Participant | The recipient of the funds. `required` |
 | image | Image | An optional payment image. |
-| payment_source_id | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| funding_source_id | uuid | The unique identifier for the funding source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 ## Get a receipt
@@ -2247,7 +2249,7 @@ Cancel the request for a participant.
 curl -X POST "https://api.mementopayments.com/v1/requests/{id}/pay" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "pin": "1234"
 }'
 ```
@@ -2277,7 +2279,7 @@ Pay an existing request as a participant. Payment source and PIN is required for
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| payment_source_id | uuid | The unique identifier for the payment source which will be withdrawn from. `required`|
+| funding_source_id | uuid | The unique identifier for the funding source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
 ### HTTP Request
@@ -2417,8 +2419,8 @@ Get a payment receipt for a specific participant in the request. The participant
   "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
   "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
   "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
-  "out_payment_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
-  "in_payment_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
+  "out_funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
+  "in_funding_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
   "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
   "status": "approved",
   "amount": 50.0,
@@ -2447,8 +2449,8 @@ Get a payment receipt for a specific participant in the request. The participant
 | id | uuid | The unique identifier for the moment. |
 | out_user_id | uuid | The unique identifier for the user who made the transaction. |
 | in_user_id | uuid | The unique identifier for the user who received the transaction. |
-| out_payment_source_id | uuid | The unique identifier for the payment source which was withdrawn from. |
-| in_payment_source_id | uuid | The unique identifier for the payment source which was deposited to. |
+| out_funding_source_id | uuid | The unique identifier for the funding source which was withdrawn from. |
+| in_funding_source_id | uuid | The unique identifier for the funding source which was deposited to. |
 | status | string | The transactions status.<br>`active`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | amount | float | The transaction amount. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
@@ -2498,7 +2500,7 @@ curl "https://api.mementopayments.com/v1/transactions" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a list of all transactions, in and out, for all of the payment sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.
+Get a list of all transactions, in and out, for all of the funding sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.
 
 ### HTTP Request
 
@@ -2552,6 +2554,7 @@ Get a single transaction by ID.
   "timezone_utc_offset": 0,
   "verified": true,
   "official": true,
+  "preferences": "{}",
   "image": {
     "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -2583,6 +2586,7 @@ Get a single transaction by ID.
 | timezone_utc_offset | integer | The hours to or from UTC of the timezone where the user is located. |
 | verified | boolean | Whether the user has a verified account. |
 | official | boolean | Whether the user's account has been marked as an official one. |
+| preferences | string | A JSON object which stores the user's preferences. |
 | image | Image | An optional user image. |
 | relationships | array | An array of Relationship objects describing the relationship between the user and the current user. |
 
