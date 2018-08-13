@@ -1766,6 +1766,77 @@ Participation information for a moment, request or money pool.
 
 # Payments
 
+## The payment object
+
+> Example Response
+
+```shell
+{
+  "id": "c5d8701e-05cf-4b15-52bf-1cf76c3d84f2",
+  "status": "open",
+  "fulfillment_status": "unfulfilled",
+  "amount": 20.00,
+  "currency": "EUR",
+  "description": "This is a payment description",
+  "image": {
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/payments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "full_screen_url": "https://{imagehost}/full/payments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "thumbnail_url": "https://{imagehost}/thumbnail/payments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+	},
+  "owner": {
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "first_name": "John",
+    "last_name": "Dough",
+    "full_name": "John Dough",
+    "username": "jondough",
+    "country": "UK",
+    "timezone": "Europe/London",
+    "timezone_utc_offset": 0,
+    "verified": true,
+    "official": true,
+    "image": {
+      "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "created_at": "2017-09-04T12:26:43.403883Z",
+      "updated_at": "2017-09-04T12:26:43.403883Z"
+    },
+  },
+  "recipient": {
+    "id": "9c2da03a-5526-457d-b7a4-0e250c46b433",
+    "user_id": "baec7eb0-bb93-4ff4-94b0-feb27ad6c2e6",
+    "transaction_id": "0baa166e-3130-4420-b30f-99a25829fd99",
+    "status": "pending",
+    "amount": 20,
+    "currency": "EUR",
+    "messages": null,
+    "username": "",
+    "created_at": "2018-08-13T11:52:07.810308Z",
+    "updated_at": "2018-08-13T11:52:07.810308Z",
+  },
+  "created_at": "2017-09-04T12:26:43.35539Z",
+  "updated_at": "2017-09-04T12:26:43.48788Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the payment. |
+| status | string | The payment status.<br>`open`<br>`closed` |
+| fulfillment_status | string | The payment fulfillment status.<br>`unfulfilled`<br>`partial`<br>`fulfilled` |
+| amount | float | The total amount of the payment. |
+| currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| description | string | The title of the payment, visible to the owner and recipient. |
+| image | Image | An optional request image or a split photo of the owner and recipient. |
+| owner | Owner | The User which created the payment. |
+| recipient | Participant | The payment recipient. |
+| created_at | time | The time when the request was created. |
+| updated_at | time | The time when the request was updated. |
+
 ## Get a list of payments
 
 > Example Request
@@ -2064,7 +2135,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| id | uuid | The unique identifier for the moment. |
+| id | uuid | The unique identifier for the request. |
 | status | string | The request status.<br>`open`<br>`closed` |
 | fulfillment_status | string | The request fulfillment status.<br>`unfulfilled`<br>`partial`<br>`fulfilled` |
 | amount | float | The total amount of the request. |
@@ -2275,7 +2346,7 @@ Pay an existing request as a participant. Payment source and PIN is required for
 
 ### HTTP Request
 
-`POST` `/v1/pools/{id}/pay`
+`POST` `/v1/requests/{id}/pay`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
