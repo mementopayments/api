@@ -1060,11 +1060,11 @@ Delete an existing funding source.
 curl -X POST "https://api.mementopayments.com/v1/funding_sources/{id}/verify" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "codes": ["code1", "code2"]
+  "code": "abc123"
 }
 ```
 
-Verify a funding source by specifying one or more verification codes, which can, for example, be sent to the user's card statement.
+Verify a funding source using a specific code, which can, for example, be sent to the user's card statement.
 
 ### HTTP Request
 
@@ -1072,7 +1072,7 @@ Verify a funding source by specifying one or more verification codes, which can,
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| code | array | An array of verification code strings. `required` |
+| code | string | The verification code. `required` |
 
 # Images
 
