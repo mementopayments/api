@@ -1397,7 +1397,7 @@ curl -X POST "https://api.mementopayments.com/v1/pools" \
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
   "is_public": true,
-  "only_owner_sees_recipients": true,
+  "only_owner_sees_participants": true,
   "has_unique_recipients": true,
   "allows_optional_amount": true,
   "minimum_user_amount": 50.0,
@@ -2162,7 +2162,7 @@ Get a list of all requests created by the user and requests where the user is th
 
 ### HTTP Request
 
-`GET` `/v1/reqests`
+`GET` `/v1/requests`
 
 ### URL Parameters
 
@@ -2195,6 +2195,10 @@ curl -X POST "https://api.mementopayments.com/v1/requests" \
   "amount": 20.0,
   "currency": "EUR",
   "description": "Payment request",
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "only_owner_sees_participants": false,
   "participants": [
     {
       "user_id": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a",
@@ -2205,10 +2209,7 @@ curl -X POST "https://api.mementopayments.com/v1/requests" \
       "name": "John Dough",
       "amount": 10.0
     }
-  ],
-  "image": {
-    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
-  }
+  ]
 }'
 ```
 
@@ -2223,8 +2224,9 @@ Create a new request.
 | amount | float | The amount being paid. `required` |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
 | description | string | The title of the request, visible to the owner and participants. |
-| participants | array | A list of participants in the request. `required` |
 | image | Image | An optional request image. |
+| only_owner_sees_participants | boolean | Whether the owner is the only one who can see the list of participants. Default: `false`. |
+| participants | array | A list of participants in the request. `required` |
 
 ## Update a request
 
@@ -2234,7 +2236,11 @@ Create a new request.
 curl -X PUT "https://api.mementopayments.com/v1/requests/{id}" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
-  "description": "My Updated Bank Account"
+  "description": "My Updated Description",
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "only_owner_sees_participants": true
 }
 ```
 
