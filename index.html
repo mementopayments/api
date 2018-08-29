@@ -2284,10 +2284,10 @@ TODO: Lýsa -->
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/funding_sources/{id}/verify"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
-  "codes": ["code1", "code2"]
+  "code": "abc123"
 }
 </span></code></pre>
-<p>Verify a funding source by specifying one or more verification codes, which can, for example, be sent to the user&#39;s card statement.</p>
+<p>Verify a funding source using a specific code, which can, for example, be sent to the user&#39;s card statement.</p>
 <h3 id='http-request-22'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/funding_sources/{id}/verify</code></p>
 
@@ -2300,8 +2300,8 @@ TODO: Lýsa -->
 </thead><tbody>
 <tr>
 <td>code</td>
-<td>array</td>
-<td>An array of verification code strings. <code>required</code></td>
+<td>string</td>
+<td>The verification code. <code>required</code></td>
 </tr>
 </tbody></table>
 <h1 id='images'>Images</h1><h2 id='the-image-object'>The image object</h2>
@@ -2834,7 +2834,7 @@ TODO: Lýsa -->
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
   "is_public": true,
-  "only_owner_sees_recipients": true,
+  "only_owner_sees_participants": true,
   "has_unique_recipients": true,
   "allows_optional_amount": true,
   "minimum_user_amount": 50.0,
@@ -4117,7 +4117,7 @@ TODO: Lýsa -->
 </code></pre>
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
 <h3 id='http-request-39'>HTTP Request</h3>
-<p><code>GET</code> <code>/v1/reqests</code></p>
+<p><code>GET</code> <code>/v1/requests</code></p>
 <h3 id='url-parameters-10'>URL Parameters</h3>
 <table><thead>
 <tr>
@@ -4181,6 +4181,10 @@ TODO: Lýsa -->
   "amount": 20.0,
   "currency": "EUR",
   "description": "Payment request",
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "only_owner_sees_participants": false,
   "participants": [
     {
       "user_id": "3fb6e878-58d6-47f6-ba3c-a5089d6e039a",
@@ -4191,10 +4195,7 @@ TODO: Lýsa -->
       "name": "John Dough",
       "amount": 10.0
     }
-  ],
-  "image": {
-    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
-  }
+  ]
 }'</span>
 </code></pre>
 <p>Create a new request.</p>
@@ -4224,14 +4225,19 @@ TODO: Lýsa -->
 <td>The title of the request, visible to the owner and participants.</td>
 </tr>
 <tr>
-<td>participants</td>
-<td>array</td>
-<td>A list of participants in the request. <code>required</code></td>
-</tr>
-<tr>
 <td>image</td>
 <td>Image</td>
 <td>An optional request image.</td>
+</tr>
+<tr>
+<td>only_owner_sees_participants</td>
+<td>boolean</td>
+<td>Whether the owner is the only one who can see the list of participants. Default: <code>false</code>.</td>
+</tr>
+<tr>
+<td>participants</td>
+<td>array</td>
+<td>A list of participants in the request. <code>required</code></td>
 </tr>
 </tbody></table>
 <h2 id='update-a-request'>Update a request</h2>
@@ -4241,7 +4247,11 @@ TODO: Lýsa -->
 <pre class="highlight shell tab-shell"><code>curl -X PUT <span class="s2">"https://api.mementopayments.com/v1/requests/{id}"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
-  "description": "My Updated Bank Account"
+  "description": "My Updated Description",
+  "image": {
+    "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
+  },
+  "only_owner_sees_participants": true
 }
 </span></code></pre>
 <p>Update an existing request. Can only update description and image.</p>
