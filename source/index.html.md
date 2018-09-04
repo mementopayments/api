@@ -2195,6 +2195,7 @@ curl -X POST "https://api.mementopayments.com/v1/requests" \
   "amount": 20.0,
   "currency": "EUR",
   "description": "Payment request",
+  "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
   },
