@@ -2553,7 +2553,7 @@ TODO: Lýsa -->
   <span class="s2">"description"</span>: <span class="s2">"Money Pool Title"</span>,
   <span class="s2">"detailed_description"</span>: <span class="s2">"Money Pool Description"</span>,
   <span class="s2">"is_public"</span>: <span class="nb">true</span>,
-  <span class="s2">"has_unique_recipients"</span>: <span class="nb">true</span>,
+  <span class="s2">"has_unique_participants"</span>: <span class="nb">true</span>,
   <span class="s2">"allows_optional_amount"</span>: <span class="nb">true</span>,
   <span class="s2">"minimum_user_amount"</span>: 50.00,
   <span class="s2">"maximum_user_amount"</span>: 150.00,
@@ -2673,7 +2673,7 @@ TODO: Lýsa -->
 <td>Whether the money pool is publicly available.</td>
 </tr>
 <tr>
-<td>has_unique_recipients</td>
+<td>has_unique_participants</td>
 <td>boolean</td>
 <td>Whether users can only contribute once to the money pool.</td>
 </tr>
@@ -2818,11 +2818,12 @@ TODO: Lýsa -->
   -d <span class="s1">$'{
   "description": "Money Pool #1",
   "detailed_description": "This is a more detailed, multiple line decription.",
+  "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "hashtag": "moneypool1",
   "amounts": [
     {
-      title: "Payment title",
-      amount: 10.0
+      "title": "Payment title",
+      "amount": 10.0
     }
   ],
   "currency": "EUR",
@@ -2835,7 +2836,7 @@ TODO: Lýsa -->
   },
   "is_public": true,
   "only_owner_sees_participants": true,
-  "has_unique_recipients": true,
+  "has_unique_participants": true,
   "allows_optional_amount": true,
   "minimum_user_amount": 50.0,
   "maximum_user_amount": 150.0,
@@ -2863,6 +2864,11 @@ TODO: Lýsa -->
 <td>detailed_description</td>
 <td>string</td>
 <td>Any description for the money pool.</td>
+</tr>
+<tr>
+<td>funding_source_id</td>
+<td>uuid</td>
+<td>The unique identifier of the funding source receiving payment. <code>required</code></td>
 </tr>
 <tr>
 <td>hashtag</td>
@@ -2900,7 +2906,7 @@ TODO: Lýsa -->
 <td>Whether the owner is the only one who can see the list of participants. Default: <code>false</code>.</td>
 </tr>
 <tr>
-<td>has_unique_recipients</td>
+<td>has_unique_participants</td>
 <td>boolean</td>
 <td>Whether users can only contribute once to the money pool. Default: <code>false</code></td>
 </tr>
@@ -2992,7 +2998,7 @@ TODO: Lýsa -->
 <td>Whether the owner is the only one who can see the list of participants.</td>
 </tr>
 <tr>
-<td>has_unique_recipients</td>
+<td>has_unique_participants</td>
 <td>boolean</td>
 <td>Whether users can only contribute once to the money pool.</td>
 </tr>
@@ -4226,6 +4232,11 @@ TODO: Lýsa -->
 <td>The title of the request, visible to the owner and participants.</td>
 </tr>
 <tr>
+<td>funding_source_id</td>
+<td>uuid</td>
+<td>The unique identifier of the funding source receiving payment. <code>required</code></td>
+</tr>
+<tr>
 <td>image</td>
 <td>Image</td>
 <td>An optional request image.</td>
@@ -4704,7 +4715,7 @@ TODO: Lýsa -->
 </tr>
 </thead><tbody>
 <tr>
-<td>payment_source_id</td>
+<td>funding_source_id</td>
 <td>uuid</td>
 <td>eq, in</td>
 <td>Payment source ID(s).</td>
