@@ -1224,7 +1224,7 @@ Get a single moment by ID.
   "description": "Money Pool Title",
   "detailed_description": "Money Pool Description",
   "is_public": true,
-  "has_unique_recipients": true,
+  "has_unique_participants": true,
   "allows_optional_amount": true,
   "minimum_user_amount": 50.00,
   "maximum_user_amount": 150.00,
@@ -1311,7 +1311,7 @@ Get a single moment by ID.
 | description | string | The money pool title. |
 | detailed_description | string | The money pool description. |
 | is_public | boolean | Whether the money pool is publicly available. |
-| has_unique_recipients | boolean | Whether users can only contribute once to the money pool. |
+| has_unique_participants | boolean | Whether users can only contribute once to the money pool. |
 | allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. |
 | minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
 | maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
@@ -1381,11 +1381,12 @@ curl -X POST "https://api.mementopayments.com/v1/pools" \
   -d $'{
   "description": "Money Pool #1",
   "detailed_description": "This is a more detailed, multiple line decription.",
+  "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "hashtag": "moneypool1",
   "amounts": [
     {
-      title: "Payment title",
-      amount: 10.0
+      "title": "Payment title",
+      "amount": 10.0
     }
   ],
   "currency": "EUR",
@@ -1398,7 +1399,7 @@ curl -X POST "https://api.mementopayments.com/v1/pools" \
   },
   "is_public": true,
   "only_owner_sees_participants": true,
-  "has_unique_recipients": true,
+  "has_unique_participants": true,
   "allows_optional_amount": true,
   "minimum_user_amount": 50.0,
   "maximum_user_amount": 150.0,
@@ -1417,6 +1418,7 @@ Create a new money pool.
 | --------- | ---- | ----------- |
 | description | string | The money pool title. `required` |
 | detailed_description | string | Any description for the money pool. |
+| funding_source_id | uuid | The unique identifier of the funding source receiving payment. `required` |
 | hashtag | string | An optional hashtag for the money pool. |
 | amounts | array | A list of payment options. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
@@ -1424,7 +1426,7 @@ Create a new money pool.
 | image | Image | An optional image object. This can also be performed after creating the money pool. |
 | is_public | boolean | Whether everyone can open the money pool or invited users only. Default: `false`. |
 | only_owner_sees_participants | boolean | Whether the owner is the only one who can see the list of participants. Default: `false`. |
-| has_unique_recipients | boolean | Whether users can only contribute once to the money pool. Default: `false` |
+| has_unique_participants | boolean | Whether users can only contribute once to the money pool. Default: `false` |
 | allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. Default: `false` |
 | minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
 | maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
@@ -1459,7 +1461,7 @@ Update an existing money pool. Anything defined will be updated, otherwise curre
 | image | Image | An optional image object. This can also be performed after creating the money pool. |
 | is_public | boolean | Whether everyone can open the money pool or invited users only. |
 | only_owner_sees_participants | boolean | Whether the owner is the only one who can see the list of participants. |
-| has_unique_recipients | boolean | Whether users can only contribute once to the money pool. |
+| has_unique_participants | boolean | Whether users can only contribute once to the money pool. |
 | allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. |
 | minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
 | maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
@@ -2225,6 +2227,7 @@ Create a new request.
 | amount | float | The amount being paid. `required` |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
 | description | string | The title of the request, visible to the owner and participants. |
+| funding_source_id | uuid | The unique identifier of the funding source receiving payment. `required` |
 | image | Image | An optional request image. |
 | only_owner_sees_participants | boolean | Whether the owner is the only one who can see the list of participants. Default: `false`. |
 | participants | array | A list of participants in the request. `required` |
@@ -2597,7 +2600,7 @@ Get a list of all transactions, in and out, for all of the funding sources belon
 
 |Attribute|Type|Operators|Values|
 |---------|----|---------|------|
-|payment\_source_id|uuid|eq, in|Payment source ID(s).|
+|funding\_source_id|uuid|eq, in|Payment source ID(s).|
 
 ## Get a transaction
 
