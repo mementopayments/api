@@ -3037,7 +3037,7 @@ TODO: Lýsa -->
 </code></pre>
 <p>Closes a money pool so users cannot contribute anymore. The pool&#39;s fulfillment status will become <code>fulfilled</code> and its status <code>closed</code>.</p>
 <h3 id='http-request-29'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/pools/close</code></p>
+<p><code>POST</code> <code>/v1/pools/{id}/close</code></p>
 <h2 id='invite-users-to-participate'>Invite users to participate</h2>
 <blockquote>
 <p>Example Request</p>
@@ -3180,7 +3180,7 @@ TODO: Lýsa -->
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{id}/pay"</span> <span class="se">\</span>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{id}/participants"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
   "amount": 50.0,
@@ -3206,7 +3206,7 @@ TODO: Lýsa -->
 </code></pre>
 <p>The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.</p>
 <h3 id='http-request-33'>HTTP Request</h3>
-<p><code>POST</code> <code>/v1/pools/{id}/pay</code></p>
+<p><code>POST</code> <code>/v1/pools/{id}/participants</code></p>
 
 <table><thead>
 <tr>
