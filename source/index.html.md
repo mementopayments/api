@@ -1481,7 +1481,7 @@ Closes a money pool so users cannot contribute anymore. The pool's fulfillment s
 
 ### HTTP Request
 
-`POST` `/v1/pools/close`
+`POST` `/v1/pools/{id}/close`
 
 ## Invite users to participate
 
@@ -1588,7 +1588,7 @@ Request a list of participants to be sent to a specific email address.
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/pools/{id}/pay" \
+curl -X POST "https://api.mementopayments.com/v1/pools/{id}/participants" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "amount": 50.0,
@@ -1618,7 +1618,7 @@ The user contributes to the money pool by making a payment. Payment source and P
 
 ### HTTP Request
 
-`POST` `/v1/pools/{id}/pay`
+`POST` `/v1/pools/{id}/participants`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
