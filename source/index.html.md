@@ -1490,14 +1490,12 @@ Closes a money pool so users cannot contribute anymore. The pool's fulfillment s
 ```shell
 curl -X POST "https://api.mementopayments.com/v1/pools/{id}/invite" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
-  -d $'[
-  {
-    "user_id": "d31fabcb-dbd8-4a32-824f-23d2dad5a5cc"
-  },
-  {
-    "user_id": "5e2c96cd-9701-46e9-b9d2-b4fa4e786f1a"
-  }
-]'
+  -d $'{
+  "user_ids": [
+    "556b6fc6-e8dd-4bfa-89e0-9fbd286c96c3",
+    "1d27d1c8-5e58-4d6e-87f7-b6890672294e"
+  ],
+}'
 ```
 
 Adds users as participants marked as `invited`.
@@ -1508,7 +1506,7 @@ Adds users as participants marked as `invited`.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| user_id | uuid | The unique identifier of the user being invited. `required` |
+| user_ids | array | An array of unique identifiers of users being invited. `required` |
 
 ## Get money pool participants
 
