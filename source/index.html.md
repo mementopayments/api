@@ -302,6 +302,7 @@ Filtering, pagination and sorting is done with query string parameters.
 | page | Which page to get. | page=1 |
 | limit | How many items to get per page. | limit=100 |
 | filter | Result filtering. | filter=status:eq:open,name:like:john |
+| search | Full text search across multiple fields, where available. | search=john |  
 | sort | Which field and direction to sort the results. | sort=created_at:desc,name:asc |
 
 ## Operators
@@ -1181,18 +1182,18 @@ Get a list of all moments.
 
 ### URL Parameters
 
-|Name|Type|Description|
-|----|----|-----------|
-|page|int|Item pagination.|
-|limit|int|Number of items to return per page.|
-|sort|string|Sort the results by `created_at`, `updated_at`.|
-|filter|string|Filter the results.|
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| page | int | Item pagination. |
+| limit | int | Number of items to return per page. |
+| sort | string | Sort the results by `created_at`, `updated_at`. |
+| filter | string | Filter the results. |
 
 ### Filtering
 
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|open|boolean|eq|true, false|
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| open | boolean | eq | true, false |
 
 ## Get a moment
 
@@ -1348,6 +1349,7 @@ Get a list of all pools created by the user and pools available to the user but 
 |limit|int|Number of items to return per page.|
 |sort|string|Sort the results by `created_at`, `updated_at`.|
 |filter|string|Filter the results.|
+|search|string|Search money pools by description and detailed description.|
 
 ### Filtering
 
