@@ -406,17 +406,17 @@ curl "https://api.mementopayments.com/v1/announcements" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a list of all announcements that were sent after the time defined by the `since` parameter.
+Get a list of all announcements that are relevant to the user.
 
 ### HTTP Request
 
 `GET` `/v1/announcements`
 
-### URL Parameters
+### Filtering
 
-|Name|Type|Description|
-|----|----|-----------|
-|since|string|Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| created_at | time | gt | YYYY-MM-DD HH:MM:SS |
 
 ## Acknowledge an announcement
 
@@ -1868,10 +1868,10 @@ Get a list of all payments created by the user and payments where the user is th
 
 ### Filtering
 
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|owner|boolean|eq|true, false|
-|status|string|eq, in|open, closed, all `default: all`|
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| owner | boolean | eq | true, false |
+| status | string | eq, in | open, closed, all `default: all` |
 
 ## Get a payment
 
@@ -2180,10 +2180,10 @@ Get a list of all requests created by the user and requests where the user is th
 
 ### Filtering
 
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|owner|boolean|eq|true, false|
-|status|string|eq, in|open, closed, all `default: all`|
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| owner | boolean | eq | true, false |
+| status | string | eq, in | open, closed, all `default: all` |
 
 ## Get a request
 
@@ -2601,9 +2601,9 @@ Get a list of all transactions, in and out, for all of the funding sources belon
 
 ### Filtering
 
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|funding\_source_id|uuid|eq, in|Payment source ID(s).|
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| funding\_source_id | uuid | eq, in | Funding source ID(s). |
 
 ## Get a transaction
 
