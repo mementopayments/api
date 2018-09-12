@@ -374,9 +374,10 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
   "type": "general",
   "title": "Updated Terms of Use",
   "message": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-  "action_url": "http://www.mementopayments.com/terms",
-  "action_label": "Open Terms of Use",
-  "dismissible": true,
+  "button_label": "Open Terms of Use",
+  "button_url": "http://www.mementopayments.com/terms",
+  "is_dismissible": true,
+  "is_fullscreen": false,
   "created_at": "2017-09-04T12:26:43.403883Z",
   "updated_at": "2017-09-04T12:26:43.403883Z"
 }
@@ -388,9 +389,11 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 | type | string | The type of announcement.<br>`general`|
 | title | string | The announcement title. |
 | message | string | The announcement message body. |
-| action_label | string | If an action is optional or required, this is the action button label. |
-| action_url | string | If an action is option or required, this is the URL which the action button opens. |
-| dismissible | boolean | Whether the announcement can be dismissed or not. |
+| button_label | string | If a button is optional or required, this is the button label. |
+| button_url | string | If a button is option or required, this is the URL which the button opens. |
+| is_dismissible | boolean | Whether the announcement can be dismissed or not. |
+| is_fullscreen | boolean | Whether the announcement should be displayed full screen or not. |
+| webview_url | string | If a web view should be displayed within the message, this is the URL to render. |
 | created_at | time | The time when the announcement was created. |
 | updated_at | time | The time when the announcement was updated. |
 
@@ -415,20 +418,20 @@ Get a list of all announcements that were sent after the time defined by the `si
 |----|----|-----------|
 |since|string|Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.|
 
-## Get an announcement
+## Acknowledge an announcement
 
 > Example Request
 
 ```shell
-curl "https://api.mementopayments.com/v1/announcement/{id}" \
+curl -X POST "https://api.mementopayments.com/v1/announcement/{id}/ack" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
-Get a single announcement by ID.
+Acknowledge an announcement by ID on behalf of the current user.
 
 ### HTTP Request
 
-`GET` `/v1/announcements/{id}`
+`POST` `/v1/announcements/{id}/ack`
 
 # Contacts
 
@@ -1343,20 +1346,20 @@ Get a list of all pools created by the user and pools available to the user but 
 
 ### URL Parameters
 
-|Name|Type|Description|
-|----|----|-----------|
-|page|int|Item pagination.|
-|limit|int|Number of items to return per page.|
-|sort|string|Sort the results by `created_at`, `updated_at`.|
-|filter|string|Filter the results.|
-|search|string|Search money pools by description and detailed description.|
+| Name | Type | Description |
+| ---- | ---- | ----------- |
+| page | int | Item pagination. |
+| limit | int | Number of items to return per page. |
+| sort | string | Sort the results by `created_at`, `updated_at`. |
+| filter | string | Filter the results. |
+| search | string | Search money pools by description and detailed description. |
 
 ### Filtering
 
-|Attribute|Type|Operators|Values|
-|---------|----|---------|------|
-|owner|boolean|eq|true, false|
-|status|string|eq, in|open, closed, all `default: all`|
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| owner | boolean | eq | true, false |
+| status | string | eq, in | open, closed, all `default: all` |
 
 ## Get a money pool
 
@@ -3011,13 +3014,12 @@ Update the current user.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| id | uuid | The unique identifier for the announcement. |
+| id | uuid | The unique identifier for the verification. |
 | type | string | The type of verification.<br>`sms`<br>`drivers_license`<br>`passport` |
 | status | string | The status of verification.<br>`pending`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | attempts | integer | The number of verification attemps. Initial value is 1. The maximum number of attempts depends on the verification type and processor. |
 | error_code | string | The error code, in case of an error. The value depends on the verification type and processor. | 
 | error_message | string | The error message, in case of an error. The value depends on the verification type and processor. | 
-| dismissible | boolean | Whether the announcement can be dismissed or not. |
 | expires_at | time | The time when the verification expires. |
 
 ## Single-step verification
