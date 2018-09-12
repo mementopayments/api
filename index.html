@@ -291,7 +291,7 @@
                     <a href="#get-a-list-of-announcements" class="toc-h2 toc-link" data-title="get-a-list-of-announcements">Get a list of announcements</a>
                   </li>
                   <li>
-                    <a href="#get-an-announcement" class="toc-h2 toc-link" data-title="get-an-announcement">Get an announcement</a>
+                    <a href="#acknowledge-an-announcement" class="toc-h2 toc-link" data-title="acknowledge-an-announcement">Acknowledge an announcement</a>
                   </li>
               </ul>
           </li>
@@ -1031,6 +1031,11 @@ TODO: List validation error codes
 <td>filter=status:eq:open,name:like:john</td>
 </tr>
 <tr>
+<td>search</td>
+<td>Full text search across multiple fields, where available.</td>
+<td>search=john</td>
+</tr>
+<tr>
 <td>sort</td>
 <td>Which field and direction to sort the results.</td>
 <td>sort=created_at:desc,name:asc</td>
@@ -1140,9 +1145,10 @@ TODO: List validation error codes
   <span class="s2">"type"</span>: <span class="s2">"general"</span>,
   <span class="s2">"title"</span>: <span class="s2">"Updated Terms of Use"</span>,
   <span class="s2">"message"</span>: <span class="s2">"Lorem ipsum dolor sit amet, consectetur adipiscing elit."</span>,
-  <span class="s2">"action_url"</span>: <span class="s2">"http://www.mementopayments.com/terms"</span>,
-  <span class="s2">"action_label"</span>: <span class="s2">"Open Terms of Use"</span>,
-  <span class="s2">"dismissible"</span>: <span class="nb">true</span>,
+  <span class="s2">"button_label"</span>: <span class="s2">"Open Terms of Use"</span>,
+  <span class="s2">"button_url"</span>: <span class="s2">"http://www.mementopayments.com/terms"</span>,
+  <span class="s2">"is_dismissible"</span>: <span class="nb">true</span>,
+  <span class="s2">"is_fullscreen"</span>: <span class="nb">false</span>,
   <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>,
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.403883Z"</span>
 <span class="o">}</span>
@@ -1175,19 +1181,29 @@ TODO: List validation error codes
 <td>The announcement message body.</td>
 </tr>
 <tr>
-<td>action_label</td>
+<td>button_label</td>
 <td>string</td>
-<td>If an action is optional or required, this is the action button label.</td>
+<td>If a button is optional or required, this is the button label.</td>
 </tr>
 <tr>
-<td>action_url</td>
+<td>button_url</td>
 <td>string</td>
-<td>If an action is option or required, this is the URL which the action button opens.</td>
+<td>If a button is option or required, this is the URL which the button opens.</td>
 </tr>
 <tr>
-<td>dismissible</td>
+<td>is_dismissible</td>
 <td>boolean</td>
 <td>Whether the announcement can be dismissed or not.</td>
+</tr>
+<tr>
+<td>is_fullscreen</td>
+<td>boolean</td>
+<td>Whether the announcement should be displayed full screen or not.</td>
+</tr>
+<tr>
+<td>webview_url</td>
+<td>string</td>
+<td>If a web view should be displayed within the message, this is the URL to render.</td>
 </tr>
 <tr>
 <td>created_at</td>
@@ -1224,16 +1240,16 @@ TODO: List validation error codes
 <td>Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
 </tr>
 </tbody></table>
-<h2 id='get-an-announcement'>Get an announcement</h2>
+<h2 id='acknowledge-an-announcement'>Acknowledge an announcement</h2>
 <blockquote>
 <p>Example Request</p>
 </blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/announcement/{id}"</span> <span class="se">\</span>
+<pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/announcement/{id}/ack"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
-<p>Get a single announcement by ID.</p>
+<p>Acknowledge an announcement by ID on behalf of the current user.</p>
 <h3 id='http-request-8'>HTTP Request</h3>
-<p><code>GET</code> <code>/v1/announcements/{id}</code></p>
+<p><code>POST</code> <code>/v1/announcements/{id}/ack</code></p>
 <h1 id='contacts'>Contacts</h1><h2 id='the-contact-object'>The contact object</h2>
 <blockquote>
 <p>Example Response</p>
@@ -2776,6 +2792,11 @@ TODO: Lýsa -->
 <td>string</td>
 <td>Filter the results.</td>
 </tr>
+<tr>
+<td>search</td>
+<td>string</td>
+<td>Search money pools by description and detailed description.</td>
+</tr>
 </tbody></table>
 <h3 id='filtering-5'>Filtering</h3>
 <table><thead>
@@ -3044,14 +3065,12 @@ TODO: Lýsa -->
 </blockquote>
 <pre class="highlight shell tab-shell"><code>curl -X POST <span class="s2">"https://api.mementopayments.com/v1/pools/{id}/invite"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
-  -d <span class="s1">$'[
-  {
-    "user_id": "d31fabcb-dbd8-4a32-824f-23d2dad5a5cc"
-  },
-  {
-    "user_id": "5e2c96cd-9701-46e9-b9d2-b4fa4e786f1a"
-  }
-]'</span>
+  -d <span class="s1">$'{
+  "user_ids": [
+    "556b6fc6-e8dd-4bfa-89e0-9fbd286c96c3",
+    "1d27d1c8-5e58-4d6e-87f7-b6890672294e"
+  ],
+}'</span>
 </code></pre>
 <p>Adds users as participants marked as <code>invited</code>.</p>
 <h3 id='http-request-30'>HTTP Request</h3>
@@ -3065,9 +3084,9 @@ TODO: Lýsa -->
 </tr>
 </thead><tbody>
 <tr>
-<td>user_id</td>
-<td>uuid</td>
-<td>The unique identifier of the user being invited. <code>required</code></td>
+<td>user_ids</td>
+<td>array</td>
+<td>An array of unique identifiers of users being invited. <code>required</code></td>
 </tr>
 </tbody></table>
 <h2 id='get-money-pool-participants'>Get money pool participants</h2>
@@ -5345,7 +5364,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 <tr>
 <td>id</td>
 <td>uuid</td>
-<td>The unique identifier for the announcement.</td>
+<td>The unique identifier for the verification.</td>
 </tr>
 <tr>
 <td>type</td>
@@ -5371,11 +5390,6 @@ If the current has a relationship to this user, the User object will embed a Rel
 <td>error_message</td>
 <td>string</td>
 <td>The error message, in case of an error. The value depends on the verification type and processor.</td>
-</tr>
-<tr>
-<td>dismissible</td>
-<td>boolean</td>
-<td>Whether the announcement can be dismissed or not.</td>
 </tr>
 <tr>
 <td>expires_at</td>
