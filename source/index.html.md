@@ -321,47 +321,6 @@ Filtering, pagination and sorting is done with query string parameters.
 
 `GET` `/v1/pools?filter=status:in:[open;closed],created_at:lt:2018-01-01,name:like:john&sort=name:asc`
 
-# Activity Updates
-
-## The activity update object
-
-> Example Response
-
-```shell
-{
-  "has_updates": true,
-  "payments_received": 3,
-  "payments_due": 2
-}
-```
-
-| Attribute | Type | Description |
-| --------- | ---- | ----------- |
-| has_updates | boolean | Whether there are new updates or not. |
-| payments_received | integer | The number of payments received. |
-| payment_due | integer | The number of payments due. |
-
-## Get activity updates
-
-Get activity updates that occurred after the time defined by the `since` parameter.
-
-> Example Request
-
-```shell
-curl "https://api.mementopayments.com/v1/activity/updates" \
-  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
-```
-
-### HTTP Request
-
-`GET` `/v1/activity/updates`
-
-### URL Parameters
-
-| Name | Type | Description |
-| ---- | ---- | ----------- |
-| since | string | Show updates after a certain date and time. Format is YYYY-MM-DD HH:MM:SS. |
-
 # Announcements
 
 ## The announcement object
@@ -405,8 +364,8 @@ curl "https://api.mementopayments.com/v1/activity/updates" \
 curl "https://api.mementopayments.com/v1/announcements" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
-
-Get a list of all announcements that are relevant to the user.
+ 
+Get a list of all announcements relevant to the user that were sent after the time defined by the `start_at` filter.
 
 ### HTTP Request
 
@@ -416,7 +375,7 @@ Get a list of all announcements that are relevant to the user.
 
 | Attribute | Type | Operators | Values |
 | --------- | ---- | --------- | ------ |
-| created_at | time | gt | YYYY-MM-DD HH:MM:SS |
+| start_at | time | gt | YYYY-MM-DD HH:MM:SS |
 
 ## Acknowledge an announcement
 
@@ -2823,6 +2782,43 @@ Unblock a specific user.
 ### HTTP Request
 
 `POST` `/v1/users/{id}/unblock`
+
+## Activity summary
+
+Get a summary of events that occurred after the time defined by the `start_at` filter.
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/users/current/summary" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
+```
+
+> Example Response
+
+```shell
+{
+  "current": {
+    "unpaid_requests": 2,
+  },
+  "since_last_time": {
+    "payments_received": 3,
+    "requests_received": 2,
+  }
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| current.unpaid_requests | integer | The number of current unpaid payment requests. |
+| since_last_time.payments_received | integer | The number of payments received during the defined period. |
+| since_last_time.requests_received | integer | The number of payment requests received during the defined period. |
+
+### Filtering
+
+| Attribute | Type | Operators | Values |
+| --------- | ---- | --------- | ------ |
+| start_at | time | gt | YYYY-MM-DD HH:MM:SS |
 
 ## Search for users
 
