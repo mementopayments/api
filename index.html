@@ -271,17 +271,6 @@
               </ul>
           </li>
           <li>
-            <a href="#activity-updates" class="toc-h1 toc-link" data-title="activity-updates">Activity Updates</a>
-              <ul class="toc-list-h2">
-                  <li>
-                    <a href="#the-activity-update-object" class="toc-h2 toc-link" data-title="the-activity-update-object">The activity update object</a>
-                  </li>
-                  <li>
-                    <a href="#get-activity-updates" class="toc-h2 toc-link" data-title="get-activity-updates">Get activity updates</a>
-                  </li>
-              </ul>
-          </li>
-          <li>
             <a href="#announcements" class="toc-h1 toc-link" data-title="announcements">Announcements</a>
               <ul class="toc-list-h2">
                   <li>
@@ -572,6 +561,9 @@
                   </li>
                   <li>
                     <a href="#unblock-a-user" class="toc-h2 toc-link" data-title="unblock-a-user">Unblock a user</a>
+                  </li>
+                  <li>
+                    <a href="#activity-summary" class="toc-h2 toc-link" data-title="activity-summary">Activity summary</a>
                   </li>
                   <li>
                     <a href="#search-for-users" class="toc-h2 toc-link" data-title="search-for-users">Search for users</a>
@@ -1079,63 +1071,6 @@ TODO: List validation error codes
 </tbody></table>
 <h2 id='example'>Example</h2>
 <p><code>GET</code> <code>/v1/pools?filter=status:in:[open;closed],created_at:lt:2018-01-01,name:like:john&amp;sort=name:asc</code></p>
-<h1 id='activity-updates'>Activity Updates</h1><h2 id='the-activity-update-object'>The activity update object</h2>
-<blockquote>
-<p>Example Response</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code><span class="o">{</span>
-  <span class="s2">"has_updates"</span>: <span class="nb">true</span>,
-  <span class="s2">"payments_received"</span>: 3,
-  <span class="s2">"payments_due"</span>: 2
-<span class="o">}</span>
-</code></pre>
-<table><thead>
-<tr>
-<th>Attribute</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>has_updates</td>
-<td>boolean</td>
-<td>Whether there are new updates or not.</td>
-</tr>
-<tr>
-<td>payments_received</td>
-<td>integer</td>
-<td>The number of payments received.</td>
-</tr>
-<tr>
-<td>payment_due</td>
-<td>integer</td>
-<td>The number of payments due.</td>
-</tr>
-</tbody></table>
-<h2 id='get-activity-updates'>Get activity updates</h2>
-<p>Get activity updates that occurred after the time defined by the <code>since</code> parameter.</p>
-
-<blockquote>
-<p>Example Request</p>
-</blockquote>
-<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/activity/updates"</span> <span class="se">\</span>
-  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
-</code></pre><h3 id='http-request-6'>HTTP Request</h3>
-<p><code>GET</code> <code>/v1/activity/updates</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
-<table><thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Description</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>since</td>
-<td>string</td>
-<td>Show updates after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
-</tr>
-</tbody></table>
 <h1 id='announcements'>Announcements</h1><h2 id='the-announcement-object'>The announcement object</h2>
 <blockquote>
 <p>Example Response</p>
@@ -1223,21 +1158,23 @@ TODO: List validation error codes
 <pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/announcements"</span> <span class="se">\</span>
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
-<p>Get a list of all announcements that were sent after the time defined by the <code>since</code> parameter.</p>
-<h3 id='http-request-7'>HTTP Request</h3>
+<p>Get a list of all announcements relevant to the user that were sent after the time defined by the <code>start_at</code> filter.</p>
+<h3 id='http-request-6'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/announcements</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<h3 id='filtering-2'>Filtering</h3>
 <table><thead>
 <tr>
-<th>Name</th>
+<th>Attribute</th>
 <th>Type</th>
-<th>Description</th>
+<th>Operators</th>
+<th>Values</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>since</td>
-<td>string</td>
-<td>Show announcements after a certain date and time. Format is YYYY-MM-DD HH:MM:SS.</td>
+<td>start_at</td>
+<td>time</td>
+<td>gt</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
 </tr>
 </tbody></table>
 <h2 id='acknowledge-an-announcement'>Acknowledge an announcement</h2>
@@ -1248,7 +1185,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Acknowledge an announcement by ID on behalf of the current user.</p>
-<h3 id='http-request-8'>HTTP Request</h3>
+<h3 id='http-request-7'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/announcements/{id}/ack</code></p>
 <h1 id='contacts'>Contacts</h1><h2 id='the-contact-object'>The contact object</h2>
 <blockquote>
@@ -1323,7 +1260,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all of the user&#39;s contacts.</p>
-<h3 id='http-request-9'>HTTP Request</h3>
+<h3 id='http-request-8'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/contacts</code></p>
 <h2 id='get-a-contact'>Get a contact</h2>
 <blockquote>
@@ -1333,7 +1270,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single contact by ID.</p>
-<h3 id='http-request-10'>HTTP Request</h3>
+<h3 id='http-request-9'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/contacts/{id}</code></p>
 <h2 id='create-a-contact'>Create a contact</h2>
 <blockquote>
@@ -1346,7 +1283,7 @@ TODO: List validation error codes
 }'</span>
 </code></pre>
 <p>Create a new contact by providing a user ID.</p>
-<h3 id='http-request-11'>HTTP Request</h3>
+<h3 id='http-request-10'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/contacts</code></p>
 <h3 id='create-contact'>Create contact</h3>
 <table><thead>
@@ -1370,7 +1307,7 @@ TODO: List validation error codes
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Delete an existing contact.</p>
-<h3 id='http-request-12'>HTTP Request</h3>
+<h3 id='http-request-11'>HTTP Request</h3>
 <p><code>DELETE</code> <code>/v1/contacts/{id}</code></p>
 <h1 id='devices'>Devices</h1><h2 id='the-device-object'>The device object</h2>
 <blockquote>
@@ -1455,7 +1392,7 @@ TODO: List validation error codes
 }'</span>
 </code></pre>
 <p>Get the user&#39;s current device.</p>
-<h3 id='http-request-13'>HTTP Request</h3>
+<h3 id='http-request-12'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/devices/current</code></p>
 <h2 id='update-the-current-device'>Update the current device</h2>
 <blockquote>
@@ -1469,7 +1406,7 @@ TODO: List validation error codes
 }'</span>
 </code></pre>
 <p>Update the user&#39;s current device.</p>
-<h3 id='http-request-14'>HTTP Request</h3>
+<h3 id='http-request-13'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/devices/current</code></p>
 
 <table><thead>
@@ -1549,7 +1486,7 @@ TODO: List validation error codes
 }'</span>
 </code></pre>
 <p>Calculate the fee when sending money from one funding source to another.</p>
-<h3 id='http-request-15'>HTTP Request</h3>
+<h3 id='http-request-14'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/fees/calculate</code></p>
 
 <table><thead>
@@ -1931,9 +1868,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Content-Type: application/json"</span> 
 </code></pre>
 <p>Get a list of all funding sources.</p>
-<h3 id='http-request-16'>HTTP Request</h3>
+<h3 id='http-request-15'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/funding_sources</code></p>
-<h3 id='url-parameters-3'>URL Parameters</h3>
+<h3 id='url-parameters'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -1962,7 +1899,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-2'>Filtering</h3>
+<h3 id='filtering-3'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -1998,7 +1935,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Content-Type: application/json"</span> 
 </code></pre>
 <p>Get a single funding source by ID.</p>
-<h3 id='http-request-17'>HTTP Request</h3>
+<h3 id='http-request-16'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/funding_sources/{id}</code></p>
 <h2 id='get-funding-source-transactions'>Get funding source transactions</h2>
 <blockquote>
@@ -2041,9 +1978,9 @@ TODO: Lýsa -->
 <span class="o">]</span>
 </code></pre>
 <p>Get a list of transactions for a funding source, both deposits and withdrawals.</p>
-<h3 id='http-request-18'>HTTP Request</h3>
+<h3 id='http-request-17'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/funding_sources/{id}/transactions</code></p>
-<h3 id='url-parameters-4'>URL Parameters</h3>
+<h3 id='url-parameters-2'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2072,7 +2009,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-3'>Filtering</h3>
+<h3 id='filtering-4'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2130,7 +2067,7 @@ TODO: Lýsa -->
 }
 </span></code></pre>
 <p>Create a new funding source.</p>
-<h3 id='http-request-19'>HTTP Request</h3>
+<h3 id='http-request-18'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/funding_sources</code></p>
 
 <table><thead>
@@ -2248,7 +2185,7 @@ TODO: Lýsa -->
 }
 </span></code></pre>
 <p>Update an existing funding source. If the source is a bank account, only its description can be updated. If the source is a card, its description and expiration date can be updated.</p>
-<h3 id='http-request-20'>HTTP Request</h3>
+<h3 id='http-request-19'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/funding_sources/{id}</code></p>
 
 <table><thead>
@@ -2291,7 +2228,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Delete an existing funding source.</p>
-<h3 id='http-request-21'>HTTP Request</h3>
+<h3 id='http-request-20'>HTTP Request</h3>
 <p><code>DELETE</code> <code>/v1/funding_sources/{id}</code></p>
 <h2 id='verify-funding-source'>Verify funding source</h2>
 <blockquote>
@@ -2304,7 +2241,7 @@ TODO: Lýsa -->
 }
 </span></code></pre>
 <p>Verify a funding source using a specific code, which can, for example, be sent to the user&#39;s card statement.</p>
-<h3 id='http-request-22'>HTTP Request</h3>
+<h3 id='http-request-21'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/funding_sources/{id}/verify</code></p>
 
 <table><thead>
@@ -2500,9 +2437,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all moments.</p>
-<h3 id='http-request-23'>HTTP Request</h3>
+<h3 id='http-request-22'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/moments</code></p>
-<h3 id='url-parameters-5'>URL Parameters</h3>
+<h3 id='url-parameters-3'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2531,7 +2468,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-4'>Filtering</h3>
+<h3 id='filtering-5'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2555,7 +2492,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single moment by ID.</p>
-<h3 id='http-request-24'>HTTP Request</h3>
+<h3 id='http-request-23'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/moments/{id}</code></p>
 <h1 id='money-pools'>Money Pools</h1><h2 id='the-money-pool-object'>The money pool object</h2>
 <blockquote>
@@ -2762,9 +2699,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all pools created by the user and pools available to the user but which the user did not create, including public pools and pools the user is invited to or has participated in. This can be specified by using the <code>owner</code> filter.</p>
-<h3 id='http-request-25'>HTTP Request</h3>
+<h3 id='http-request-24'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/pools</code></p>
-<h3 id='url-parameters-6'>URL Parameters</h3>
+<h3 id='url-parameters-4'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -2798,7 +2735,7 @@ TODO: Lýsa -->
 <td>Search money pools by description and detailed description.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-5'>Filtering</h3>
+<h3 id='filtering-6'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -2828,7 +2765,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single money pool by ID.</p>
-<h3 id='http-request-26'>HTTP Request</h3>
+<h3 id='http-request-25'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/pools/{id}</code></p>
 <h2 id='create-a-money-pool'>Create a money pool</h2>
 <blockquote>
@@ -2866,7 +2803,7 @@ TODO: Lýsa -->
 }
 </span></code></pre>
 <p>Create a new money pool.</p>
-<h3 id='http-request-27'>HTTP Request</h3>
+<h3 id='http-request-26'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/pools</code></p>
 
 <table><thead>
@@ -2968,7 +2905,7 @@ TODO: Lýsa -->
 }'</span>
 </code></pre>
 <p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON. Currency can not be changed.</p>
-<h3 id='http-request-28'>HTTP Request</h3>
+<h3 id='http-request-27'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/pools/{id}</code></p>
 
 <table><thead>
@@ -3057,7 +2994,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Closes a money pool so users cannot contribute anymore. The pool&#39;s fulfillment status will become <code>fulfilled</code> and its status <code>closed</code>.</p>
-<h3 id='http-request-29'>HTTP Request</h3>
+<h3 id='http-request-28'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/pools/{id}/close</code></p>
 <h2 id='invite-users-to-participate'>Invite users to participate</h2>
 <blockquote>
@@ -3073,7 +3010,7 @@ TODO: Lýsa -->
 }'</span>
 </code></pre>
 <p>Adds users as participants marked as <code>invited</code>.</p>
-<h3 id='http-request-30'>HTTP Request</h3>
+<h3 id='http-request-29'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/pools/{id}/invite</code></p>
 
 <table><thead>
@@ -3115,9 +3052,9 @@ TODO: Lýsa -->
 <span class="o">]</span>
 </code></pre>
 <p>Get a list of participants in a money pool.</p>
-<h3 id='http-request-31'>HTTP Request</h3>
+<h3 id='http-request-30'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/pools/{id}/participants</code></p>
-<h3 id='url-parameters-7'>URL Parameters</h3>
+<h3 id='url-parameters-5'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3146,7 +3083,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-6'>Filtering</h3>
+<h3 id='filtering-7'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3174,7 +3111,7 @@ TODO: Lýsa -->
 }'</span>
 </code></pre>
 <p>Request a list of participants to be sent to a specific email address.</p>
-<h3 id='http-request-32'>HTTP Request</h3>
+<h3 id='http-request-31'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/pools/{id}/participants/export</code></p>
 
 <table><thead>
@@ -3224,7 +3161,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>The user contributes to the money pool by making a payment. Payment source and PIN is required for payments.</p>
-<h3 id='http-request-33'>HTTP Request</h3>
+<h3 id='http-request-32'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/pools/{id}/participants</code></p>
 
 <table><thead>
@@ -3352,9 +3289,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Content-Type: application/json"</span> 
 </code></pre>
 <p>Get a list of all notifications.</p>
-<h3 id='http-request-34'>HTTP Request</h3>
+<h3 id='http-request-33'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/notifications</code></p>
-<h3 id='url-parameters-8'>URL Parameters</h3>
+<h3 id='url-parameters-6'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3589,6 +3526,7 @@ TODO: Lýsa -->
     <span class="s2">"created_at"</span>: <span class="s2">"2018-08-13T11:52:07.810308Z"</span>,
     <span class="s2">"updated_at"</span>: <span class="s2">"2018-08-13T11:52:07.810308Z"</span>,
   <span class="o">}</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-09-14T12:26:43.35539Z"</span>,
   <span class="s2">"created_at"</span>: <span class="s2">"2017-09-04T12:26:43.35539Z"</span>,
   <span class="s2">"updated_at"</span>: <span class="s2">"2017-09-04T12:26:43.48788Z"</span>
 <span class="o">}</span>
@@ -3646,14 +3584,19 @@ TODO: Lýsa -->
 <td>The payment recipient.</td>
 </tr>
 <tr>
+<td>expires_at</td>
+<td>time</td>
+<td>An unclaimed payment needs to be claimed before this time.</td>
+</tr>
+<tr>
 <td>created_at</td>
 <td>time</td>
-<td>The time when the request was created.</td>
+<td>The time when the payment was created.</td>
 </tr>
 <tr>
 <td>updated_at</td>
 <td>time</td>
-<td>The time when the request was updated.</td>
+<td>The time when the payment was updated.</td>
 </tr>
 </tbody></table>
 <h2 id='get-a-list-of-payments'>Get a list of payments</h2>
@@ -3664,9 +3607,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all payments created by the user and payments where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
-<h3 id='http-request-35'>HTTP Request</h3>
+<h3 id='http-request-34'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments</code></p>
-<h3 id='url-parameters-9'>URL Parameters</h3>
+<h3 id='url-parameters-7'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -3695,7 +3638,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-7'>Filtering</h3>
+<h3 id='filtering-8'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -3725,7 +3668,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single payment by ID. Transactions are not accessible from this endpoint (see Transactions).</p>
-<h3 id='http-request-36'>HTTP Request</h3>
+<h3 id='http-request-35'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments/{id}</code></p>
 <h2 id='create-a-payment'>Create a payment</h2>
 <blockquote>
@@ -3768,7 +3711,7 @@ TODO: Lýsa -->
 }
 </span></code></pre>
 <p>Create a new payment and send money. Recipient can be based on a user ID or phone number, in which case an optional name can also be sent. Payment source and PIN is required for payments.</p>
-<h3 id='http-request-37'>HTTP Request</h3>
+<h3 id='http-request-36'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/payments</code></p>
 
 <table><thead>
@@ -3858,7 +3801,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Get a receipt for the payment, if it has been fully processed. The sender and recipient will get different versions of the receipt; the sender will see the payment method while the recipient will not.</p>
-<h3 id='http-request-38'>HTTP Request</h3>
+<h3 id='http-request-37'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/payments/{id}/receipt</code></p>
 <h1 id='receipt'>Receipt</h1><h2 id='the-receipt-object'>The receipt object</h2>
 <blockquote>
@@ -4141,9 +4084,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all requests created by the user and requests where the user is the recipient. This can be specified by using the <code>owner</code> filter.</p>
-<h3 id='http-request-39'>HTTP Request</h3>
+<h3 id='http-request-38'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/requests</code></p>
-<h3 id='url-parameters-10'>URL Parameters</h3>
+<h3 id='url-parameters-8'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4172,7 +4115,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-8'>Filtering</h3>
+<h3 id='filtering-9'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -4225,7 +4168,7 @@ TODO: Lýsa -->
 }'</span>
 </code></pre>
 <p>Create a new request.</p>
-<h3 id='http-request-40'>HTTP Request</h3>
+<h3 id='http-request-39'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests</code></p>
 
 <table><thead>
@@ -4286,7 +4229,7 @@ TODO: Lýsa -->
 }
 </span></code></pre>
 <p>Update an existing request. Can only update description and image.</p>
-<h3 id='http-request-41'>HTTP Request</h3>
+<h3 id='http-request-40'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/requests/{id}</code></p>
 
 <table><thead>
@@ -4315,7 +4258,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Delete an existing request. Can only be performed if none of the participants have responded.</p>
-<h3 id='http-request-42'>HTTP Request</h3>
+<h3 id='http-request-41'>HTTP Request</h3>
 <p><code>DELETE</code> <code>/v1/requests/{id}</code></p>
 <h2 id='remind-a-participant-to-pay'>Remind a participant to pay</h2>
 <blockquote>
@@ -4326,7 +4269,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Send a reminder to a request participant in form of a push notification. Note: There is a limit to how many times a participant can be reminded. Exceeding this limit will return in an error message.</p>
-<h3 id='http-request-43'>HTTP Request</h3>
+<h3 id='http-request-42'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{id}/participants/{id}/remind</code></p>
 <h2 id='settle-a-participant'>Settle a participant</h2>
 <blockquote>
@@ -4337,7 +4280,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Mark a participant as paid.</p>
-<h3 id='http-request-44'>HTTP Request</h3>
+<h3 id='http-request-43'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{id}/participants/{id}/remind</code></p>
 <h2 id='cancel-a-participant'>Cancel a participant</h2>
 <blockquote>
@@ -4348,7 +4291,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Cancel the request for a participant.</p>
-<h3 id='http-request-45'>HTTP Request</h3>
+<h3 id='http-request-44'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{id}/participants/{id}/cancel</code></p>
 <h2 id='pay-a-request'>Pay a request</h2>
 <blockquote>
@@ -4378,7 +4321,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Pay an existing request as a participant. Payment source and PIN is required for payments.</p>
-<h3 id='http-request-46'>HTTP Request</h3>
+<h3 id='http-request-45'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{id}/pay</code></p>
 
 <table><thead>
@@ -4399,7 +4342,7 @@ TODO: Lýsa -->
 <td>The current user&#39;s PIN. <code>required</code></td>
 </tr>
 </tbody></table>
-<h3 id='http-request-47'>HTTP Request</h3>
+<h3 id='http-request-46'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{id}/pay</code></p>
 <h2 id='reject-a-request'>Reject a request</h2>
 <blockquote>
@@ -4410,7 +4353,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Reject an existing request as a participant.</p>
-<h3 id='http-request-48'>HTTP Request</h3>
+<h3 id='http-request-47'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/requests/{id}/reject</code></p>
 <h2 id='get-a-receipt-2'>Get a receipt</h2>
 <blockquote>
@@ -4457,7 +4400,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Get a payment receipt as a participant. The request must be paid, otherwise no receipt will be returned.</p>
-<h3 id='http-request-49'>HTTP Request</h3>
+<h3 id='http-request-48'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/requests/{id}/receipt</code></p>
 <h2 id='get-a-receipt-for-a-participant'>Get a receipt for a participant</h2>
 <blockquote>
@@ -4504,7 +4447,7 @@ TODO: Lýsa -->
 <span class="o">}</span>
 </code></pre>
 <p>Get a payment receipt for a specific participant in the request. The participant must have paid, otherwise no receipt will be returned. The request owner will not see the payment method.</p>
-<h3 id='http-request-50'>HTTP Request</h3>
+<h3 id='http-request-49'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/requests/{id}/participants/{id}/receipt</code></p>
 <h1 id='transactions'>Transactions</h1><h2 id='the-transaction-object'>The transaction object</h2>
 <blockquote>
@@ -4693,9 +4636,9 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a list of all transactions, in and out, for all of the funding sources belonging to the user. A transaction has a GatewayResponse object if the transaction was processed by a gateway.</p>
-<h3 id='http-request-51'>HTTP Request</h3>
+<h3 id='http-request-50'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions</code></p>
-<h3 id='url-parameters-11'>URL Parameters</h3>
+<h3 id='url-parameters-9'>URL Parameters</h3>
 <table><thead>
 <tr>
 <th>Name</th>
@@ -4724,7 +4667,7 @@ TODO: Lýsa -->
 <td>Filter the results.</td>
 </tr>
 </tbody></table>
-<h3 id='filtering-9'>Filtering</h3>
+<h3 id='filtering-10'>Filtering</h3>
 <table><thead>
 <tr>
 <th>Attribute</th>
@@ -4737,7 +4680,7 @@ TODO: Lýsa -->
 <td>funding_source_id</td>
 <td>uuid</td>
 <td>eq, in</td>
-<td>Payment source ID(s).</td>
+<td>Funding source ID(s).</td>
 </tr>
 </tbody></table>
 <h2 id='get-a-transaction'>Get a transaction</h2>
@@ -4748,7 +4691,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single transaction by ID.</p>
-<h3 id='http-request-52'>HTTP Request</h3>
+<h3 id='http-request-51'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/transactions/{id}</code></p>
 <h1 id='users'>Users</h1><h2 id='the-user-object'>The user object</h2>
 <blockquote>
@@ -5049,7 +4992,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get the currently logged in user. Returns a CurrentUser object.</p>
-<h3 id='http-request-53'>HTTP Request</h3>
+<h3 id='http-request-52'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/users/current</code></p>
 <h2 id='get-a-user'>Get a user</h2>
 <blockquote>
@@ -5063,7 +5006,7 @@ TODO: Lýsa -->
 <aside class="notice">
 If the current has a relationship to this user, the User object will embed a Relationship object.
 </aside>
-<h3 id='http-request-54'>HTTP Request</h3>
+<h3 id='http-request-53'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/users/{id}</code></p>
 <h2 id='block-a-user'>Block a user</h2>
 <blockquote>
@@ -5073,7 +5016,7 @@ If the current has a relationship to this user, the User object will embed a Rel
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Block a specific user.</p>
-<h3 id='http-request-55'>HTTP Request</h3>
+<h3 id='http-request-54'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/{id}/block</code></p>
 <h2 id='unblock-a-user'>Unblock a user</h2>
 <blockquote>
@@ -5083,8 +5026,69 @@ If the current has a relationship to this user, the User object will embed a Rel
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Unblock a specific user.</p>
-<h3 id='http-request-56'>HTTP Request</h3>
+<h3 id='http-request-55'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/{id}/unblock</code></p>
+<h2 id='activity-summary'>Activity summary</h2>
+<p>Get a summary of events that occurred after the time defined by the <code>start_at</code> filter.</p>
+
+<blockquote>
+<p>Example Request</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>curl <span class="s2">"https://api.mementopayments.com/v1/users/current/summary"</span> <span class="se">\</span>
+  -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
+</code></pre>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"current"</span>: <span class="o">{</span>
+    <span class="s2">"unpaid_requests"</span>: 2,
+  <span class="o">}</span>,
+  <span class="s2">"since_last_time"</span>: <span class="o">{</span>
+    <span class="s2">"payments_received"</span>: 3,
+    <span class="s2">"requests_received"</span>: 2,
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>current.unpaid_requests</td>
+<td>integer</td>
+<td>The number of current unpaid payment requests.</td>
+</tr>
+<tr>
+<td>since_last_time.payments_received</td>
+<td>integer</td>
+<td>The number of payments received during the defined period.</td>
+</tr>
+<tr>
+<td>since_last_time.requests_received</td>
+<td>integer</td>
+<td>The number of payment requests received during the defined period.</td>
+</tr>
+</tbody></table>
+<h3 id='filtering-11'>Filtering</h3>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Operators</th>
+<th>Values</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>start_at</td>
+<td>time</td>
+<td>gt</td>
+<td>YYYY-MM-DD HH:MM:SS</td>
+</tr>
+</tbody></table>
 <h2 id='search-for-users'>Search for users</h2>
 <blockquote>
 <p>Example Request (single value)</p>
@@ -5178,7 +5182,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tbody></table>
 
 <p>Search for users based on one or all of the following: name, username, email, phone number.</p>
-<h3 id='http-request-57'>HTTP Request</h3>
+<h3 id='http-request-56'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users/search</code></p>
 <h2 id='create-a-user-signup'>Create a user – signup</h2>
 <blockquote>
@@ -5258,7 +5262,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tbody></table>
 
 <p>Create a new user.</p>
-<h3 id='http-request-58'>HTTP Request</h3>
+<h3 id='http-request-57'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/users</code></p>
 <h2 id='update-the-current-user'>Update the current user</h2>
 <blockquote>
@@ -5338,7 +5342,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tbody></table>
 
 <p>Update the current user.</p>
-<h3 id='http-request-59'>HTTP Request</h3>
+<h3 id='http-request-58'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/users/{id}</code></p>
 <h1 id='verifications'>Verifications</h1><h2 id='the-verification-object'>The verification object</h2>
 <blockquote>
@@ -5434,7 +5438,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tbody></table>
 
 <p>Single step verification is when the user provides data of a specific type, such as passport or driver&#39;s liences information, and the provider processes it afterwards.</p>
-<h3 id='http-request-60'>HTTP Request</h3>
+<h3 id='http-request-59'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/verifications</code></p>
 <h2 id='two-step-verification-step-1-request-data'>Two-step verification – Step 1: Request data</h2>
 <blockquote>
@@ -5473,7 +5477,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tbody></table>
 
 <p>Two-step verification is used when the user initiates the verification process and then provides the required data. For example, request an SMS code for a specific phone number and then provide the code which was sent via SMS.</p>
-<h3 id='http-request-61'>HTTP Request</h3>
+<h3 id='http-request-60'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/verifications</code></p>
 <h2 id='two-step-verification-step-2-provide-data'>Two-step verification – Step 2: Provide data</h2>
 <blockquote>
@@ -5500,7 +5504,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 </tbody></table>
 
 <p>Provide the request code in a two-step verification process.</p>
-<h3 id='http-request-62'>HTTP Request</h3>
+<h3 id='http-request-61'>HTTP Request</h3>
 <p><code>POST</code> <code>/v1/verifications/{id}/data</code></p>
 <h2 id='get-a-verification-object'>Get a verification object</h2>
 <blockquote>
@@ -5510,7 +5514,7 @@ If the current has a relationship to this user, the User object will embed a Rel
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span>
 </code></pre>
 <p>Get a single verification object by ID.</p>
-<h3 id='http-request-63'>HTTP Request</h3>
+<h3 id='http-request-62'>HTTP Request</h3>
 <p><code>GET</code> <code>/v1/verifications/{id}</code></p>
 
       </div>
