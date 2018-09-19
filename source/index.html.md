@@ -1782,6 +1782,7 @@ Participation information for a moment, request or money pool.
     "created_at": "2018-08-13T11:52:07.810308Z",
     "updated_at": "2018-08-13T11:52:07.810308Z",
   },
+  "expires_at": "2017-09-14T12:26:43.35539Z",
   "created_at": "2017-09-04T12:26:43.35539Z",
   "updated_at": "2017-09-04T12:26:43.48788Z"
 }
@@ -1798,8 +1799,9 @@ Participation information for a moment, request or money pool.
 | image | Image | An optional request image or a split photo of the owner and recipient. |
 | owner | Owner | The User which created the payment. |
 | recipient | Participant | The payment recipient. |
-| created_at | time | The time when the request was created. |
-| updated_at | time | The time when the request was updated. |
+| expires_at | time | An unclaimed payment needs to be claimed before this time. |
+| created_at | time | The time when the payment was created. |
+| updated_at | time | The time when the payment was updated. |
 
 ## Get a list of payments
 
