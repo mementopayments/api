@@ -25,7 +25,9 @@ The Memento Payments API is designed around [REST](https://en.wikipedia.org/wiki
 Authentication is based on a pair of authentication and session tokens.
 [JSON](http://www.json.org/) is returned by all API responses, including errors.
 
-If you are using the Memento Payments Cloud you need to either provide your project's ID in the header of each request or send requests to your custom host name (CNAME).
+If you are using the Memento Payments Cloud you need to provide your product's ID in the header of each request:
+
+`Product-ID: e9a91b62-990f-41a8-9045-2a6a1464caa9`
 
 All examples in this reference are based on the Memento Payments Cloud endpoint.
 
