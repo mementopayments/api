@@ -25,11 +25,25 @@ The Memento Payments API is designed around [REST](https://en.wikipedia.org/wiki
 Authentication is based on a pair of authentication and session tokens.
 [JSON](http://www.json.org/) is returned by all API responses, including errors.
 
-If you are using the Memento Payments Cloud you need to provide your product's ID in the header of each request:
-
-`Product-ID: e9a91b62-990f-41a8-9045-2a6a1464caa9`
-
 All examples in this reference are based on the Memento Payments Cloud endpoint.
+
+# HTTP Header
+
+> Example Header
+
+```shell
+Product-ID: e9a91b62-990f-41a8-9045-2a6a1464caa9
+Correlation-ID: f058ebd6-02f7-4d3f-942e-904344e8cde5
+Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC...
+```
+
+You need to specify the following fields in the header for each request:
+
+| Header Field | Type | Description |
+| ------------ | ---- | ----------- |
+| Product-ID | UUID | This is the ID of the product for which all HTTP requests are made. |
+| Correlation-ID | UUID | Each request needs to include a uniquely generated ID.  |
+| Authentication | Token | This is the bearer token for the authenticated user. (See Authentication chapter) |
 
 # Authentication
 
@@ -1193,7 +1207,7 @@ Get a single moment by ID.
   "allows_optional_amount": true,
   "minimum_user_amount": 50.00,
   "maximum_user_amount": 150.00,
-  "amounts": [
+  "contribution_options": [
     {
       "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
       "title": "Option A",
@@ -1280,7 +1294,7 @@ Get a single moment by ID.
 | allows_optional_amount | boolean | Whether users can pay an optional amount of their choice. |
 | minimum_user_amount | float | The lowest amount of a single contribution made to the money pool. |
 | maximum_user_amount | float | The highest amount of a single contribution made to the money pool. |
-| amounts | array | A list of available payment options. |
+| contribution_options | array | A list of available contribution options. |
 | image | Image | An optional money pool image. |
 | owner | Owner | The user which created the money pool. |
 | participants | array | A list of the participants. Only the 6 most recent will be provided here. For a more detailed list of participants, see [Get money pool partipants](#get-a-list-of-money-pools). |
@@ -1289,6 +1303,24 @@ Get a single moment by ID.
 | end_at | time | The time at which the money pool became or will become unavailable. |
 | created_at | time | The time when the money pool was created. |
 | updated_at | time | The time when the money pool was updated. |
+
+## The contribution option object
+
+> Example Response
+
+```shell
+{
+  "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+  "title": "Option A",
+  "amount": 50.00
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the contribution option. |
+| title | string | The option description. |
+| amount | float | The payable amount. |
 
 ## Get a list of money pools
 
@@ -1349,7 +1381,7 @@ curl -X POST "https://api.mementopayments.com/v1/pools" \
   "detailed_description": "This is a more detailed, multiple line decription.",
   "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "hashtag": "moneypool1",
-  "amounts": [
+  "contribution_options": [
     {
       "title": "Payment title",
       "amount": 10.0
@@ -1386,7 +1418,7 @@ Create a new money pool.
 | detailed_description | string | Any description for the money pool. |
 | funding_source_id | uuid | The unique identifier of the funding source receiving payment. `required` |
 | hashtag | string | An optional hashtag for the money pool. |
-| amounts | array | A list of payment options. |
+| contribution_options | array | A list of contribution options. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
 | invites | array | A list of users that will be invited to participate in the money pool. |
 | image | Image | An optional image object. This can also be performed after creating the money pool. |
@@ -1411,7 +1443,7 @@ curl -X PUT "https://api.mementopayments.com/v1/pools/{id}" \
 }'
 ```
 
-Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON. Currency can not be changed.
+Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all contribution options, define contribution_options as an empty array. To leave contribution options unchanged, simply do not define contribution_options in the JSON. Currency can not be changed.
 
 ### HTTP Request
 
@@ -1422,7 +1454,7 @@ Update an existing money pool. Anything defined will be updated, otherwise curre
 | description | string | The money pool title. |
 | detailed_description | string | Any description for the money pool. |
 | hashtag | string | An optional hashtag for the money pool. |
-| amounts | array | A list of payment options. |
+| contribution_options | array | A list of contribution options. |
 | invites | array | A list of users that will be invited to participate in the money pool. |
 | image | Image | An optional image object. This can also be performed after creating the money pool. |
 | is_public | boolean | Whether everyone can open the money pool or invited users only. |
