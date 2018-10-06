@@ -109,10 +109,7 @@ curl -X POST "https://api.mementopayments.com/v1/tokens" \
       "make": "iPhone",
       "model": "iPhone6,2",
       "os_name": "iOS",
-      "os_version": "8.0",
-      "screen_width": 480,
-      "screen_height": 640,
-      "sdk_version": "17"
+      "os_version": "8.0"
   }
 }'
 ```
@@ -521,10 +518,7 @@ Delete an existing contact.
   "make": "iPhone",
   "model": "iPhone6,2",
   "os_name": "iOS",
-  "os_version": "8.0",
-  "screen_width": 480,
-  "screen_height": 640,
-  "sdk_version": "17"
+  "os_version": "8.0"
 }
 ```
 
@@ -535,9 +529,6 @@ Delete an existing contact.
 | model | string | The device model. |
 | os_name | string | The name of the OS running on the device. |
 | os_version | string | The version of the OS running on the device. |
-| sdk_version | string | The SDK version of the OS running on the device (Android only). |
-| screen_width | integer | The width of the device's screen. |
-| screen_height | integer | The height of the device's screen. |
 
 ## Get the current device
 
@@ -552,9 +543,6 @@ curl -X POST "https://api.mementopayments.com/v1/devices/current" \
   "model": "iPhone6,2",
   "os_name": "iOS",
   "os_version": "8.0",
-  "screen_width": 480,
-  "screen_height": 640,
-  "sdk_version": "17",
   "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
   "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
 }'
@@ -592,9 +580,6 @@ Update the user's current device.
 | model | string | The device model. `required` |
 | os_name | string | The name of the OS running on the device. `required` |
 | os_version | string | The version of the OS running on the device. `required` |
-| sdk_version | string | The SDK version of the OS running on the device (Android only). |
-| screen_width | integer | The width of the device's screen. `required` |
-| screen_height | integer | The height of the device's screen. `required` |
 | apn_device_token | string | Token for the Apple Push Notification service. |
 | gcm_device_token | string | Token for the Firebase Cloud Messaging service. |
 
@@ -2722,7 +2707,7 @@ Get a single transaction by ID.
 | date_of_birth | time | An optional date of birth timestamp for the user. |
 | phone | string | The user's phone number. |
 | token | string | The authentication token of the user. Only sent after creating the user at signup. |
-| image | Image | An optional user image. |
+| image | Image | An optional user image. 
 | created_at | time | The time when the user was created. |
 | updated_at | time | The time when the user was updated. |
 
@@ -2946,15 +2931,22 @@ curl -X POST "https://api.mementopayments.com/v1/users" \
   "email": "john@example.com",
   "phone": "+44 123 1234 1234",
   "pin": "1234",
+  "verifications": [
+    {
+      "field": "email",
+      "id": "fa42f949-349a-4d1b-829c-93e6d2daeac4"
+    },
+    {
+      "field": "phone",
+      "id": "c5c18397-2ed7-43c1-b481-a5f3d3a96ef1"
+    }
+  ],
   "device": {
     "id": "582a5abb-1335-4794-4855-11e067b8c55e",
     "make": "iPhone",
     "model": "iPhone6,2",
     "os_name": "iOS",
-    "os_version": "8.0",
-    "screen_width": 480,
-    "screen_height": 640,
-    "sdk_version": "17"
+    "os_version": "8.0"
   },
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
@@ -2970,6 +2962,7 @@ curl -X POST "https://api.mementopayments.com/v1/users" \
 | email | string | The user's email address. |
 | phone | string | The user's phone number. |
 | pin | string | The user's PIN. `required` |
+| verifications | array | An array of verification IDs for specific user fields. |
 | device | Device | The user device information. `required` |
 | image | Image | The height of the device's screen. |
 
@@ -2998,10 +2991,7 @@ curl -X PUT "https://api.mementopayments.com/v1/users" \
     "make": "iPhone",
     "model": "iPhone6,2",
     "os_name": "iOS",
-    "os_version": "8.0",
-    "screen_width": 480,
-    "screen_height": 640,
-    "sdk_version": "17"
+    "os_version": "8.0"
   },
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
