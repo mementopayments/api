@@ -61,7 +61,10 @@ All requests to the API need to be accompanied by an Authorization header:
 {
   "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
   "status": "approved",
-  "token": "wxKj3JV6ET1dXVou77675tMqC..."
+  "token": "wxKj3JV6ET1dXVou77675tMqC...",
+  "error_code": "",
+  "error_message": "",
+  "expires_at": "2017-10-19T17:02:03.181879Z"
 }
 ```
 
@@ -70,6 +73,9 @@ All requests to the API need to be accompanied by an Authorization header:
 | id | uuid | The unique identifier for the authentication. |
 | status | string | The status of the authentication.<br>`pending`<br>`approved`<br>`rejected`|
 | token | string | The authentication token. |
+| error_code | string | The error key, in case of an error. |
+| error_message | string | The error message, in case of an error. | 
+| expires_at | time | The time when the authentication token expires, if set. |
 
 ## The session object
 
@@ -156,8 +162,9 @@ curl -X POST "https://api.mementopayments.com/v1/tokens/8d3f94b0-87d0-497f-810c-
 ```shell
 {
   "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
-  "status": "pending",
-  "token": "wxKj3JV6ET1dXVou77675tMqC..."
+  "status": "approved",
+  "token": "wxKj3JV6ET1dXVou77675tMqC...",
+  "expires_at": "2017-10-19T17:02:03.181879Z"
 }
 ```
 
@@ -3040,7 +3047,7 @@ Update the current user.
 | type | string | The type of verification.<br>`sms`<br>`drivers_license`<br>`passport` |
 | status | string | The status of verification.<br>`pending`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | attempts | integer | The number of verification attemps. Initial value is 1. The maximum number of attempts depends on the verification type and processor. |
-| error_code | string | The error code, in case of an error. The value depends on the verification type and processor. | 
+| error_code | string | The error key, in case of an error. The value depends on the verification type and processor. | 
 | error_message | string | The error message, in case of an error. The value depends on the verification type and processor. | 
 | expires_at | time | The time when the verification expires. |
 
