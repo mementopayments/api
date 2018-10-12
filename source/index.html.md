@@ -904,8 +904,7 @@ curl -X POST "https://api.mementopayments.com/v1/funding_sources" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "My Bank Account",
-  "type": "bank_account",
-  "gateway": "bank_of_london",
+  "type": "savings_account",
   "bank_account": {
     "country": "UK",
     "swift": "AAABBCCDDD",
@@ -923,9 +922,10 @@ curl -X POST "https://api.mementopayments.com/v1/funding_sources" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "description": "My Default Card",
-  "type": "card",
-  "gateway": "valitor",
+  "type": "standard_credit_card",
   "card": {
+    "brand": "MeCard",
+    "last_digits": "1234",
     "expiration_month": 11,
     "expiration_year": 2020,
     "token": "9724017303484431"
@@ -942,8 +942,7 @@ Create a new funding source.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | description | string | The title of the funding source, only visible to the user. `required` |
-| type | string | The type of funding source.`required`<br>`bank_account`<br>`card`<br>`crypto_address`<br>`virtual`  |
-| gateway | string | The name of the gateway being used for the funding source type. `required` |
+| type | string | The name of the funding source type.`required` |
 | bank_account | BankAccount | If the type is `bank_account` this object is required. |
 | card | Card | If the type is `card` this object is required. |
 
@@ -961,6 +960,8 @@ Create a new funding source.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
+| brand | string | The name of the card brand. |
+| last_digits | string | The last 4 digits of the card number. |
 | expiration_month | integer | Two digit number representing the card's expiration month. `required` |
 | expiration_year | integer | Four digit number representing the card's expiration year. `required` |
 | token | string | The tokenized cardholder data used by the card processor gateway. `required` |
@@ -1580,6 +1581,7 @@ curl -X POST "https://api.mementopayments.com/v1/pools/{id}/participants" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "amount": 50.0,
+  "contribution_option_id": "4dbc5121-a7fa-4cd0-9759-9209ea1ef6b0",
   "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "pin": "1234"
 }'
@@ -1611,6 +1613,7 @@ The user contributes to the money pool by making a payment. Payment source and P
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | amount | float | The amount being paid. `required` |
+| contribution_option_id | uuid | The unique identifier for the contribution option, if selected by the user. |
 | funding_source_id | uuid | The unique identifier for the funding source which will be withdrawn from. `required`|
 | pin | string | The current user's PIN. `required` |
 
@@ -2682,7 +2685,14 @@ Get a single transaction by ID.
   "email": "info@mementopayments.com",
   "date_of_birth": "1985-09-04T12:25:48.288511Z",
   "phone": "+44 123 1234 1234",
-  "token": "jLIeXTajtW1j4bfC2opJI...",
+  "token": {
+    "id": "8d3f94b0-87d0-497f-810c-9b150d42ed05",
+    "status": "approved",
+    "token": "wxKj3JV6ET1dXVou77675tMqC...",
+    "error_code": "",
+    "error_message": "",
+    "expires_at": "2017-09-04T12:25:48.827724Z"
+  }
   "image": {
     "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
