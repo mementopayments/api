@@ -847,8 +847,6 @@ curl "https://api.mementopayments.com/v1/funding_sources/{id}/transactions" \
     "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
     "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
     "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
-    "out_funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
-    "in_funding_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
     "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
     "status": "active",
     "amount": 50.0,
@@ -2493,8 +2491,6 @@ Get a payment receipt for a specific participant in the request. The participant
   "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
   "out_user_id": "dd72ebb8-db1f-4442-b203-095ac9ded974",
   "in_user_id": "1c478b12-288a-4ea0-831d-1e36639300da",
-  "out_funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
-  "in_funding_source_id": "b1f6a7de-7a8b-4c3f-a908-a02e16f8e529",
   "payment_id": "745ad357-c7dc-478d-a46b-a97ebd9de4c7",
   "status": "approved",
   "amount": 50.0,
@@ -2523,8 +2519,6 @@ Get a payment receipt for a specific participant in the request. The participant
 | id | uuid | The unique identifier for the moment. |
 | out_user_id | uuid | The unique identifier for the user who made the transaction. |
 | in_user_id | uuid | The unique identifier for the user who received the transaction. |
-| out_funding_source_id | uuid | The unique identifier for the funding source which was withdrawn from. |
-| in_funding_source_id | uuid | The unique identifier for the funding source which was deposited to. |
 | status | string | The transactions status.<br>`active`<br>`approved`<br>`rejected`<br>`cancelled`<br>`failed` |
 | amount | float | The transaction amount. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
