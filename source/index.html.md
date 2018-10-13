@@ -1927,7 +1927,6 @@ Create a new payment and send money. Recipient can be based on a user ID or phon
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
-| amount | float | The amount being paid. `required` |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). Must be a supported currency. `required` |
 | description | string | The payment message. |
 | recipient | Participant | The recipient of the funds. `required` |
