@@ -223,6 +223,9 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="introduction">Introduction</a>
           </li>
           <li>
+            <a href="#http-header" class="toc-h1 toc-link" data-title="http-header">HTTP Header</a>
+          </li>
+          <li>
             <a href="#authentication" class="toc-h1 toc-link" data-title="authentication">Authentication</a>
               <ul class="toc-list-h2">
                   <li>
@@ -397,6 +400,9 @@
               <ul class="toc-list-h2">
                   <li>
                     <a href="#the-money-pool-object" class="toc-h2 toc-link" data-title="the-money-pool-object">The money pool object</a>
+                  </li>
+                  <li>
+                    <a href="#the-contribution-option-object" class="toc-h2 toc-link" data-title="the-contribution-option-object">The contribution option object</a>
                   </li>
                   <li>
                     <a href="#get-a-list-of-money-pools" class="toc-h2 toc-link" data-title="get-a-list-of-money-pools">Get a list of money pools</a>
@@ -611,9 +617,40 @@
 Authentication is based on a pair of authentication and session tokens.
 <a href="http://www.json.org/">JSON</a> is returned by all API responses, including errors.</p>
 
-<p>If you are using the Memento Payments Cloud you need to either provide your project&#39;s ID in the header of each request or send requests to your custom host name (CNAME).</p>
-
 <p>All examples in this reference are based on the Memento Payments Cloud endpoint.</p>
+<h1 id='http-header'>HTTP Header</h1>
+<blockquote>
+<p>Example Header</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code>Product-ID: e9a91b62-990f-41a8-9045-2a6a1464caa9
+Correlation-ID: f058ebd6-02f7-4d3f-942e-904344e8cde5
+Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC...
+</code></pre>
+<p>You need to specify the following fields in the header for each request:</p>
+
+<table><thead>
+<tr>
+<th>Header Field</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>Product-ID</td>
+<td>UUID</td>
+<td>This is the ID of the product for which all HTTP requests are made.</td>
+</tr>
+<tr>
+<td>Correlation-ID</td>
+<td>UUID</td>
+<td>Each request needs to include a uniquely generated ID.</td>
+</tr>
+<tr>
+<td>Authentication</td>
+<td>Token</td>
+<td>This is the bearer token for the authenticated user. (See Authentication chapter)</td>
+</tr>
+</tbody></table>
 <h1 id='authentication'>Authentication</h1>
 <p>To successfully connect to the platform the user needs an authentication token and a session token. The authentication token is used to create a new session token (initially and when the current one expires) and the session token is used for all operations.</p>
 
@@ -627,7 +664,10 @@ Authentication is based on a pair of authentication and session tokens.
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"id"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
   <span class="s2">"status"</span>: <span class="s2">"approved"</span>,
-  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
+  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>,
+  <span class="s2">"error_code"</span>: <span class="s2">""</span>,
+  <span class="s2">"error_message"</span>: <span class="s2">""</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-19T17:02:03.181879Z"</span>
 <span class="o">}</span>
 </code></pre>
 <table><thead>
@@ -651,6 +691,21 @@ Authentication is based on a pair of authentication and session tokens.
 <td>token</td>
 <td>string</td>
 <td>The authentication token.</td>
+</tr>
+<tr>
+<td>error_code</td>
+<td>string</td>
+<td>The error key, in case of an error.</td>
+</tr>
+<tr>
+<td>error_message</td>
+<td>string</td>
+<td>The error message, in case of an error.</td>
+</tr>
+<tr>
+<td>expires_at</td>
+<td>time</td>
+<td>The time when the authentication token expires, if set.</td>
 </tr>
 </tbody></table>
 <h2 id='the-session-object'>The session object</h2>
@@ -709,10 +764,7 @@ Authentication is based on a pair of authentication and session tokens.
       "make": "iPhone",
       "model": "iPhone6,2",
       "os_name": "iOS",
-      "os_version": "8.0",
-      "screen_width": 480,
-      "screen_height": 640,
-      "sdk_version": "17"
+      "os_version": "8.0"
   }
 }'</span>
 </code></pre>
@@ -778,8 +830,9 @@ Authentication is based on a pair of authentication and session tokens.
 </blockquote>
 <pre class="highlight shell tab-shell"><code><span class="o">{</span>
   <span class="s2">"id"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
-  <span class="s2">"status"</span>: <span class="s2">"pending"</span>,
-  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>
+  <span class="s2">"status"</span>: <span class="s2">"approved"</span>,
+  <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>,
+  <span class="s2">"expires_at"</span>: <span class="s2">"2017-10-19T17:02:03.181879Z"</span>
 <span class="o">}</span>
 </code></pre>
 <table><thead>
@@ -1318,10 +1371,7 @@ TODO: List validation error codes
   <span class="s2">"make"</span>: <span class="s2">"iPhone"</span>,
   <span class="s2">"model"</span>: <span class="s2">"iPhone6,2"</span>,
   <span class="s2">"os_name"</span>: <span class="s2">"iOS"</span>,
-  <span class="s2">"os_version"</span>: <span class="s2">"8.0"</span>,
-  <span class="s2">"screen_width"</span>: 480,
-  <span class="s2">"screen_height"</span>: 640,
-  <span class="s2">"sdk_version"</span>: <span class="s2">"17"</span>
+  <span class="s2">"os_version"</span>: <span class="s2">"8.0"</span>
 <span class="o">}</span>
 </code></pre>
 <table><thead>
@@ -1356,21 +1406,6 @@ TODO: List validation error codes
 <td>string</td>
 <td>The version of the OS running on the device.</td>
 </tr>
-<tr>
-<td>sdk_version</td>
-<td>string</td>
-<td>The SDK version of the OS running on the device (Android only).</td>
-</tr>
-<tr>
-<td>screen_width</td>
-<td>integer</td>
-<td>The width of the device&#39;s screen.</td>
-</tr>
-<tr>
-<td>screen_height</td>
-<td>integer</td>
-<td>The height of the device&#39;s screen.</td>
-</tr>
 </tbody></table>
 <h2 id='get-the-current-device'>Get the current device</h2>
 <blockquote>
@@ -1384,9 +1419,6 @@ TODO: List validation error codes
   "model": "iPhone6,2",
   "os_name": "iOS",
   "os_version": "8.0",
-  "screen_width": 480,
-  "screen_height": 640,
-  "sdk_version": "17",
   "apn_device_token": "{APPLE-PUSH-NOTIFICATION-TOKEN}",
   "gcm_device_token": "{GOOGLE-CLOUD-MESSAGING-TOKEN}"
 }'</span>
@@ -1440,21 +1472,6 @@ TODO: List validation error codes
 <td>os_version</td>
 <td>string</td>
 <td>The version of the OS running on the device. <code>required</code></td>
-</tr>
-<tr>
-<td>sdk_version</td>
-<td>string</td>
-<td>The SDK version of the OS running on the device (Android only).</td>
-</tr>
-<tr>
-<td>screen_width</td>
-<td>integer</td>
-<td>The width of the device&#39;s screen. <code>required</code></td>
-</tr>
-<tr>
-<td>screen_height</td>
-<td>integer</td>
-<td>The height of the device&#39;s screen. <code>required</code></td>
 </tr>
 <tr>
 <td>apn_device_token</td>
@@ -1952,8 +1969,6 @@ TODO: Lýsa -->
     <span class="s2">"id"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
     <span class="s2">"out_user_id"</span>: <span class="s2">"dd72ebb8-db1f-4442-b203-095ac9ded974"</span>,
     <span class="s2">"in_user_id"</span>: <span class="s2">"1c478b12-288a-4ea0-831d-1e36639300da"</span>,
-    <span class="s2">"out_funding_source_id"</span>: <span class="s2">"d4097613-3b63-4dbb-befe-2211b9dc821a"</span>,
-    <span class="s2">"in_funding_source_id"</span>: <span class="s2">"b1f6a7de-7a8b-4c3f-a908-a02e16f8e529"</span>,
     <span class="s2">"payment_id"</span>: <span class="s2">"745ad357-c7dc-478d-a46b-a97ebd9de4c7"</span>,
     <span class="s2">"status"</span>: <span class="s2">"active"</span>,
     <span class="s2">"amount"</span>: 50.0,
@@ -2039,8 +2054,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
   "description": "My Bank Account",
-  "type": "bank_account",
-  "gateway": "bank_of_london",
+  "type": "savings_account",
   "bank_account": {
     "country": "UK",
     "swift": "AAABBCCDDD",
@@ -2057,9 +2071,10 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
   "description": "My Default Card",
-  "type": "card",
-  "gateway": "valitor",
+  "type": "standard_credit_card",
   "card": {
+    "brand": "MeCard",
+    "last_digits": "1234",
     "expiration_month": 11,
     "expiration_year": 2020,
     "token": "9724017303484431"
@@ -2085,12 +2100,7 @@ TODO: Lýsa -->
 <tr>
 <td>type</td>
 <td>string</td>
-<td>The type of funding source.<code>required</code><br><code>bank_account</code><br><code>card</code><br><code>crypto_address</code><br><code>virtual</code></td>
-</tr>
-<tr>
-<td>gateway</td>
-<td>string</td>
-<td>The name of the gateway being used for the funding source type. <code>required</code></td>
+<td>The name of the funding source type.<code>required</code></td>
 </tr>
 <tr>
 <td>bank_account</td>
@@ -2145,6 +2155,16 @@ TODO: Lýsa -->
 <th>Description</th>
 </tr>
 </thead><tbody>
+<tr>
+<td>brand</td>
+<td>string</td>
+<td>The name of the card brand.</td>
+</tr>
+<tr>
+<td>last_digits</td>
+<td>string</td>
+<td>The last 4 digits of the card number.</td>
+</tr>
 <tr>
 <td>expiration_month</td>
 <td>integer</td>
@@ -2510,7 +2530,7 @@ TODO: Lýsa -->
   <span class="s2">"allows_optional_amount"</span>: <span class="nb">true</span>,
   <span class="s2">"minimum_user_amount"</span>: 50.00,
   <span class="s2">"maximum_user_amount"</span>: 150.00,
-  <span class="s2">"amounts"</span>: <span class="o">[</span>
+  <span class="s2">"contribution_options"</span>: <span class="o">[</span>
     <span class="o">{</span>
       <span class="s2">"id"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
       <span class="s2">"title"</span>: <span class="s2">"Option A"</span>,
@@ -2646,9 +2666,9 @@ TODO: Lýsa -->
 <td>The highest amount of a single contribution made to the money pool.</td>
 </tr>
 <tr>
-<td>amounts</td>
+<td>contribution_options</td>
 <td>array</td>
-<td>A list of available payment options.</td>
+<td>A list of available contribution options.</td>
 </tr>
 <tr>
 <td>image</td>
@@ -2689,6 +2709,39 @@ TODO: Lýsa -->
 <td>updated_at</td>
 <td>time</td>
 <td>The time when the money pool was updated.</td>
+</tr>
+</tbody></table>
+<h2 id='the-contribution-option-object'>The contribution option object</h2>
+<blockquote>
+<p>Example Response</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="o">{</span>
+  <span class="s2">"id"</span>: <span class="s2">"a0bcfb20-99fd-465d-6e23-2e19e8952420"</span>,
+  <span class="s2">"title"</span>: <span class="s2">"Option A"</span>,
+  <span class="s2">"amount"</span>: 50.00
+<span class="o">}</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Attribute</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>uuid</td>
+<td>The unique identifier for the contribution option.</td>
+</tr>
+<tr>
+<td>title</td>
+<td>string</td>
+<td>The option description.</td>
+</tr>
+<tr>
+<td>amount</td>
+<td>float</td>
+<td>The payable amount.</td>
 </tr>
 </tbody></table>
 <h2 id='get-a-list-of-money-pools'>Get a list of money pools</h2>
@@ -2778,7 +2831,7 @@ TODO: Lýsa -->
   "detailed_description": "This is a more detailed, multiple line decription.",
   "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "hashtag": "moneypool1",
-  "amounts": [
+  "contribution_options": [
     {
       "title": "Payment title",
       "amount": 10.0
@@ -2834,9 +2887,9 @@ TODO: Lýsa -->
 <td>An optional hashtag for the money pool.</td>
 </tr>
 <tr>
-<td>amounts</td>
+<td>contribution_options</td>
 <td>array</td>
-<td>A list of payment options.</td>
+<td>A list of contribution options.</td>
 </tr>
 <tr>
 <td>currency</td>
@@ -2904,7 +2957,7 @@ TODO: Lýsa -->
   "description": "New Title"
 }'</span>
 </code></pre>
-<p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all amounts, define amounts as an empty array. To leave amounts unchanged, simply do not define amounts in the JSON. Currency can not be changed.</p>
+<p>Update an existing money pool. Anything defined will be updated, otherwise current values will stay unchanged. To remove all contribution options, define contribution_options as an empty array. To leave contribution options unchanged, simply do not define contribution_options in the JSON. Currency can not be changed.</p>
 <h3 id='http-request-27'>HTTP Request</h3>
 <p><code>PUT</code> <code>/v1/pools/{id}</code></p>
 
@@ -2931,9 +2984,9 @@ TODO: Lýsa -->
 <td>An optional hashtag for the money pool.</td>
 </tr>
 <tr>
-<td>amounts</td>
+<td>contribution_options</td>
 <td>array</td>
-<td>A list of payment options.</td>
+<td>A list of contribution options.</td>
 </tr>
 <tr>
 <td>invites</td>
@@ -3140,6 +3193,7 @@ TODO: Lýsa -->
   -H <span class="s2">"Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."</span> <span class="se">\</span>
   -d <span class="s1">$'{
   "amount": 50.0,
+  "contribution_option_id": "4dbc5121-a7fa-4cd0-9759-9209ea1ef6b0",
   "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
   "pin": "1234"
 }'</span>
@@ -3175,6 +3229,11 @@ TODO: Lýsa -->
 <td>amount</td>
 <td>float</td>
 <td>The amount being paid. <code>required</code></td>
+</tr>
+<tr>
+<td>contribution_option_id</td>
+<td>uuid</td>
+<td>The unique identifier for the contribution option, if selected by the user.</td>
 </tr>
 <tr>
 <td>funding_source_id</td>
@@ -3721,11 +3780,6 @@ TODO: Lýsa -->
 <th>Description</th>
 </tr>
 </thead><tbody>
-<tr>
-<td>amount</td>
-<td>float</td>
-<td>The amount being paid. <code>required</code></td>
-</tr>
 <tr>
 <td>currency</td>
 <td>string</td>
@@ -4457,8 +4511,6 @@ TODO: Lýsa -->
   <span class="s2">"id"</span>: <span class="s2">"add5c52a-0c57-4d5c-7525-db14566f2f1a"</span>,
   <span class="s2">"out_user_id"</span>: <span class="s2">"dd72ebb8-db1f-4442-b203-095ac9ded974"</span>,
   <span class="s2">"in_user_id"</span>: <span class="s2">"1c478b12-288a-4ea0-831d-1e36639300da"</span>,
-  <span class="s2">"out_funding_source_id"</span>: <span class="s2">"d4097613-3b63-4dbb-befe-2211b9dc821a"</span>,
-  <span class="s2">"in_funding_source_id"</span>: <span class="s2">"b1f6a7de-7a8b-4c3f-a908-a02e16f8e529"</span>,
   <span class="s2">"payment_id"</span>: <span class="s2">"745ad357-c7dc-478d-a46b-a97ebd9de4c7"</span>,
   <span class="s2">"status"</span>: <span class="s2">"approved"</span>,
   <span class="s2">"amount"</span>: 50.0,
@@ -4502,16 +4554,6 @@ TODO: Lýsa -->
 <td>in_user_id</td>
 <td>uuid</td>
 <td>The unique identifier for the user who received the transaction.</td>
-</tr>
-<tr>
-<td>out_funding_source_id</td>
-<td>uuid</td>
-<td>The unique identifier for the funding source which was withdrawn from.</td>
-</tr>
-<tr>
-<td>in_funding_source_id</td>
-<td>uuid</td>
-<td>The unique identifier for the funding source which was deposited to.</td>
 </tr>
 <tr>
 <td>status</td>
@@ -4820,7 +4862,14 @@ TODO: Lýsa -->
   <span class="s2">"email"</span>: <span class="s2">"info@mementopayments.com"</span>,
   <span class="s2">"date_of_birth"</span>: <span class="s2">"1985-09-04T12:25:48.288511Z"</span>,
   <span class="s2">"phone"</span>: <span class="s2">"+44 123 1234 1234"</span>,
-  <span class="s2">"token"</span>: <span class="s2">"jLIeXTajtW1j4bfC2opJI..."</span>,
+  <span class="s2">"token"</span>: <span class="o">{</span>
+    <span class="s2">"id"</span>: <span class="s2">"8d3f94b0-87d0-497f-810c-9b150d42ed05"</span>,
+    <span class="s2">"status"</span>: <span class="s2">"approved"</span>,
+    <span class="s2">"token"</span>: <span class="s2">"wxKj3JV6ET1dXVou77675tMqC..."</span>,
+    <span class="s2">"error_code"</span>: <span class="s2">""</span>,
+    <span class="s2">"error_message"</span>: <span class="s2">""</span>,
+    <span class="s2">"expires_at"</span>: <span class="s2">"2017-09-04T12:25:48.827724Z"</span>
+  <span class="o">}</span>
   <span class="s2">"image"</span>: <span class="o">{</span>
     <span class="s2">"id"</span>: <span class="s2">"75cc21be-fe47-4702-74bc-07b84beed5fb"</span>,
     <span class="s2">"url"</span>: <span class="s2">"https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg"</span>,
@@ -5197,15 +5246,22 @@ If the current has a relationship to this user, the User object will embed a Rel
   "email": "john@example.com",
   "phone": "+44 123 1234 1234",
   "pin": "1234",
+  "verifications": [
+    {
+      "field": "email",
+      "id": "fa42f949-349a-4d1b-829c-93e6d2daeac4"
+    },
+    {
+      "field": "phone",
+      "id": "c5c18397-2ed7-43c1-b481-a5f3d3a96ef1"
+    }
+  ],
   "device": {
     "id": "582a5abb-1335-4794-4855-11e067b8c55e",
     "make": "iPhone",
     "model": "iPhone6,2",
     "os_name": "iOS",
-    "os_version": "8.0",
-    "screen_width": 480,
-    "screen_height": 640,
-    "sdk_version": "17"
+    "os_version": "8.0"
   },
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
@@ -5250,6 +5306,11 @@ If the current has a relationship to this user, the User object will embed a Rel
 <td>The user&#39;s PIN. <code>required</code></td>
 </tr>
 <tr>
+<td>verifications</td>
+<td>array</td>
+<td>An array of verification IDs for specific user fields.</td>
+</tr>
+<tr>
 <td>device</td>
 <td>Device</td>
 <td>The user device information. <code>required</code></td>
@@ -5282,10 +5343,7 @@ If the current has a relationship to this user, the User object will embed a Rel
     "make": "iPhone",
     "model": "iPhone6,2",
     "os_name": "iOS",
-    "os_version": "8.0",
-    "screen_width": 480,
-    "screen_height": 640,
-    "sdk_version": "17"
+    "os_version": "8.0"
   },
   "image": {
     "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Example.jpg"
@@ -5388,7 +5446,7 @@ If the current has a relationship to this user, the User object will embed a Rel
 <tr>
 <td>error_code</td>
 <td>string</td>
-<td>The error code, in case of an error. The value depends on the verification type and processor.</td>
+<td>The error key, in case of an error. The value depends on the verification type and processor.</td>
 </tr>
 <tr>
 <td>error_message</td>
