@@ -207,7 +207,7 @@ curl "https://api.mementopayments.com/v1/tokens/{id}" \
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/tokens" \
+curl -X POST "https://api.mementopayments.com/v1/sessions" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..."
 ```
 
@@ -426,6 +426,7 @@ Acknowledge an announcement by ID on behalf of the current user.
   "last_name": "Dough",
   "full_name": "John Dough",
   "country": "UK",
+  "phone": "+44 111 2222 3333",
   "created_at": "2017-09-04T12:25:52.43349Z",
   "updated_at": "2017-09-04T12:25:52.43349Z"
 }
@@ -441,6 +442,7 @@ A contact can be either a reference to a User or an independent object with a pe
 | last_name | string | The last name of the contact. |
 | full_name | string | The full name of the contact. |
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in. |
+| phone | string | The user's phone number. Only available if the user provided the number when creating the contact. |
 | created_at | time | The time when the contact was created. |
 | updated_at | time | The time when the contact was updated. |
 
@@ -494,9 +496,19 @@ Create a new contact by providing a user ID.
 
 ### Create contact
 
+#### If the contact is a registered a user
+
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | user_id | uuid | The unique identifier of the user. `required` |
+
+#### If the contact is not a registered user
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| first_name | string | The first name of the contact. `required` |
+| last_name | string | The last name of the contact. |
+| phone | string | The user's phone number. |
 
 ## Delete a contact
 
@@ -1053,9 +1065,10 @@ Verify a funding source using a specific code, which can, for example, be sent t
 ```shell
 {
   "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
-  "url": "https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
-  "full_screen_url": "https://{imagehost}/full/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
-  "thumbnail_url": "https://{imagehost}/thumbnail/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+  "url": "https://{imagehost}/dd72ebb8-db1f-4442-b203-095ac9ded974/75cc21be-fe47-4702-74bc-07b84beed5fb_original.jpg",
+  "cropped_url": "https://{imagehost}/dd72ebb8-db1f-4442-b203-095ac9ded974/75cc21be-fe47-4702-74bc-07b84beed5fb_cropped.jpg",
+  "thumbnail_url": "https://{imagehost}/dd72ebb8-db1f-4442-b203-095ac9ded974/75cc21be-fe47-4702-74bc-07b84beed5fb_thumbnail.jpg",
+  "description": "Image description.",
   "created_at": "2017-09-04T12:26:43.403883Z",
   "updated_at": "2017-09-04T12:26:43.403883Z"
 }
@@ -1064,8 +1077,8 @@ Verify a funding source using a specific code, which can, for example, be sent t
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | id | uuid | The unique identifier for the image. |
-| url | string | The URL of the UI (cropped) version of the image. |
-| full_screen_url | string | The URL of the full screen version of the image. |
+| url | string | The URL of the full screen version of the image. |
+| cropped_url | string | The URL of the UI (cropped) version of the image. |
 | thumbnail_url | string | The URL of the thumbnail version of the image. |
 | created_at | time | The time when the image was created. |
 | updated_at | time | The time when the image was updated. |
@@ -1073,6 +1086,28 @@ Verify a funding source using a specific code, which can, for example, be sent t
 ## Get an image
 
 ## Upload an image
+
+> Example Request
+
+```shell
+curl -X POST
+  -F "file=@test.jpg" \
+  -F "crop=0,0,300,100" \
+  -F "payment_id=525d62a7-9d4f-4161-bf91-0f6f6edcd77e" \
+  -H "Content-Type: multipart/form-data" \
+  -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
+  "https://api.mementopayments.com/v1/images"
+```  
+
+Upload an image using multipart form data. The following parameters are available.
+
+| Parameter | Type | Description |
+| --------- | ---- | ----------- |
+| file | data | The file data. `required` |
+| crop | string | The coordinates for which to crop the image, in the format of "x0,x1,y0,y1". `required` |
+| payment_id | uuid | If applicable, the unique identifier for a payment for which this image is intended. |
+| payment_request_id | uuid | If applicable, the unique identifier for a payment request for which this image is intended. |
+| pool_id | uuid | If applicable, the unique identifier for a pool for which this image is intended. |
 
 # Moments
 
@@ -1235,6 +1270,7 @@ Get a single moment by ID.
     "relationships": [
       {
         "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+        "contact_id": "a5d8ecf0-0002-4294-8d36-c0336d3bef35",
         "type": "contact",
         "created_at": "2017-04-19T14:35:09.308904Z",
         "updated_at": "2017-04-19T14:35:09.308904Z"
@@ -2633,6 +2669,7 @@ Get a single transaction by ID.
   "relationships": [
     {
       "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+      "contact_id": "a5d8ecf0-0002-4294-8d36-c0336d3bef35",
       "type": "contact",
       "created_at": "2017-04-19T14:35:09.308904Z",
       "updated_at": "2017-04-19T14:35:09.308904Z"
@@ -2728,6 +2765,7 @@ Get a single transaction by ID.
 ```shell
 {
   "id": "4ec5c820-520d-4668-ba84-0d7bdee23af5",
+  "contact_id": "a5d8ecf0-0002-4294-8d36-c0336d3bef35",
   "type": "contact",
   "created_at": "2017-04-19T14:35:09.308904Z",
   "updated_at": "2017-04-19T14:35:09.308904Z"
@@ -2737,6 +2775,7 @@ Get a single transaction by ID.
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
 | id | uuid | The unique identifier for the relationship. |
+| contact_id | uuid | The unique identifier for the contact. |
 | type | string | The type of the relationship.<br>`blocked`<br>`contact`<br>`following`<br>`friend`<br>`guardian` |
 | created_at | time | The time when the relationship was created. |
 | updated_at | time | The time when the relationship was updated. |
