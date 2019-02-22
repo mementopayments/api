@@ -2353,7 +2353,7 @@ Cancel the request for a participant.
 > Example Request
 
 ```shell
-curl -X POST "https://api.mementopayments.com/v1/requests/{id}/pay" \
+curl -X POST "https://api.mementopayments.com/v1/requests/{id}/participants/{id}/pay" \
   -H "Authorization: Bearer wxKj3JV6ET1dXVou77675tMqC..." \
   -d $'{
   "funding_source_id": "d4097613-3b63-4dbb-befe-2211b9dc821a",
@@ -2382,7 +2382,7 @@ Pay an existing request as a participant. Payment source and PIN is required for
 
 ### HTTP Request
 
-`POST` `/v1/requests/{id}/pay`
+`POST` `/v1/requests/{id}/participants/{id}/pay`
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -2391,7 +2391,7 @@ Pay an existing request as a participant. Payment source and PIN is required for
 
 ### HTTP Request
 
-`POST` `/v1/requests/{id}/pay`
+`POST` `/v1/requests/{id}/participants/{id}/pay`
 
 ## Reject a request
 
