@@ -395,7 +395,7 @@ Get a list of all announcements relevant to the user that were sent after the ti
 
 | Attribute | Type | Operators | Values |
 | --------- | ---- | --------- | ------ |
-| start_at | time | gt | YYYY-MM-DD HH:MM:SS |
+| start_at | time | lt | YYYY-MM-DD HH:MM:SS |
 
 ## Acknowledge an announcement
 
@@ -427,6 +427,14 @@ Acknowledge an announcement by ID on behalf of the current user.
   "full_name": "John Dough",
   "country": "UK",
   "phone": "+44 111 2222 3333",
+  "image": {
+    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+    "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "thumbnail_url": "https://{imagehost}/thumbnail/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+    "created_at": "2017-09-04T12:26:43.403883Z",
+    "updated_at": "2017-09-04T12:26:43.403883Z"
+  },
   "created_at": "2017-09-04T12:25:52.43349Z",
   "updated_at": "2017-09-04T12:25:52.43349Z"
 }
@@ -443,6 +451,7 @@ A contact can be either a reference to a User or an independent object with a pe
 | full_name | string | The full name of the contact. |
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in. |
 | phone | string | The user's phone number. Only available if the user provided the number when creating the contact. |
+| image | Image | An optional user image. |
 | created_at | time | The time when the contact was created. |
 | updated_at | time | The time when the contact was updated. |
 
@@ -842,6 +851,54 @@ Get a single funding source by ID.
 
 `GET` `/v1/funding_sources/{id}`
 
+## Get funding source limits and usge
+
+> Example Request
+
+```shell
+curl "https://api.mementopayments.com/v1/funding_sources/{id}/limits" \
+  -H "Content-Type: application/json" 
+```
+
+> Example Response
+
+```shell
+[
+  {
+    "currency": "EUR",
+    "limits": [
+      {
+        "id": "6e457d7d-996d-4d02-b16c-8ea2ccccadd5",
+        "title": "Single payment",
+        "currency": "EUR",
+        "amount": 10,
+        "type": {
+          "id": 1,
+          "title": "payment"
+        },
+        "usage": {
+          "count": 0,
+          "amount": 0
+        },
+        "period": {
+          "id": 2,
+          "title": "single",
+          "is_rolling_period": false,
+          "from": "2019-05-13T15:14:36.668538Z",
+          "to": "2019-05-13T15:14:36.668538Z"
+        }
+      }
+    ]
+  }
+]
+```
+
+Get a list of transactions for a funding source, both deposits and withdrawals.
+
+### HTTP Request
+
+`GET` `/v1/funding_sources/{id}/limits`
+
 ## Get funding source transactions
 
 > Example Request
@@ -1126,6 +1183,10 @@ Upload an image using multipart form data. The following parameters are availabl
   "amount": 10.0,
   "total_amount": 20.0,
   "currency": "EUR",
+  "amount_indicator": {
+    "id": 2,
+    "title": "positive",
+  },
   "image": {
     "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -1162,6 +1223,7 @@ Upload an image using multipart form data. The following parameters are availabl
 | amount | float | The amount of the moment. This can either be the full amount or partial amount. |
 | total_amount | float | The full amount of the moment. |
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
+| amount_indicator | AmountIndicator | Determines whether to render the amount as positive, negative or neutral color. |
 | image | Image | An optional moment image or a group photo of the participants. |
 | participation | Participation | Participation information for the moment. |
 | is_owner | boolean | Whether the current user is the owner of (i.e. initiated) the moment. |
@@ -1197,7 +1259,7 @@ Get a list of all moments.
 
 | Attribute | Type | Operators | Values |
 | --------- | ---- | --------- | ------ |
-| open | boolean | eq | true, false |
+| status | boolean | eq | open, closed |
 
 ## Get a moment
 
@@ -1263,7 +1325,7 @@ Get a single moment by ID.
       "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
       "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
       "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
-      "thumbnail_url": "https://{imagehost}/users/moments/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "thumbnail_url": "https://{imagehost}/thumbnail/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
       "created_at": "2017-09-04T12:26:43.403883Z",
       "updated_at": "2017-09-04T12:26:43.403883Z"
     },
@@ -2133,6 +2195,18 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
       }
     ]
   },
+  "participant": {
+    "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
+    "user_id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "transaction_id": "875ef796-88a1-4c7f-8755-d4cb066b9a3e",
+    "status": "paid",
+    "amount": 10.00,
+    "currency": "EUR",
+    "full_name": "Arnar Participant",
+    "username": "arnarpart",
+    "created_at": "2017-09-04T12:26:43.398646Z",
+    "updated_at": "2017-09-04T12:26:43.398646Z"
+  },
   "participants": [
     {
       "id": "a0bcfb20-99fd-465d-6e23-2e19e8952420",
@@ -2172,6 +2246,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 | description | string | The title of the request, visible to the owner and participants. |
 | image | Image | An optional request image or a group photo of the participants. |
 | owner | Owner | The User which created the request. |
+| participant | Participant | The current user's participant object, if the current user is in the list of participants. |
 | participants | array | A list of all participants in the request |
 | participation | Participation | Participation information for the request. |
 | created_at | time | The time when the request was created. |
