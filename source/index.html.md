@@ -1917,6 +1917,13 @@ Participation information for a moment, request or money pool.
     "created_at": "2018-08-13T11:52:07.810308Z",
     "updated_at": "2018-08-13T11:52:07.810308Z",
   },
+  "unclaimed_payment": {
+    "id": "c4100f1d-5640-42d2-bf38-eea5bb615d04",
+    "funding_source_id": "d6fec003-9172-4acb-8a4f-284452aa1ebf",
+    "transaction_id": "0baa166e-3130-4420-b30f-99a25829fd99",
+    "error": false,
+    "expires_at": "2017-09-14T12:26:43.35539Z",
+  },
   "meta": "",
   "expires_at": "2017-09-14T12:26:43.35539Z",
   "created_at": "2017-09-04T12:26:43.35539Z",
@@ -1935,10 +1942,35 @@ Participation information for a moment, request or money pool.
 | image | Image | An optional request image or a split photo of the owner and recipient. |
 | owner | Owner | The User which created the payment. |
 | recipient | Participant | The payment recipient. |
+| unclaimed_payment | UnclaimedPayment | A reference to an unclaimed payment, if the payment has yet to be claimed. |
 | meta | string | A JSON object which can store meta data used by the client. |
-| expires_at | time | An unclaimed payment needs to be claimed before this time. |
+| expires_at | time | If unclaimed, the payment needs to be claimed before this time. |
 | created_at | time | The time when the payment was created. |
 | updated_at | time | The time when the payment was updated. |
+
+## The unclaimed payment object
+
+```shell
+{
+  "id": "c4100f1d-5640-42d2-bf38-eea5bb615d04",
+  "funding_source_id": "d6fec003-9172-4acb-8a4f-284452aa1ebf",
+  "transaction_id": "0baa166e-3130-4420-b30f-99a25829fd99",
+  "error": false,
+  "expires_at": "2017-09-14T12:26:43.35539Z",
+  "created_at": "2017-09-04T12:26:43.35539Z",
+  "updated_at": "2017-09-04T12:26:43.48788Z"
+}
+```
+
+| Attribute | Type | Description |
+| --------- | ---- | ----------- |
+| id | uuid | The unique identifier for the unclaimed payment. |
+| funding_source_id | uuid | The unique identifier for the withdrawal funding source. |
+| transaction_id | uuid | The unique identifier for the transaction of the parent payment. |
+| error | bool | Indicates whether or not there was an error processing the unclaimed payment. |
+| expires_at | time | The unclaimed payment needs to be claimed before this time. |
+| created_at | time | The time when the unclaimed payment was created. |
+| updated_at | time | The time when the unclaimed payment was updated. |
 
 ## Get a list of payments
 
