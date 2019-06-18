@@ -748,6 +748,7 @@ Calculate the fee when sending money from one funding source to another.
   "country": "IS",
   "account_number": "053526210380",
   "owner_id": "2103805079",
+  "meta": "",
   "enabled": true,
   "created_at": "2017-09-04T12:25:53.085206Z",
   "updated_at": "2017-09-04T12:25:53.085206Z"
@@ -760,6 +761,7 @@ Calculate the fee when sending money from one funding source to another.
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the bank account is located in. |
 | account_number | string | The unique bank account identifier within the bank where it is hosted. The format depends on the bank. |
 | owner_id | string | An optional unique identifier for the person who owns the bank account. The format depends on the bank. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | enabled | boolean | Whether the bank account is enabled. |
 | created_at | time | The time when the bank account was created. |
 | updated_at | time | The time when the bank account was updated. |
@@ -775,6 +777,7 @@ Calculate the fee when sending money from one funding source to another.
   "expiration_month": 10,
   "expiration_year": 2020,
   "masked_number": "1234 56** **** 1234",
+  "meta": "",
   "verified": false,
   "verified_at": "0001-01-01T00:00:00Z",
   "created_at": "2017-09-04T12:25:52.43349Z",
@@ -792,6 +795,7 @@ Calculate the fee when sending money from one funding source to another.
 | expiration_month | integer | Two digit number representing the card's expiration month. |
 | expiration_year | integer | Four digit number representing the card's expiration year. |
 | masked_number | string | The masked card number. The format depends on the card processor. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | verified | boolean | Whether the card has been verified. |
 | verified_at | time | The time when the card was verified, if it has been verified. |
 | created_at | time | The time when the bank account was created. |
@@ -1126,6 +1130,7 @@ Verify a funding source using a specific code, which can, for example, be sent t
   "cropped_url": "https://{imagehost}/dd72ebb8-db1f-4442-b203-095ac9ded974/75cc21be-fe47-4702-74bc-07b84beed5fb_cropped.jpg",
   "thumbnail_url": "https://{imagehost}/dd72ebb8-db1f-4442-b203-095ac9ded974/75cc21be-fe47-4702-74bc-07b84beed5fb_thumbnail.jpg",
   "description": "Image description.",
+  "meta": "",
   "created_at": "2017-09-04T12:26:43.403883Z",
   "updated_at": "2017-09-04T12:26:43.403883Z"
 }
@@ -1137,6 +1142,7 @@ Verify a funding source using a specific code, which can, for example, be sent t
 | url | string | The URL of the full screen version of the image. |
 | cropped_url | string | The URL of the UI (cropped) version of the image. |
 | thumbnail_url | string | The URL of the thumbnail version of the image. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | created_at | time | The time when the image was created. |
 | updated_at | time | The time when the image was updated. |
 
@@ -1363,6 +1369,7 @@ Get a single moment by ID.
     },
     "first_names": ["Arnar", "Oskar", "Jon"]
   },
+  "meta": "",
   "start_at": "0001-01-01T00:00:00Z",
   "end_at": "0001-01-01T00:00:00Z",
   "created_at": "2017-09-04T12:26:43.35539Z",
@@ -1388,6 +1395,7 @@ Get a single moment by ID.
 | owner | Owner | The user which created the money pool. |
 | participants | array | A list of the participants. Only the 6 most recent will be provided here. For a more detailed list of participants, see [Get money pool partipants](#get-a-list-of-money-pools). |
 | participation | Participation | Participation information for the money pool. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | start_at | time | The time at which the money pool became or will become available. |
 | end_at | time | The time at which the money pool became or will become unavailable. |
 | created_at | time | The time when the money pool was created. |
@@ -1802,6 +1810,7 @@ Participation information for a moment, request or money pool.
   "currency": "EUR",
   "full_name": "John Dough",
   "username": "jondough",
+  "meta": "",
   "created_at": "2017-09-04T12:26:43.398646Z",
   "updated_at": "2017-09-04T12:26:43.398646Z"
 }
@@ -1818,6 +1827,7 @@ Participation information for a moment, request or money pool.
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | full_name | string | The full name of the participant. |
 | username | string | The username of the participant. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | created_at | time | The time when the participant was created. |
 | updated_at | time | The time when the participant was updated. |
 
@@ -1907,6 +1917,7 @@ Participation information for a moment, request or money pool.
     "created_at": "2018-08-13T11:52:07.810308Z",
     "updated_at": "2018-08-13T11:52:07.810308Z",
   },
+  "meta": "",
   "expires_at": "2017-09-14T12:26:43.35539Z",
   "created_at": "2017-09-04T12:26:43.35539Z",
   "updated_at": "2017-09-04T12:26:43.48788Z"
@@ -1924,6 +1935,7 @@ Participation information for a moment, request or money pool.
 | image | Image | An optional request image or a split photo of the owner and recipient. |
 | owner | Owner | The User which created the payment. |
 | recipient | Participant | The payment recipient. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | expires_at | time | An unclaimed payment needs to be claimed before this time. |
 | created_at | time | The time when the payment was created. |
 | updated_at | time | The time when the payment was updated. |
@@ -2230,6 +2242,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
       "total": 5
     },
   },
+  "meta": "",
   "created_at": "2017-09-04T12:26:43.35539Z",
   "updated_at": "2017-09-04T12:26:43.48788Z"
 }
@@ -2249,6 +2262,7 @@ Get a receipt for the payment, if it has been fully processed. The sender and re
 | participant | Participant | The current user's participant object, if the current user is in the list of participants. |
 | participants | array | A list of all participants in the request |
 | participation | Participation | Participation information for the request. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | created_at | time | The time when the request was created. |
 | updated_at | time | The time when the request was updated. |
 
@@ -2618,6 +2632,7 @@ Get a payment receipt for a specific participant in the request. The participant
     "created_at": "2017-09-04T12:25:53.35114Z",
     "updated_at": "2017-09-04T12:25:53.35114Z"
   },
+  "meta": "",
   "expires_at": "2017-10-04T12:25:48.827724Z",
   "created_at": "2017-09-04T12:25:48.827724Z",
   "updated_at": "2017-09-04T12:25:48.827724Z"
@@ -2635,6 +2650,7 @@ Get a payment receipt for a specific participant in the request. The participant
 | tracking_code | string | An optional tracking number which can be used as a reference for other systems. |
 | error | boolean | Whether the transaction resulted in an error. |
 | gateway_response | GatewayResponse | If the transaction was processed by the gateway, this is the response object. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | expires_at | time | The time when the transaction expires, if set. |
 | created_at | time | The time when the transaction was created. |
 | updated_at | time | The time when the transaction was updated. |
@@ -2733,6 +2749,7 @@ Get a single transaction by ID.
   "verified": true,
   "official": true,
   "preferences": "{}",
+  "meta": "",
   "image": {
     "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
     "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
@@ -2766,6 +2783,7 @@ Get a single transaction by ID.
 | verified | boolean | Whether the user has a verified account. |
 | official | boolean | Whether the user's account has been marked as an official one. |
 | preferences | string | A JSON object which stores the user's preferences. |
+| meta | string | A JSON object which can store meta data used by the client. |
 | image | Image | An optional user image. |
 | relationships | array | An array of Relationship objects describing the relationship between the user and the current user. |
 
