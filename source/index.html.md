@@ -426,21 +426,32 @@ Acknowledge an announcement by ID on behalf of the current user.
   "last_name": "Dough",
   "full_name": "John Dough",
   "country": "UK",
-  "phone": "+44 111 2222 3333",
-  "image": {
-    "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
-    "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
-    "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
-    "thumbnail_url": "https://{imagehost}/thumbnail/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
-    "created_at": "2017-09-04T12:26:43.403883Z",
-    "updated_at": "2017-09-04T12:26:43.403883Z"
+  "user": {
+    "id": "add5c52a-0c57-4d5c-7525-db14566f2f1a",
+    "first_name": "John",
+    "last_name": "Dough",
+    "full_name": "John Dough",
+    "username": "jondough",
+    "country": "UK",
+    "timezone": "Europe/London",
+    "timezone_utc_offset": 0,
+    "verified": true,
+    "official": true,
+    "image": {
+      "id": "75cc21be-fe47-4702-74bc-07b84beed5fb",
+      "url": "https://{imagehost}/ui/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "full_screen_url": "https://{imagehost}/full/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "thumbnail_url": "https://{imagehost}/thumbnail/users/ad2636c3-82fe-4c45-af2d-d6324b2e618f.jpg",
+      "created_at": "2017-09-04T12:26:43.403883Z",
+      "updated_at": "2017-09-04T12:26:43.403883Z"
+    },
   },
   "created_at": "2017-09-04T12:25:52.43349Z",
   "updated_at": "2017-09-04T12:25:52.43349Z"
 }
 ```
 
-A contact can be either a reference to a User or an independent object with a person's name, emails and/or phone numbers.
+A contact can be either a reference to a User or an independent object with a person's name.
 
 | Attribute | Type | Description |
 | --------- | ---- | ----------- |
@@ -450,8 +461,7 @@ A contact can be either a reference to a User or an independent object with a pe
 | last_name | string | The last name of the contact. |
 | full_name | string | The full name of the contact. |
 | country | string | Two letter ISO 3166-1 alpha-2 country code representing the country the contact is located in. |
-| phone | string | The user's phone number. Only available if the user provided the number when creating the contact. |
-| image | Image | An optional user image. |
+| user | User | An optional user. |
 | created_at | time | The time when the contact was created. |
 | updated_at | time | The time when the contact was updated. |
 
@@ -1810,6 +1820,8 @@ Participation information for a moment, request or money pool.
   "currency": "EUR",
   "full_name": "John Dough",
   "username": "jondough",
+  "verified": true,
+  "official": false,
   "meta": "",
   "created_at": "2017-09-04T12:26:43.398646Z",
   "updated_at": "2017-09-04T12:26:43.398646Z"
@@ -1827,6 +1839,8 @@ Participation information for a moment, request or money pool.
 | currency | string | Three-letter [ISO currency code](https://www.iso.org/iso-4217-currency-codes.html). |
 | full_name | string | The full name of the participant. |
 | username | string | The username of the participant. |
+| verified | boolean | Whether the participant has a verified user account. |
+| official | boolean | Whether the participant's user account has been marked as an official one. |
 | meta | string | A JSON object which can store meta data used by the client. |
 | created_at | time | The time when the participant was created. |
 | updated_at | time | The time when the participant was updated. |
@@ -1921,7 +1935,9 @@ Participation information for a moment, request or money pool.
     "id": "c4100f1d-5640-42d2-bf38-eea5bb615d04",
     "funding_source_id": "d6fec003-9172-4acb-8a4f-284452aa1ebf",
     "transaction_id": "0baa166e-3130-4420-b30f-99a25829fd99",
+    "processed": false,
     "error": false,
+    "error_message": "",
     "expires_at": "2017-09-14T12:26:43.35539Z",
   },
   "meta": "",
@@ -1955,7 +1971,9 @@ Participation information for a moment, request or money pool.
   "id": "c4100f1d-5640-42d2-bf38-eea5bb615d04",
   "funding_source_id": "d6fec003-9172-4acb-8a4f-284452aa1ebf",
   "transaction_id": "0baa166e-3130-4420-b30f-99a25829fd99",
+  "processed": false,
   "error": false,
+  "error_message": "",
   "expires_at": "2017-09-14T12:26:43.35539Z",
   "created_at": "2017-09-04T12:26:43.35539Z",
   "updated_at": "2017-09-04T12:26:43.48788Z"
@@ -1967,7 +1985,9 @@ Participation information for a moment, request or money pool.
 | id | uuid | The unique identifier for the unclaimed payment. |
 | funding_source_id | uuid | The unique identifier for the withdrawal funding source. |
 | transaction_id | uuid | The unique identifier for the transaction of the parent payment. |
+| processed | bool | Indicates whether or not the payment has been claimed and processed. |
 | error | bool | Indicates whether or not there was an error processing the unclaimed payment. |
+| error_message | string | Error details, in case of an error. |
 | expires_at | time | The unclaimed payment needs to be claimed before this time. |
 | created_at | time | The time when the unclaimed payment was created. |
 | updated_at | time | The time when the unclaimed payment was updated. |
